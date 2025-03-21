@@ -39,28 +39,21 @@ jobs:
   test-integration:
     name: Run Integration Tests
     runs-on: ubuntu-latest
-    services:
-      docker:
-        image: docker:dind
-        options: --privileged
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+      - name: Set up Docker
+        run: |
+          echo "DOCKER_HOST=unix:///var/run/docker.sock" >> $GITHUB_ENV
       - name: Start AssertX Container
         run: |
           docker run -d --name assertx \
             --privileged \
-            -e DOCKER_HOST=tcp://docker:2375/ \
-            -e DOCKER_DRIVER=overlay2 \
-            -e DOCKER_TLS_CERTDIR="" \
+            -e DOCKER_HOST=unix:///var/run/docker.sock \
             -v /var/run/docker.sock:/var/run/docker.sock \
             -v $PWD:/workspace \
             -w /workspace \
             olxindia/assertx tail -f /dev/null
-
       - name: Run Integration Tests Inside Container
         run: |
           docker exec assertx mvn clean integration-test -DskipUnitTests=true -Dassertx-profile=ci
-        continue-on-error: true
