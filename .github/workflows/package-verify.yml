@@ -50,11 +50,13 @@ jobs:
         DOCKER_DRIVER: overlay2
         DOCKER_TLS_CERTDIR: ""
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Java for publishing to maven build
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
           distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
       - name: Run Integration Tests
-        run: mvn clean integration-test -DskipUnitTests=true -Dassertx-profile=ci
+        run: ./mvnw clean integration-test -DskipUnitTests=true -Dassertx-profile=ci
