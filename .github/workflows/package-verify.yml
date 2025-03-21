@@ -8,7 +8,7 @@ on:
       - main
 
 jobs:
-  build:
+  package:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -21,7 +21,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Package
-        run: mvn clean build
+        run: mvn clean package
   unit-tests:
     runs-on: ubuntu-latest
     permissions:
