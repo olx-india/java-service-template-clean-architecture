@@ -59,4 +59,4 @@ jobs:
           java-version: '17'
           cache: 'maven'
       - name: Run Integration Tests
-        run: ./mvnw clean integration-test -DskipUnitTests=true -Dassertx-profile=ci
+        run: mvn clean integration-test -DskipUnitTests=true -Dassertx-profile=ci
