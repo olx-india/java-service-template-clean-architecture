@@ -38,14 +38,32 @@ jobs:
         run: mvn clean test
   integration-tests:
     runs-on: ubuntu-latest
-    container:
-      image: olxindia/assertx  # Using pre-built image with Docker & Compose
+
+    services:
+      docker:
+        image: docker:dind
+        options: --privileged  # Required for running Docker-in-Docker
+        env:
+          DOCKER_TLS_CERTDIR: ""
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Verify Docker and Docker Compose
+
+      - name: Set up Docker CLI
         run: |
+          docker version
           docker info
-          docker-compose version
+
       - name: Run Integration Tests
-        run: mvn clean integration-test -DskipUnitTests=true -Dassertx-profile=ci
+        run: |
+          docker run --rm \
+            -e DOCKER_HOST=tcp://docker:2375 \
+            -e DOCKER_DRIVER=overlay2 \
+            -e DOCKER_TLS_CERTDIR= \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -v $(pwd):/workspace \
+            -w /workspace \
+            olxindia/assertx \
+            ./mvnw clean integration-test -DskipUnitTests=true -Dassertx-profile=ci
+
