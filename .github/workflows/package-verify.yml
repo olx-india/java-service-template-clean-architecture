@@ -21,8 +21,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Package
-        run: mvn clean package
-  unit-test:
+        run: mvn clean build
+  unit-tests:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -36,3 +36,25 @@ jobs:
           distribution: 'temurin'
       - name: Run Unit Tests
         run: mvn clean test
+  test-integration:
+    name: Run Integration Tests
+    runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:dind
+        options: --privileged
+    container:
+      image: olxindia/assertx
+      env:
+        DOCKER_HOST: tcp://docker:2375/
+        DOCKER_DRIVER: overlay2
+        DOCKER_TLS_CERTDIR: ""
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java for publishing to maven build
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Run Integration Tests
+        run: mvn clean integration-test -DskipUnitTests=true -Dassertx-profile=ci
