@@ -61,7 +61,7 @@ jobs:
           docker run --rm \
             -e DOCKER_DRIVER=overlay2 \
             -e DOCKER_TLS_CERTDIR= \
-            -v /var/run/docker.sock:/var/run/docker.sock \  # ✅ Use UNIX socket instead of TCP
+            -v /var/run/docker.sock:/var/run/docker.sock \
             -v $(pwd):/workspace \
             -w /workspace \
             olxindia/assertx \
