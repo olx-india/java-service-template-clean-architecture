@@ -50,13 +50,17 @@ jobs:
         DOCKER_DRIVER: overlay2
         DOCKER_TLS_CERTDIR: ""
     steps:
+      - name: Check Java Version
+        run: |
+          echo "Checking if Java is available..."
+          which java || echo "Java not found"
+          java -version || echo "Java execution failed"
+      - name: Check Maven Version
+        run: |
+          echo "Checking if Maven is available..."
+          which mvn || echo "Maven not found"
+          mvn -version || echo "Maven execution failed"
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'maven'
       - name: Run Integration Tests
         run: mvn clean integration-test -DskipUnitTests=true -Dassertx-profile=ci
