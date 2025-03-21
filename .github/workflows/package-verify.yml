@@ -55,6 +55,7 @@ jobs:
     steps:
       - name: Start Docker Daemon
         run: |
+          unset DOCKER_HOST
           sudo systemctl start docker
           docker info
       - name: Set up Docker
