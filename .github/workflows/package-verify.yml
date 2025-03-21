@@ -43,9 +43,9 @@ jobs:
     services:
       docker:
         image: docker:dind
-        options: --privileged --shm-size=2g
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock:ro
+        options: --privileged
+        env:
+          DOCKER_TLS_CERTDIR: ""
 
     steps:
       - name: Checkout Repository
@@ -56,9 +56,13 @@ jobs:
           docker version
           docker info
 
+      - name: Create Docker Network
+        run: docker network create test-network
+
       - name: Run Integration Tests
         run: |
           docker run --rm \
+            --network test-network \
             -e DOCKER_DRIVER=overlay2 \
             -e DOCKER_TLS_CERTDIR= \
             -v /var/run/docker.sock:/var/run/docker.sock \
@@ -69,6 +73,10 @@ jobs:
 
       - name: Show Docker Logs if Failure
         if: failure()
-        run: docker logs $(docker ps -aq --filter "name=docker")
+        run: |
+          echo "Showing logs for failed services..."
+          docker ps -a
+          docker logs mysql-container || true
+
 
 
