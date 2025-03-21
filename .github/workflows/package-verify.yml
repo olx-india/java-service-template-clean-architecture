@@ -56,13 +56,9 @@ jobs:
           docker version
           docker info
 
-      - name: Create Docker Network
-        run: docker network create test-network
-
       - name: Run Integration Tests
         run: |
           docker run --rm \
-            --network test-network \
             -e DOCKER_DRIVER=overlay2 \
             -e DOCKER_TLS_CERTDIR= \
             -v /var/run/docker.sock:/var/run/docker.sock \
@@ -71,12 +67,15 @@ jobs:
             olxindia/assertx \
             ./mvnw clean integration-test -DskipUnitTests=true -Dassertx-profile=ci
 
-      - name: Show Docker Logs if Failure
+      - name: Show Logs if Failure
         if: failure()
         run: |
-          echo "Showing logs for failed services..."
+          echo "🛑 Showing logs for failed services..."
           docker ps -a
-          docker logs mysql-container || true
+          for id in $(docker ps -aq); do
+            echo "🔍 Logs for container $id"
+            docker logs $id || echo "⚠️ Failed to get logs for $id"
+          done
 
 
 
