@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+  <springProperty scope="context" name="springAppName" source="service.name"/>
+
+  <!-- Appender to log to file in a JSON format, one JSON object per line -->
+  <appender name="JSON_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>/dev/stdout</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+      <fileNamePattern>logs/${LOG_FILE}.json.%d{yyyy-MM-dd}.gz</fileNamePattern>
+      <maxHistory>7</maxHistory>
+      <cleanHistoryOnStart>true</cleanHistoryOnStart>
+    </rollingPolicy>
+
+    <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+      <providers>
+        <!-- Log all StructuredArgument instances -->
+        <arguments/>
+        <!-- Include Exception stack traces -->
+        <stackTrace/>
+        <timestamp>
+          <timeZone>UTC</timeZone>
+        </timestamp>
+        <!-- Assign logger fields to JSON object -->
+        <pattern>
+          <pattern>
+            {
+            "severity": "%level",
+            "service": "${springAppName:-}",
+            "xmessage": "%m%wEx",
+            "request-id": "%X{tid:-}",
+            "client-id": "%X{cid:-}",
+            "pid": "${PID:-}"
+            }
+          </pattern>
+        </pattern>
+      </providers>
+    </encoder>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="JSON_FILE"/>
+  </root>
+</configuration>

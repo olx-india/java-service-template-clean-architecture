@@ -1,0 +1,49 @@
+version: '3.3'
+services:
+  db:
+    image: mysql:8
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: testDBPassword
+      MYSQL_DATABASE: olxin
+    ports:
+      - "3306:3306"
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  otel-collector:
+    image: otel/opentelemetry-collector:latest
+    restart: always
+    command: [ "--config=/etc/otel-collector-config.yml" ]
+    volumes:
+      - /Users/olx/Desktop/java17-clean-architecture-oss/otel-confg.yml:/etc/otel-collector-config.yml
+    ports:
+      - "4317:4317"  # OTLP gRPC receiver
+      - "4318:4318"  # OTLP HTTP receiver
+
+  myapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      OTEL_SERVICE_NAME: "my-spring-app"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
+      OTEL_METRICS_EXPORTER: "none"
+      OTEL_TRACES_EXPORTER: "otlp"
+      OTEL_EXPORTER_OTLP_PROTOCOL: "http/protobuf"
+      OTEL_TRACES.SAMPLER: "parentbased_traceidratio"
+      OTEL_TRACES_SAMPLER_ARG: 0.1
+    depends_on:
+      - db
+      - redis
+      - otel-collector
+    ports:
+      - "8080:8080"
+
+volumes:
+  db_data:

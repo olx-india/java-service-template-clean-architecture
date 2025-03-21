@@ -1,0 +1,7 @@
+ARG INTERNAL_REGISTRY_PREFIX
+
+FROM $INTERNAL_REGISTRY_PREFIX/docker-images/flyway:flyway_base
+
+COPY . /root
+
+RUN chmod +x /root/migrate.sh

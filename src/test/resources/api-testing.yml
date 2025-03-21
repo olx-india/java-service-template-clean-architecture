@@ -1,0 +1,31 @@
+mainClass: com.olx.boilerplate.BoilerplateApplication
+
+application:
+  spring:
+    profile: integration-test
+
+mocks:
+  redis:
+    enabled: true
+    port: 6379
+    image: redis:7
+
+  mysql:
+    enabled: true
+    dataDir: src/test/resources/mocks/mysql/warmup-scripts/
+    port: 3320
+    image: mysql:8
+
+  zookeeper:
+    enabled: true
+    image: wurstmeister/zookeeper:latest
+    port: 2181
+
+  kafka:
+    enabled: true
+    image: wurstmeister/kafka:latest
+    port: 9093
+    topics: ["testTopic"]
+
+
+

@@ -1,0 +1,77 @@
+include:
+  - project: 'olxautos-in/platform-engineering/shared-stages'
+    ref:     ${SHARED_STAGES_REF}
+    file:
+      - package/container.yml
+      - stack/java/17/mvnw.yml
+#      - helm/trigger.yml
+
+variables:
+  APPNAME: boilerplate
+  TRIGGER_APPNAME: boilerplate
+  RUN_TESTS: ''
+  FLYWAY_ENABLED: "true"
+
+.junit:reports:
+  artifacts:
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+        - target/failsafe-reports/TEST-*.xml
+    paths:
+      - target/
+
+stages:
+  - build
+  - test
+  - analysis
+  - package
+#  - trigger-deploy
+
+cache:
+  key: mediaverse
+  paths:
+    - .m2/repository
+
+build:
+  stage: build
+  rules:
+    - if: ($CI_COMMIT_BRANCH == "main" || $CI_PIPELINE_SOURCE == 'merge_request_event')
+
+package:
+  stage: package
+  rules:
+    - if: ($CI_COMMIT_BRANCH == "main" || $CI_PIPELINE_SOURCE == 'merge_request_event')
+  needs:
+    - [ "build" ]
+
+test:ut:
+  stage: test
+  script:
+    - ./mvnw clean test
+  rules:
+    - if: ($CI_COMMIT_BRANCH == "main" || $CI_PIPELINE_SOURCE == 'merge_request_event')
+  tags:
+    - build
+    - stg
+
+test:it:
+  stage: test
+  image: olxindia/assertx
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/docker:dind
+      alias: docker
+  script:
+    - ./mvnw clean integration-test -DskipUnitTests=true -Dassertx-profile=ci
+  allow_failure: true
+  artifacts: !reference [ '.junit:reports', artifacts ]
+  rules:
+    - if: ($CI_COMMIT_BRANCH == "main" || $CI_PIPELINE_SOURCE == 'merge_request_event')
+  tags:
+    - build
+
+

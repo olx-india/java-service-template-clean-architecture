@@ -1,0 +1,62 @@
+datasource:
+  masterDataSource:
+    jdbcUrl: "jdbc:mysql://${docker-host}:3320/public"
+    username: "testDBUser"
+    password: "testDBPassword"
+    minimumIdle: 1 #minimum number of idle connections maintained in a connection pool
+    maxPoolSize: 5 #maximum pool size
+    connectionTimeout: 30000 #maximum number of milliseconds that a client will wait for a connection
+    idleTimeout: 20000
+    prepStmsCacheSqlLimit: 2048
+    prepStmsCacheSqlCacheSize: 256
+    cachePrepStmts: true
+    useServerPrepStmts: true
+    poolNameSuffix: pool-master
+  replicaDataSource:
+    jdbcUrl: "jdbc:mysql://${docker-host}:3320/public"
+    username: "testDBUser"
+    password: "testDBPassword"
+    minimumIdle: 1 #minimum number of idle connections maintained in a connection pool
+    maxPoolSize: 5 #maximum pool size
+    connectionTimeout: 30000 #maximum number of milliseconds that a client will wait for a connection
+    idleTimeout: 20000
+    prepStmsCacheSqlLimit: 2048
+    prepStmsCacheSqlCacheSize: 256
+    cachePrepStmts: true
+    useServerPrepStmts: true
+    poolNameSuffix: pool-replica
+  overrides:
+    default:
+      masterDataSource:
+        username: "testDBUser"
+        password: "testDBPassword"
+  schemaNames:
+    default: public
+
+app:
+  tenants: default
+  hostTenantMap: {}
+  runningITMode: ${IT_MODE:true}
+
+
+redis:
+  host: "${docker-host}"
+  port: 6379
+  mode: STANDALONE
+  timeToLive: 604800000 # one week in milliseconds
+
+
+KafkaClientConfig:
+  bootstrapServers: ${docker-host}:${kafka}
+  topics: ["testTopic"]
+  retries: 3
+  acks: all
+  batchSize: 16384
+  lingerMs: 1
+  bufferMemory: 33554432
+  keySerializer: org.apache.kafka.common.serialization.StringSerializer
+  valueSerializer: org.apache.kafka.common.serialization.StringSerializer
+  environment:
+    KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+
+

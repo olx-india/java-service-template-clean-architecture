@@ -1,0 +1,22 @@
+<FindBugsFilter>
+  <!-- Enable only high priority warnings -->
+  <Match>
+    <Priority value="2"/>
+  </Match>
+
+  <Match>
+    <Priority value="3"/>
+  </Match>
+
+  <Match>
+    <Or>
+      <Bug pattern="EXS_EXCEPTION_SOFTENING_NO_CONSTRAINTS" />
+      <Bug pattern="MS_MUTABLE_COLLECTION" />
+      <Bug pattern="RC_REF_COMPARISON" />
+    </Or>
+  </Match>
+  <Match>
+    <Class name="com.olx.it.requestHandler.CucumberTestContext" />
+    <Bug pattern="SE_BAD_FIELD" />
+  </Match>
+</FindBugsFilter>

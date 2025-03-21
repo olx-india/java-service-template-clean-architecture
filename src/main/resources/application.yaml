@@ -1,0 +1,123 @@
+spring:
+  jpa:
+    hibernate.ddl-auto: none
+    show-sql: true
+  profiles:
+    active: local
+
+clients:
+  defaultClientConfig:
+    retryConfiguration:
+      maxAttempts: 3
+      waitDuration: 2000
+      waitInterval: 1000
+      waitIntervalMultiplier: 2
+    circuitBreakerConfig:
+      failureRateThreshold: 10
+      waitDurationInOpenState: 15000
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 1
+      permittedNumberOfCallsInHalfOpenState: 10
+      slidingWindowSize: 3
+      slowCallDurationThreshold: 10
+      slowCallRateThreshold: 50
+
+  testServiceClientConfig:
+    serviceName: 'TestService'
+
+httpConfig:
+  maxIdleConnectionsPerRoute: 120
+  connectTimeout: 5000
+  readTimeout: 10000
+  maxConnectionKeepAliveDurationInMins: 5
+
+service:
+  name: "Boilerplate"
+
+datasource:
+  masterDataSource:
+    jdbcUrl: "${DB_HOST}"
+    username: "${DB_USERNAME}"
+    password: "${DB_PASSWORD}"
+    minimumIdle: 1
+    maxPoolSize: 2
+    connectionTimeout: 30000
+    idleTimeout: 20000
+    prepStmsCacheSqlLimit: 2048
+    prepStmsCacheSqlCacheSize: 256
+    cachePrepStmts: true
+    useServerPrepStmts: true
+    poolNameSuffix: pool-master
+
+  replicaDataSource:
+    jdbcUrl: "${DB_REPLICA_HOST}"
+    username: "${DB_USERNAME}"
+    password: "${DB_PASSWORD}"
+    minimumIdle: 1
+    maxPoolSize: 2
+    connectionTimeout: 30000
+    idleTimeout: 20000
+    prepStmsCacheSqlLimit: 2048
+    prepStmsCacheSqlCacheSize: 256
+    cachePrepStmts: true
+    useServerPrepStmts: true
+    poolNameSuffix: pool-replica
+
+  overrides:
+    default:
+      masterDataSource:
+        username: "${DB_USERNAME}"
+        password: "${DB_PASSWORD}"
+
+  schemaNames:
+    default: ${DEFAULT_SCHEMA:public}
+
+app:
+  tenants: default
+  hostTenantMap: {}
+  runningITMode: ${IT_MODE:false}
+
+management:
+  server.port: 8081
+  endpoint:
+    health:
+      enabled: true
+      show-details: never
+    metrics:
+      enabled: true
+    info:
+      enabled: true
+    httptrace:
+      enabled: true
+    custom:
+      enabled: true
+    cache-evict:
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health, metrics, info, httptrace, custom, cache-evict
+      base-path: /
+  health:
+    defaults:
+      enabled: false
+
+redis:
+  host: "${REDIS_HOST}"
+  port: 6379
+  mode: CLUSTER
+  timeToLive: 604800000
+
+server:
+  port: 8080
+
+KafkaClientConfig:
+  bootstrapServers: "${KAFKA_HOST}"
+  retries: 3
+  acks: all
+  batchSize: 16384
+  lingerMs: 1
+  bufferMemory: 33554432
+  keySerializer: org.apache.kafka.common.serialization.StringSerializer
+  valueSerializer: org.apache.kafka.common.serialization.StringSerializer

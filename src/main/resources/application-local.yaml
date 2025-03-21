@@ -1,0 +1,42 @@
+datasource:
+  masterDataSource:
+    jdbcUrl: "jdbc:mysql://localhost:3306/olxin"
+    username: "root"
+    password: "testDBPassword"
+    minimumIdle: 1 #minimum number of idle connections maintained in a connection pool
+    maxPoolSize: 2 #maximum pool size
+    connectionTimeout: 30000 #maximum number of milliseconds that a client will wait for a connection
+    idleTimeout: 20000
+    prepStmsCacheSqlLimit: 2048
+    prepStmsCacheSqlCacheSize: 256
+    cachePrepStmts: true
+    useServerPrepStmts: true
+    poolNameSuffix: pool-master
+
+  replicaDataSource:
+    jdbcUrl: "jdbc:mysql://localhost:3306"
+    username: "root"
+    password: "testDBPassword"
+    minimumIdle: 1 #minimum number of idle connections maintained in a connection pool
+    maxPoolSize: 2 #maximum pool size
+    connectionTimeout: 30000 #maximum number of milliseconds that a client will wait for a connection
+    idleTimeout: 20000
+    prepStmsCacheSqlLimit: 2048
+    prepStmsCacheSqlCacheSize: 256
+    cachePrepStmts: true
+    useServerPrepStmts: true
+    poolNameSuffix: pool-replica
+
+  schemaNames:
+    default: ${DEFAULT_SCHEMA:public}
+
+app:
+  tenants: default
+  hostTenantMap: {}
+  runningITMode: ${IT_MODE:false}
+
+redis:
+  host: "localhost"
+  port: 6379
+  mode: STANDALONE
+  timeToLive: 604800000 # one week in milliseconds
