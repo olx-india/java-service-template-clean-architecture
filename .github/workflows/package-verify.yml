@@ -56,4 +56,4 @@ jobs:
       - name: Verify Buildx
         run: docker buildx version
       - name: Run Integration Tests
-        run: /app/execute-it.sh
+        run: mvn clean integration-test -DskipUnitTests=true -Djarvis-profile=ci
