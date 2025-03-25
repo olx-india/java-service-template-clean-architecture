@@ -39,28 +39,21 @@ jobs:
 
   integration-tests:
     runs-on: ubuntu-latest
-    container:
-      image: olxindia/assertx
-    permissions:
-      contents: read
-      packages: write
-    env:
-      DOCKER_HOST: tcp://localhost:2375
-      DOCKER_DRIVER: overlay2
-      DOCKER_TLS_CERTDIR: ""
     services:
       docker:
         image: docker:dind
-        options: --privileged
+        options: --privileged # Ensure DinD works properly
     steps:
-      - name: Set up Docker
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - name: Wait for Docker Daemon
-        run: |
-          for i in {1..10}; do
-            docker info && break
-            echo "Waiting for Docker Daemon..."
-            sleep 3
-          done
+
+      - name: Verify Docker version
+        run: docker version
+
+      - name: Verify Buildx
+        run: docker buildx version
       - name: Run Integration Tests
         run: /app/execute-it.sh
