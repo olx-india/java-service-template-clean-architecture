@@ -36,27 +36,52 @@ jobs:
           distribution: 'temurin'
       - name: Run Unit Tests
         run: mvn clean test
-  test-integration:
-    name: Run Integration Tests
+
+  integration-tests:
     runs-on: ubuntu-latest
     services:
       docker:
         image: docker:dind
-        options: --privileged
-    container:
-      image: olxindia/assertx
-      env:
-        DOCKER_HOST: tcp://docker:2375/
-        DOCKER_DRIVER: overlay2
-        DOCKER_TLS_CERTDIR: ""
+        options: --privileged # Ensure DinD works properly
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'maven'
+
+      - name: Install Required Packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            bash \
+            maven \
+            openjdk-17-jdk \
+            git \
+            docker-compose \
+            ca-certificates \
+            wget \
+            python3 \
+            python3-pip
+          
+          # Upgrade pip and install AWS CLI
+          pip3 install --upgrade --no-cache-dir pip
+          pip3 install --no-cache-dir awscli
+      - name: Verify Installations
+        run: |
+          bash --version
+          mvn -version
+          java -version
+          git --version
+          docker-compose version
+          python3 --version
+          pip3 --version
+          aws --version
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Verify Docker version
+        run: docker version
+
+      - name: Verify Buildx
+        run: docker buildx version
       - name: Run Integration Tests
-        run: mvn clean integration-test -DskipUnitTests=true -Dassertx-profile=ci
+        run: mvn clean integration-test -DskipUnitTests=true -Djarvis-profile=ci

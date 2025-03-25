@@ -22,31 +22,7 @@ This is a template for creating new Java services. It is built using **Java 17**
 
 Below is the **Clean Architecture Diagram** showcasing **Dependency Injection** and **Layered Responsibility**:
 
-```
-+----------------------+
-|      Controller     |
-+----------------------+
-          |
-          v
-+----------------------+
-|       Use Case      |
-+----------------------+
-          |
-          v
-+----------------------+
-|   Domain Entities   |
-+----------------------+
-          |
-          v
-+----------------------+
-|       Repository    |
-+----------------------+
-          |
-          v
-+----------------------+
-|    Database Layer   |
-+----------------------+
-```
+![](CleanArchitecture.jpg)
 
 - **Controller Layer**: Handles HTTP requests.
 - **Use Case Layer**: Implements business logic.
@@ -165,9 +141,6 @@ Execution spotbugs of goal com.github.spotbugs:spotbugs-maven-plugin failed: Uns
   export JAVA_HOME=$(/usr/libexec/java_home -v 17)
   ```
 ---
-
-## Bug Reporting
-For issues, please use [GitLab Issues](https://git.naspersclassifieds.com/panamera/infrastructure/onboarding/template/java/11/-/issues).
 
 ---
 
