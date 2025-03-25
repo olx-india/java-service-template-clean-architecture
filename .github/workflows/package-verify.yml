@@ -39,31 +39,12 @@ jobs:
 
   integration-tests:
     runs-on: ubuntu-latest
-    services:
-      docker:
-        image: docker:dind
-        options: --privileged # Ensure DinD works properly
+    container:
+      image: olxindia/assertx
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Required Packages
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            bash \
-            maven \
-            openjdk-17-jdk \
-            git \
-            docker-compose \
-            ca-certificates \
-            wget \
-            python3 \
-            python3-pip
-          
-          # Upgrade pip and install AWS CLI
-          pip3 install --upgrade --no-cache-dir pip
-          pip3 install --no-cache-dir awscli
       - name: Verify Installations
         run: |
           bash --version
