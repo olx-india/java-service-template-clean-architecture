@@ -21,7 +21,7 @@ services:
     restart: always
     command: [ "--config=/etc/otel-collector-config.yml" ]
     volumes:
-      - /Users/olx/Desktop/java17-clean-architecture-oss/otel-confg.yml:/etc/otel-collector-config.yml
+      - otel-confg.yml:/etc/otel-collector-config.yml #TODO: Fix Path.
     ports:
       - "4317:4317"  # OTLP gRPC receiver
       - "4318:4318"  # OTLP HTTP receiver
