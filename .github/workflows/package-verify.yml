@@ -47,7 +47,7 @@ jobs:
     services:
       docker:
         image: docker:dind
-        options: --privileged
+        options: --privileged --network=host
         ports:
           - 2375:2375
     steps:
@@ -55,8 +55,8 @@ jobs:
         uses: docker/setup-buildx-action@v2
       - name: Check Docker Host
         run: echo $DOCKER_HOST
-      - name: Set Docker Host with Service Name
-        run: echo "DOCKER_HOST=tcp://docker:2375" >> $GITHUB_ENV
+      - name: Set Docker Host
+        run: echo "DOCKER_HOST=tcp://host.docker.internal:2375" >> $GITHUB_ENV
       - uses: actions/checkout@v4
       - name: Run Integration Tests
         run: /app/execute-it.sh
