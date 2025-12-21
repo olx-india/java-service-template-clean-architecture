@@ -88,7 +88,7 @@
         <extentreports-cucumber4-adapter.version>1.0.6</extentreports-cucumber4-adapter.version>
         <codehaus.groovy.version>3.0.20</codehaus.groovy.version> <!-- Ensure it's at least 3.x+ -->
         <slf4j-api.version>2.0.9</slf4j-api.version>
-        <logback-classic.version>1.4.11</logback-classic.version>
+        <logback-classic.version>1.4.12</logback-classic.version>
         <httpclient5.version>5.2.1</httpclient5.version>
         <spring-security-core.version>6.0.2</spring-security-core.version>
         <tika-core.version>2.9.0</tika-core.version>
