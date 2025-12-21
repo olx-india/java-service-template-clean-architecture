@@ -91,7 +91,7 @@
         <logback-classic.version>1.4.11</logback-classic.version>
         <httpclient5.version>5.2.1</httpclient5.version>
         <spring-security-core.version>6.0.2</spring-security-core.version>
-        <tika-core.version>2.9.0</tika-core.version>
+        <tika-core.version>3.2.2</tika-core.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <spring-kafka.version>3.0.11</spring-kafka.version>
         <javax.persistence-api.version>2.2</javax.persistence-api.version>
