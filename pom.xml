@@ -27,8 +27,8 @@
     </parent>
 
     <properties>
-        <java.version>17.0.8</java.version>
-        <maven.compiler.release>17</maven.compiler.release>
+        <java.version>21</java.version>
+        <maven.compiler.release>21</maven.compiler.release>
         <spring-boot-version>3.1.4</spring-boot-version>
         <resilience4j.version>2.1.0</resilience4j.version>
         <spring-data-redis-version>2.7.2</spring-data-redis-version>
@@ -41,7 +41,7 @@
         <jacoco.version>0.8.12</jacoco.version>
         <springdoc-openapi.version>1.6.15</springdoc-openapi.version>
         <logstash-logback-encoder.version>7.3</logstash-logback-encoder.version>
-        <lombok.version>1.18.30</lombok.version>
+        <lombok.version>1.18.36</lombok.version>
         <httpclient.version>4.5.14</httpclient.version>
         <mysql.version>8.0.33</mysql.version>
         <flyway.version>7.14.0</flyway.version>
@@ -69,9 +69,9 @@
         <restAssured.version>4.2.0</restAssured.version>
         <docker.version>1.0.0</docker.version>
         <maven.version>3.6.1</maven.version>
-        <maven.compiler.source>1.17</maven.compiler.source>
-        <maven.compiler.target>1.17</maven.compiler.target>
-        <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
         <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
         <failsafe.version>3.3.2</failsafe.version>
         <jedis.version>3.9.0</jedis.version>
@@ -548,7 +548,14 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.plugin.version}</version>
                 <configuration>
-                    <release>17</release>
+                    <release>21</release>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                     <compilerArgs>
                         <arg>--add-modules</arg>
                         <arg>ALL-MODULE-PATH</arg>
@@ -591,7 +598,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.4.0</version>
                 <configuration>
-                    <source>17</source>
+                    <source>21</source>
                 </configuration>
             </plugin>
             <plugin>

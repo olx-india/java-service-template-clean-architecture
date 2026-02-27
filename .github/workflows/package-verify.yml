@@ -18,7 +18,7 @@ jobs:
       - name: Set up Java for publishing to maven build
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
       - name: Package
         run: mvn clean package
@@ -32,7 +32,7 @@ jobs:
       - name: Set up Java for publishing to maven build
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
       - name: Run Unit Tests
         run: mvn clean test
@@ -53,7 +53,7 @@ jobs:
           sudo apt-get install -y \
             bash \
             maven \
-            openjdk-17-jdk \
+            openjdk-21-jdk \
             git \
             docker-compose \
             ca-certificates \
