@@ -47,13 +47,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
       - name: Install Required Packages
         run: |
           sudo apt-get update
           sudo apt-get install -y \
             bash \
             maven \
-            openjdk-21-jdk \
             git \
             docker-compose \
             ca-certificates \
