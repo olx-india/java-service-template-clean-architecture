@@ -97,7 +97,7 @@
         <javax.persistence-api.version>2.2</javax.persistence-api.version>
         <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
         <spring-retry.version>2.0.4</spring-retry.version>
-        <okhttp3.okhttp.version>3.14.9</okhttp3.okhttp.version>
+        <okhttp3.okhttp.version>4.9.2</okhttp3.okhttp.version>
         <spring-cloud-commons.version>4.0.4</spring-cloud-commons.version>
         <java-jwt.version>3.2.0</java-jwt.version>
         <httpmime.version>4.5.13</httpmime.version>
