@@ -27,8 +27,8 @@
     </parent>
 
     <properties>
-        <java.version>17.0.8</java.version>
-        <maven.compiler.release>17</maven.compiler.release>
+        <java.version>21</java.version>
+        <maven.compiler.release>21</maven.compiler.release>
         <spring-boot-version>3.1.4</spring-boot-version>
         <resilience4j.version>2.1.0</resilience4j.version>
         <spring-data-redis-version>2.7.2</spring-data-redis-version>
@@ -41,16 +41,16 @@
         <jacoco.version>0.8.12</jacoco.version>
         <springdoc-openapi.version>1.6.15</springdoc-openapi.version>
         <logstash-logback-encoder.version>7.3</logstash-logback-encoder.version>
-        <lombok.version>1.18.30</lombok.version>
+        <lombok.version>1.18.36</lombok.version>
         <httpclient.version>4.5.14</httpclient.version>
         <mysql.version>8.0.33</mysql.version>
         <flyway.version>7.14.0</flyway.version>
         <retorfit.version>2.9.0</retorfit.version>
-        <beanutils.version>1.9.4</beanutils.version>
+        <beanutils.version>1.11.0</beanutils.version>
         <postgres.version>42.5.5</postgres.version>
         <asm.version>6.1.1</asm.version>
         <gson.version>2.10.1</gson.version>
-        <guava.version>31.1-jre</guava.version>
+        <guava.version>32.0.0-jre</guava.version>
         <maven.dependency.plugin.version>3.1.1</maven.dependency.plugin.version>
         <mebigfatguy.fb-contrib.version>7.4.2.sb</mebigfatguy.fb-contrib.version>
         <jacoco.it.bundle.percentage.instruction>0.0</jacoco.it.bundle.percentage.instruction>
@@ -69,9 +69,9 @@
         <restAssured.version>4.2.0</restAssured.version>
         <docker.version>1.0.0</docker.version>
         <maven.version>3.6.1</maven.version>
-        <maven.compiler.source>1.17</maven.compiler.source>
-        <maven.compiler.target>1.17</maven.compiler.target>
-        <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
         <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
         <failsafe.version>3.3.2</failsafe.version>
         <jedis.version>3.9.0</jedis.version>
@@ -90,14 +90,14 @@
         <slf4j-api.version>2.0.9</slf4j-api.version>
         <logback-classic.version>1.4.11</logback-classic.version>
         <httpclient5.version>5.2.1</httpclient5.version>
-        <spring-security-core.version>6.0.2</spring-security-core.version>
+        <spring-security-core.version>6.2.8</spring-security-core.version>
         <tika-core.version>2.9.0</tika-core.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <spring-kafka.version>3.0.11</spring-kafka.version>
         <javax.persistence-api.version>2.2</javax.persistence-api.version>
         <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
         <spring-retry.version>2.0.4</spring-retry.version>
-        <okhttp3.okhttp.version>3.14.9</okhttp3.okhttp.version>
+        <okhttp3.okhttp.version>4.9.2</okhttp3.okhttp.version>
         <spring-cloud-commons.version>4.0.4</spring-cloud-commons.version>
         <java-jwt.version>3.2.0</java-jwt.version>
         <httpmime.version>4.5.13</httpmime.version>
@@ -548,7 +548,14 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.plugin.version}</version>
                 <configuration>
-                    <release>17</release>
+                    <release>21</release>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                     <compilerArgs>
                         <arg>--add-modules</arg>
                         <arg>ALL-MODULE-PATH</arg>
@@ -591,7 +598,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.4.0</version>
                 <configuration>
-                    <source>17</source>
+                    <source>21</source>
                 </configuration>
             </plugin>
             <plugin>
