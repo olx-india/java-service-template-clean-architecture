@@ -1,0 +1,16 @@
+---
+description: Core template conventions for all agent work
+alwaysApply: true
+---
+
+# Java Clean Architecture template
+
+- JDK 21, Maven: `./mvnw -s settings.xml` or `make test` / `make it`
+- Layers: controller → usecase → domain ← infrastructure (ports/adapters)
+- Never import infrastructure from usecase or domain (ArchUnit enforced)
+- New APIs: domain port → usecase + command → controller DTOs → infrastructure/data adapter → tests
+- Events: use `EventPublisher` port → `OutboxEventPublisher`; not direct Kafka from use cases
+- API tests/requests: header `X-Default-Tenant: default`
+- Local run: `make dev` (loads `.env`, infra, migrate, server)
+- Maintainer log: REPO_CHANGELOG.md by date; CHANGELOG.md stays empty for fork users
+- Docs: docs/README.md; deep dives in docs/clean-architecture.md, docs/outbox-pattern.md

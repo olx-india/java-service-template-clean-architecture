@@ -1,0 +1,25 @@
+---
+description: Unit and integration test conventions
+globs: src/test/**/*
+alwaysApply: false
+---
+
+# Testing
+
+## Unit (`src/test/java/.../ut/`)
+- JUnit 5 + Mockito; mirror production package under `ut/`
+- Run: `make test`
+
+## Integration (`src/test/java/.../it/`)
+- Cucumber + Testcontainers (MySQL, Redis, Kafka)
+- Glue packages: `com.olx.boilerplate.it.config` + `it.stepdefinition` (siblings, not parent+child)
+- Features: `src/test/resources/features_and_scenarios/`
+- Background must set host: `Given I have http://0.0.0.0:8080/ host`
+- Path steps use regex in CommonRestStepDefinitions, not `{string}` for unquoted paths
+- `init-it.sql` must include tables used at runtime (incl. `outbox_event`)
+- Profile `integration-test` disables outbox relay; uses dynamic Redis port
+- Run: `make it` (Docker required)
+
+## After test changes
+- Unit only → `make test`
+- IT/features/CucumberSpringConfiguration → `make it`

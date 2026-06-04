@@ -12,6 +12,10 @@ Tracks **upstream template** changes by date. This repo does not use versioned r
 
 ### Added
 
+- **`AGENTS.md`** — root agent quick reference (Cursor, Claude, other tools)
+- **`CLAUDE.md`** — Claude Code entry point
+- **`docs/ai-agents.md`** — detailed agent workflows, prompts, and file map
+- **`.cursor/rules/`** — Cursor project rules (template core, Java layers, tests/IT)
 - **`make dev`** — loads `.env`, starts Docker infrastructure, runs Flyway migrations, and starts the Spring Boot server
 - **`docs/`** — local setup, features, clean architecture, low-level design, runbook, transactional outbox
 - **Transactional outbox pattern** — `OutboxEventPublisher` + `OutboxRelayScheduler` relay worker

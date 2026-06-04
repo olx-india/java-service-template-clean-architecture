@@ -1,0 +1,28 @@
+---
+description: Clean Architecture layer rules for Java source
+globs: src/main/java/**/*.java
+alwaysApply: false
+---
+
+# Java layer conventions
+
+## controller/
+- Map Request DTO → Command; Response DTO ← domain result
+- `@ReadOnlyTransaction` on GET; `@ReadWriteTransaction` on POST/PUT/DELETE
+- No repository or JPA imports
+
+## usecase/
+- `@Component` classes with `execute(Command)` methods
+- Inject `domain.repository.*` and `domain.port.*` only
+- `@Transactional` on write flows that persist + outbox event
+- `@Cacheable` / `@CacheEvict` on read/write as in existing user/order use cases
+
+## domain/
+- Plain Java entities, ports, events, exceptions — no Spring/JPA annotations
+- Cacheable domain types implement `Serializable` if returned from `@Cacheable` use cases
+
+## infrastructure/
+- `data/entities/` + `data/repository/` — JPA + port implementations
+- `outbox/` — EventPublisher adapter; `outbox/relay/` — scheduler/service
+- `components/` — filters, KafkaProducerService, Redis
+- `appConfig/` — `@Configuration`, `@ConfigurationProperties`

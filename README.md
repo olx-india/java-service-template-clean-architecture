@@ -186,6 +186,7 @@ docker compose -f docker-compose-local.yml up -d
 | Low-level design | [docs/low-level-design.md](docs/low-level-design.md) |
 | Runbook | [docs/runbook.md](docs/runbook.md) |
 | All docs | [docs/README.md](docs/README.md) |
+| AI agents (Cursor / Claude) | [AGENTS.md](AGENTS.md) · [docs/ai-agents.md](docs/ai-agents.md) |
 
 ---
 

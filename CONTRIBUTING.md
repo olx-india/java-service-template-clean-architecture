@@ -141,7 +141,7 @@ Examples: `feature/add-health-metrics`, `fix/redis-connection-timeout`, `docs/co
    - Link to the issue (e.g. “Fixes #123”)
    - Any notes for reviewers (e.g. how to test)
 4. **Checks:** All CI jobs (build, unit tests, formatter, etc.) must pass.
-5. **Changelog:** For user-visible template changes, add entries under today's date in [REPO_CHANGELOG.md](REPO_CHANGELOG.md) (Added / Changed / Fixed / Removed). Leave [CHANGELOG.md](CHANGELOG.md) empty for template users.
+5. **Changelog:** For user-visible template changes, add entries under today's date in [REPO_CHANGELOG.md](REPO_CHANGELOG.md). Update [AGENTS.md](AGENTS.md) or [docs/ai-agents.md](docs/ai-agents.md) if agent conventions change.
 6. **Review:** Address review comments; maintainers will merge when approved and green.
 
 ### What we look for in reviews
