@@ -29,7 +29,7 @@
     <properties>
         <java.version>21</java.version>
         <maven.compiler.release>21</maven.compiler.release>
-        <spring-boot-version>3.1.4</spring-boot-version>
+        <spring-boot-version>3.5.12</spring-boot-version>
         <resilience4j.version>2.1.0</resilience4j.version>
         <spring-data-redis-version>2.7.2</spring-data-redis-version>
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
@@ -47,7 +47,7 @@
         <flyway.version>7.14.0</flyway.version>
         <retorfit.version>2.9.0</retorfit.version>
         <beanutils.version>1.11.0</beanutils.version>
-        <postgres.version>42.5.0</postgres.version>
+        <postgres.version>42.7.11</postgres.version>
         <asm.version>6.1.1</asm.version>
         <gson.version>2.10.1</gson.version>
         <guava.version>32.0.0-jre</guava.version>
@@ -76,7 +76,7 @@
         <failsafe.version>3.3.2</failsafe.version>
         <jedis.version>3.9.0</jedis.version>
         <springdoc-openapi-starter-webmvc-ui.version>2.2.0</springdoc-openapi-starter-webmvc-ui.version>
-        <jackson-core.version>2.16.0</jackson-core.version>
+        <jackson-core.version>2.18.6</jackson-core.version>
         <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
         <jaxb-api.version>2.3.0</jaxb-api.version>
         <org.testcontainers-junit-jupiter.version>1.21.4</org.testcontainers-junit-jupiter.version>
