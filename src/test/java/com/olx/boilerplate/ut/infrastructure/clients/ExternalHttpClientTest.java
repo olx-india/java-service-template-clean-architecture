@@ -36,7 +36,7 @@ class ExternalHttpClientTest {
     @Test
     void fetch_ShouldReturnResponseBody() {
         wireMockServer.stubFor(get(urlEqualTo("/api/data"))
-                .willReturn(aResponse().withStatus(200).withBody("{\"ok\":true}")));
+                        .willReturn(aResponse().withStatus(200).withBody("{\"ok\":true}")));
 
         String result = client.fetch(wireMockServer.baseUrl() + "/api/data");
 
@@ -46,9 +46,9 @@ class ExternalHttpClientTest {
     @Test
     void fetch_ShouldThrowOnServerError() {
         wireMockServer.stubFor(get(urlEqualTo("/api/fail"))
-                .willReturn(aResponse().withStatus(500)));
+                        .willReturn(aResponse().withStatus(500)));
 
         assertThrows(ExternalServiceException.class,
-                () -> client.fetch(wireMockServer.baseUrl() + "/api/fail"));
+                     () -> client.fetch(wireMockServer.baseUrl() + "/api/fail"));
     }
 }

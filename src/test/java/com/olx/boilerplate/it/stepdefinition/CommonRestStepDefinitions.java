@@ -82,9 +82,9 @@ public class CommonRestStepDefinitions {
 
     private void executeRequest(String method) {
         RequestSpecification request = RestAssured.given()
-                .baseUri(context().getBaseUrl())
-                .header(TenantFilter.X_DEFAULT_TENANT, "default")
-                .contentType(ContentType.JSON);
+                        .baseUri(context().getBaseUrl())
+                        .header(TenantFilter.X_DEFAULT_TENANT, "default")
+                        .contentType(ContentType.JSON);
 
         context().getHeaders().forEach(request::header);
         context().getQueryParams().forEach(request::queryParam);

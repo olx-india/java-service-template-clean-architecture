@@ -65,18 +65,18 @@ public class ServiceDependencyModule {
 
     private CircuitBreaker buildCircuitBreaker(CircuitBreakersConfig circuitBreakersConfig, String circuitBreakerName) {
         return CircuitBreakerRegistry.of(configureCircuitBreaker(circuitBreakersConfig))
-                .circuitBreaker(circuitBreakerName);
+                        .circuitBreaker(circuitBreakerName);
     }
 
     private static CircuitBreakerConfig configureCircuitBreaker(CircuitBreakersConfig configuration) {
         return CircuitBreakerConfig.custom().recordExceptions(HttpClientErrorException.class, RuntimeException.class)
-                .slidingWindow(configuration.getSlidingWindowSize(), configuration.getMinimumNumberOfCalls(),
-                        configuration.getSlidingWindowType())
-                .permittedNumberOfCallsInHalfOpenState(configuration.getPermittedNumberOfCallsInHalfOpenState())
-                .failureRateThreshold(configuration.getFailureRateThreshold())
-                .waitDurationInOpenState(ofMillis(configuration.getWaitDurationInOpenState()))
-                .slowCallDurationThreshold(ofMillis(configuration.getSlowCallDurationThreshold()))
-                .slowCallRateThreshold(configuration.getSlowCallRateThreshold()).build();
+                        .slidingWindow(configuration.getSlidingWindowSize(), configuration.getMinimumNumberOfCalls(),
+                                       configuration.getSlidingWindowType())
+                        .permittedNumberOfCallsInHalfOpenState(configuration.getPermittedNumberOfCallsInHalfOpenState())
+                        .failureRateThreshold(configuration.getFailureRateThreshold())
+                        .waitDurationInOpenState(ofMillis(configuration.getWaitDurationInOpenState()))
+                        .slowCallDurationThreshold(ofMillis(configuration.getSlowCallDurationThreshold()))
+                        .slowCallRateThreshold(configuration.getSlowCallRateThreshold()).build();
     }
     /* Circuit Breakers Config End */
 
@@ -99,7 +99,7 @@ public class ServiceDependencyModule {
 
         if (ObjectUtils.allNotNull(conf.getWaitInterval(), conf.getWaitIntervalMultiplier())) {
             retryStrategyBuilder.intervalFunction(IntervalFunction.ofExponentialBackoff(conf.getWaitInterval(),
-                    conf.getWaitIntervalMultiplier()));
+                                                                                        conf.getWaitIntervalMultiplier()));
         } else {
             retryStrategyBuilder.waitDuration(Duration.ofMillis(conf.getWaitDuration()));
         }
@@ -113,11 +113,12 @@ public class ServiceDependencyModule {
     @Bean
     public OkHttpClient okHTTPClient(HttpConfig httpConfig) {
         return new OkHttpClient.Builder().retryOnConnectionFailure(false)
-                .readTimeout(httpConfig.getReadTimeout(), TimeUnit.MILLISECONDS)
-                .connectTimeout(httpConfig.getConnectTimeout(), TimeUnit.MILLISECONDS)
-                .connectionPool(new ConnectionPool(httpConfig.getMaxIdleConnectionsPerRoute(),
-                        httpConfig.getMaxConnectionKeepAliveDurationInMins(), TimeUnit.MINUTES))
-                .build();
+                        .readTimeout(httpConfig.getReadTimeout(), TimeUnit.MILLISECONDS)
+                        .connectTimeout(httpConfig.getConnectTimeout(), TimeUnit.MILLISECONDS)
+                        .connectionPool(new ConnectionPool(httpConfig.getMaxIdleConnectionsPerRoute(),
+                                                           httpConfig.getMaxConnectionKeepAliveDurationInMins(),
+                                                           TimeUnit.MINUTES))
+                        .build();
     }
 
     /* Database Config */
@@ -196,16 +197,21 @@ public class ServiceDependencyModule {
     @Bean
     public RedisConnectionFactory buildJedisConnectionFactory(RedisConfig redisConfig) {
         return redisConfig.getMode() == RedisMode.CLUSTER
-                ? new JedisConnectionFactory(
-                        new RedisClusterConfiguration(List.of(redisConfig.getHost() + ":" + redisConfig.getPort())))
-                : new JedisConnectionFactory(
-                        new RedisStandaloneConfiguration(redisConfig.getHost(), redisConfig.getPort()));
+                        ? new JedisConnectionFactory(
+                                                     new RedisClusterConfiguration(List
+                                                                     .of(redisConfig.getHost() + ":" + redisConfig.getPort())))
+                        : new JedisConnectionFactory(
+                                                     new RedisStandaloneConfiguration(redisConfig.getHost(),
+                                                                                      redisConfig.getPort()));
     }
 
     @Bean
     public CacheManager defaultCacheManager(RedisConfig redisConfig, RedisConnectionFactory connectionFactory) {
         return RedisCacheManager.builder(connectionFactory).cacheDefaults(
-                RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMillis(redisConfig.getTimeToLive())))
-                .build();
+                                                                          RedisCacheConfiguration.defaultCacheConfig()
+                                                                                          .entryTtl(Duration
+                                                                                                          .ofMillis(redisConfig
+                                                                                                                          .getTimeToLive())))
+                        .build();
     }
 }

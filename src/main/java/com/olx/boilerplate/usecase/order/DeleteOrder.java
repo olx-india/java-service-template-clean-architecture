@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DeleteOrder {
+
     private final OrderRepository orderRepository;
 
     public DeleteOrder(OrderRepository orderRepository) {

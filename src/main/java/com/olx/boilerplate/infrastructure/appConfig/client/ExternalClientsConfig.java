@@ -16,8 +16,8 @@ public class ExternalClientsConfig {
     private BaseClientConfig testServiceClientConfig;
 
     /**
-     * This method copies the missing props into service specific client configs from the default client config. This
-     * should be repeated for all the services added in this class
+     * This method copies the missing props into service specific client configs from the default client config. This should be
+     * repeated for all the services added in this class
      */
     @PostConstruct
     public void copyProps() throws InvocationTargetException, IllegalAccessException {

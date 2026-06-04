@@ -15,8 +15,8 @@ public class KafkaProducerService {
     private final CircuitBreaker circuitBreaker;
 
     public KafkaProducerService(KafkaTemplate<String, String> kafkaTemplate,
-            @Qualifier("defaultRetryStrategy") Retry retryStrategy,
-            @Qualifier("defaultCircuitBreaker") CircuitBreaker circuitBreaker) {
+                                @Qualifier("defaultRetryStrategy") Retry retryStrategy,
+                                @Qualifier("defaultCircuitBreaker") CircuitBreaker circuitBreaker) {
         this.kafkaTemplate = kafkaTemplate;
         this.retryStrategy = retryStrategy;
         this.circuitBreaker = circuitBreaker;
@@ -25,7 +25,7 @@ public class KafkaProducerService {
     @SneakyThrows
     public void publish(String topic, String payload) {
         this.circuitBreaker
-                .executeRunnable(() -> this.retryStrategy.executeRunnable(() -> this.executePublish(topic, payload)));
+                        .executeRunnable(() -> this.retryStrategy.executeRunnable(() -> this.executePublish(topic, payload)));
     }
 
     @SneakyThrows

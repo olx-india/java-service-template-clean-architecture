@@ -98,6 +98,6 @@ class OrderControllerTest {
         doThrow(new ResourceNotFoundException("Order not found")).when(deleteOrder).execute(orderId);
 
         org.junit.jupiter.api.Assertions.assertThrows(ResourceNotFoundException.class,
-                () -> orderController.deleteOrder(orderId));
+                                                      () -> orderController.deleteOrder(orderId));
     }
 }

@@ -33,7 +33,7 @@ public class OrderController {
     private final ListOrders listOrders;
 
     public OrderController(CreateOrder createOrder, GetOrder getOrder, UpdateOrder updateOrder,
-            DeleteOrder deleteOrder, ListOrders listOrders) {
+                           DeleteOrder deleteOrder, ListOrders listOrders) {
         this.createOrder = createOrder;
         this.getOrder = getOrder;
         this.updateOrder = updateOrder;
@@ -63,18 +63,18 @@ public class OrderController {
     public ResponseEntity<PageResponse<OrderResponse>> listOrders(Pageable pageable) {
         Page<Order> orders = listOrders.execute(pageable);
         return ResponseEntity.ok(new PageResponse<>(
-                orders.getContent().stream().map(OrderResponse::fromEntity).toList(),
-                orders.getNumber(),
-                orders.getSize(),
-                orders.getTotalElements(),
-                orders.getTotalPages()));
+                                                    orders.getContent().stream().map(OrderResponse::fromEntity).toList(),
+                                                    orders.getNumber(),
+                                                    orders.getSize(),
+                                                    orders.getTotalElements(),
+                                                    orders.getTotalPages()));
     }
 
     @ReadWriteTransaction
     @PutMapping("/{id}")
     @Operation(summary = "Update an order")
     public ResponseEntity<OrderResponse> updateOrder(@PathVariable Long id,
-            @Valid @RequestBody UpdateOrderRequest updateOrderRequest) {
+                                                     @Valid @RequestBody UpdateOrderRequest updateOrderRequest) {
         Order order = updateOrder.execute(updateOrderRequest.toCommand(id));
         return ResponseEntity.ok(OrderResponse.fromEntity(order));
     }

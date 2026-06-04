@@ -18,7 +18,7 @@ public class ClientController {
 
     @GetMapping(path = "/test/redis")
     public String test(@RequestParam(value = "key", required = false) String key,
-            @RequestParam(value = "value", required = false) String value) {
+                       @RequestParam(value = "value", required = false) String value) {
         redisClient.putValue(key, value);
         return redisClient.getValue(key);
     }

@@ -19,10 +19,10 @@ public class Order implements Serializable {
 
     public static Order create(String product, int quantity, double price) {
         return Order.builder()
-                .product(product)
-                .quantity(quantity)
-                .price(price)
-                .build();
+                        .product(product)
+                        .quantity(quantity)
+                        .price(price)
+                        .build();
     }
 
     public Order update(String product, Integer quantity, Double price) {

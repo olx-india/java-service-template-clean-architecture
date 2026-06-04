@@ -58,6 +58,7 @@ public class DataSourceConfig {
 
     @Data
     public static class ConnectionProps implements Serializable {
+
         private String jdbcUrl;
         private String username;
         private String password;
@@ -72,7 +73,7 @@ public class DataSourceConfig {
         private String poolNameSuffix;
 
         private static ConnectionProps mergeObjects(ConnectionProps mainObj, ConnectionProps patchObj)
-                throws IllegalAccessException {
+                        throws IllegalAccessException {
             var mergedObject = SerializationUtils.clone(mainObj);
 
             Field[] fields = patchObj.getClass().getFields();

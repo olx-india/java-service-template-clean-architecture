@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DeleteUser {
+
     private final UserRepository userRepository;
 
     public DeleteUser(UserRepository userRepository) {

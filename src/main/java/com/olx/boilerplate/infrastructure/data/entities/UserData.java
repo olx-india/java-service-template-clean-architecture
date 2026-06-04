@@ -25,10 +25,10 @@ public class UserData {
 
     public static UserData from(User user) {
         return UserData.builder()
-                .id(user.getId())
-                .name(user.getName())
-                .email(user.getEmail())
-                .build();
+                        .id(user.getId())
+                        .name(user.getName())
+                        .email(user.getEmail())
+                        .build();
     }
 
     public User fromThis() {

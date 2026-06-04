@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ListOrders {
+
     private final OrderRepository orderRepository;
 
     public ListOrders(OrderRepository orderRepository) {

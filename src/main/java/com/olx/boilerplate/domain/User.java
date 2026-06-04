@@ -22,9 +22,9 @@ public class User implements Serializable {
 
     public static User createUser(String name, String email) {
         return User.builder()
-                .name(name)
-                .email(email)
-                .build();
+                        .name(name)
+                        .email(email)
+                        .build();
     }
 
     public User update(String name, String email) {

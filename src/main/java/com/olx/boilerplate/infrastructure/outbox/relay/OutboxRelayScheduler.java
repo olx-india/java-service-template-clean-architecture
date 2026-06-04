@@ -23,7 +23,7 @@ public class OutboxRelayScheduler {
     private final OutboxRelayProperties outboxRelayProperties;
 
     public OutboxRelayScheduler(OutboxEventJpaRepository outboxEventJpaRepository, OutboxRelayService outboxRelayService,
-            OutboxRelayProperties outboxRelayProperties) {
+                                OutboxRelayProperties outboxRelayProperties) {
         this.outboxEventJpaRepository = outboxEventJpaRepository;
         this.outboxRelayService = outboxRelayService;
         this.outboxRelayProperties = outboxRelayProperties;
@@ -32,7 +32,10 @@ public class OutboxRelayScheduler {
     @Scheduled(fixedDelayString = "${outbox.relay.fixed-delay-ms:5000}")
     public void relayPendingEvents() {
         List<OutboxEventData> pendingEvents = outboxEventJpaRepository.findByPublishedFalseOrderByCreatedAtAsc(
-                PageRequest.of(0, outboxRelayProperties.getBatchSize()));
+                                                                                                               PageRequest
+                                                                                                                               .of(0,
+                                                                                                                                   outboxRelayProperties
+                                                                                                                                                   .getBatchSize()));
 
         for (OutboxEventData event : pendingEvents) {
             try {

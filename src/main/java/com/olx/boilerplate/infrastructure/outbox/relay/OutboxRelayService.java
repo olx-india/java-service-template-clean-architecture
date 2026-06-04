@@ -19,7 +19,7 @@ public class OutboxRelayService {
     private final OutboxTopicResolver outboxTopicResolver;
 
     public OutboxRelayService(OutboxEventJpaRepository outboxEventJpaRepository,
-            KafkaProducerService kafkaProducerService, OutboxTopicResolver outboxTopicResolver) {
+                              KafkaProducerService kafkaProducerService, OutboxTopicResolver outboxTopicResolver) {
         this.outboxEventJpaRepository = outboxEventJpaRepository;
         this.kafkaProducerService = kafkaProducerService;
         this.outboxTopicResolver = outboxTopicResolver;
@@ -28,7 +28,7 @@ public class OutboxRelayService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void relayEvent(Long eventId) {
         OutboxEventData event = outboxEventJpaRepository.findById(eventId)
-                .orElseThrow(() -> new IllegalStateException("Outbox event not found: " + eventId));
+                        .orElseThrow(() -> new IllegalStateException("Outbox event not found: " + eventId));
 
         if (event.isPublished()) {
             return;

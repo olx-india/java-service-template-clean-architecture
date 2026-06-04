@@ -16,16 +16,16 @@ import org.testcontainers.utility.DockerImageName;
 public class CucumberSpringConfiguration {
 
     private static final MySQLContainer<?> MYSQL = new MySQLContainer<>(DockerImageName.parse("mysql:8.0"))
-            .withDatabaseName("public")
-            .withUsername("testDBUser")
-            .withPassword("testDBPassword")
-            .withInitScript("db/init-it.sql");
+                    .withDatabaseName("public")
+                    .withUsername("testDBUser")
+                    .withPassword("testDBPassword")
+                    .withInitScript("db/init-it.sql");
 
     private static final GenericContainer<?> REDIS = new GenericContainer<>(DockerImageName.parse("redis:7"))
-            .withExposedPorts(6379);
+                    .withExposedPorts(6379);
 
     private static final KafkaContainer KAFKA = new KafkaContainer(
-            DockerImageName.parse("confluentinc/cp-kafka:7.5.0"));
+                                                                   DockerImageName.parse("confluentinc/cp-kafka:7.5.0"));
 
     static {
         MYSQL.start();

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class GetUser {
+
     private final UserRepository userRepository;
 
     public GetUser(UserRepository userRepository) {
@@ -18,6 +19,6 @@ public class GetUser {
     @Cacheable(value = "users", key = "#userId")
     public User execute(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + userId));
+                        .orElseThrow(() -> new ResourceNotFoundException("User not found: " + userId));
     }
 }

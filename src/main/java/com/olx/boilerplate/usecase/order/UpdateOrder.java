@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UpdateOrder {
+
     private final OrderRepository orderRepository;
 
     public UpdateOrder(OrderRepository orderRepository) {
@@ -18,7 +19,7 @@ public class UpdateOrder {
     @CacheEvict(value = "orders", allEntries = true)
     public Order execute(UpdateOrderCommand command) {
         Order order = orderRepository.findById(command.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Order not found: " + command.getId()));
+                        .orElseThrow(() -> new ResourceNotFoundException("Order not found: " + command.getId()));
         order.update(command.getProduct(), command.getQuantity(), command.getPrice());
         return orderRepository.save(order);
     }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CreateOrder {
+
     private final OrderRepository orderRepository;
     private final Counter ordersCreatedCounter;
 

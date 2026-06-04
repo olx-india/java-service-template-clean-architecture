@@ -38,11 +38,11 @@ class OutboxRelayServiceTest {
     @Test
     void relayEvent_shouldPublishToKafkaAndMarkPublished() {
         OutboxEventData event = OutboxEventData.builder()
-                .id(7L)
-                .eventType(OutboxEventTypes.USER_CREATED)
-                .payload("{\"userId\":1}")
-                .published(false)
-                .build();
+                        .id(7L)
+                        .eventType(OutboxEventTypes.USER_CREATED)
+                        .payload("{\"userId\":1}")
+                        .published(false)
+                        .build();
 
         when(outboxEventJpaRepository.findById(7L)).thenReturn(Optional.of(event));
         when(outboxTopicResolver.resolve(OutboxEventTypes.USER_CREATED)).thenReturn("user-created");
@@ -57,17 +57,17 @@ class OutboxRelayServiceTest {
     @Test
     void relayEvent_shouldSkipAlreadyPublishedEvents() {
         OutboxEventData event = OutboxEventData.builder()
-                .id(8L)
-                .eventType(OutboxEventTypes.USER_CREATED)
-                .payload("{\"userId\":2}")
-                .published(true)
-                .build();
+                        .id(8L)
+                        .eventType(OutboxEventTypes.USER_CREATED)
+                        .payload("{\"userId\":2}")
+                        .published(true)
+                        .build();
 
         when(outboxEventJpaRepository.findById(8L)).thenReturn(Optional.of(event));
 
         outboxRelayService.relayEvent(8L);
 
         verify(kafkaProducerService, never()).publish(org.mockito.ArgumentMatchers.anyString(),
-                org.mockito.ArgumentMatchers.anyString());
+                                                      org.mockito.ArgumentMatchers.anyString());
     }
 }

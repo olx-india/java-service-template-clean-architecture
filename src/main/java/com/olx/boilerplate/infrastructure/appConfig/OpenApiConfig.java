@@ -11,8 +11,8 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI boilerplateOpenApi() {
         return new OpenAPI().info(new Info()
-                .title("Boilerplate Service API")
-                .description("Clean Architecture Java service template")
-                .version("0.1.0"));
+                        .title("Boilerplate Service API")
+                        .description("Clean Architecture Java service template")
+                        .version("0.1.0"));
     }
 }

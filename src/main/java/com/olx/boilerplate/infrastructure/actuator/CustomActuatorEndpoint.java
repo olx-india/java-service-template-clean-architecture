@@ -13,8 +13,8 @@ public class CustomActuatorEndpoint {
     @ReadOperation
     public Map<String, String> info() {
         return Map.of(
-                "service", "boilerplate",
-                "architecture", "clean-architecture",
-                "status", "ok");
+                      "service", "boilerplate",
+                      "architecture", "clean-architecture",
+                      "status", "ok");
     }
 }

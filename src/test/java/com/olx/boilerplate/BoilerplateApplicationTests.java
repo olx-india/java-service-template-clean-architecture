@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 class BoilerplateApplicationTests {
 
-  @Test
-  void contextLoads() {}
+    @Test
+    void contextLoads() {}
 
 }

@@ -23,7 +23,7 @@ public class CorrelationIdFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+                    throws ServletException, IOException {
         String traceId = headerOrGenerate(request, TRACE_ID_HEADER);
         String correlationId = headerOrGenerate(request, CORRELATION_ID_HEADER);
         try {

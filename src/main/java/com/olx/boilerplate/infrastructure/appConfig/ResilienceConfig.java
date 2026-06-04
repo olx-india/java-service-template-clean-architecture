@@ -14,10 +14,10 @@ public class ResilienceConfig {
     @Bean
     public RateLimiter defaultRateLimiter() {
         RateLimiterConfig config = RateLimiterConfig.custom()
-                .limitForPeriod(10)
-                .limitRefreshPeriod(Duration.ofSeconds(1))
-                .timeoutDuration(Duration.ofMillis(500))
-                .build();
+                        .limitForPeriod(10)
+                        .limitRefreshPeriod(Duration.ofSeconds(1))
+                        .timeoutDuration(Duration.ofMillis(500))
+                        .build();
         return RateLimiterRegistry.of(config).rateLimiter("default");
     }
 }

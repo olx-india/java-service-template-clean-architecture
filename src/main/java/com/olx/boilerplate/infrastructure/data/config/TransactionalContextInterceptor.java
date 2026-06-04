@@ -20,7 +20,7 @@ public class TransactionalContextInterceptor {
 
     @Around("@annotation(readWriteTransaction)")
     public Object traceReadWrite(ProceedingJoinPoint joinPoint, ReadWriteTransaction readWriteTransaction)
-            throws Throwable {
+                    throws Throwable {
         return process(joinPoint, "");
     }
 

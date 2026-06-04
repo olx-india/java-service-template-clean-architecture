@@ -9,17 +9,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HealthCheckControllerTest {
 
-  private HealthCheckController healthCheckController;
+    private HealthCheckController healthCheckController;
 
-  @BeforeEach
-  void setUp() {
-    this.healthCheckController = new HealthCheckController();
-  }
+    @BeforeEach
+    void setUp() {
+        this.healthCheckController = new HealthCheckController();
+    }
 
-  @Test
-  void ping() {
-    var response = healthCheckController.ping();
-    assertNotNull(response);
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-  }
+    @Test
+    void ping() {
+        var response = healthCheckController.ping();
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
 }

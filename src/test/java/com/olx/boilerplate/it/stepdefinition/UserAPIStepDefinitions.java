@@ -35,7 +35,7 @@ public class UserAPIStepDefinitions {
     public void validateUserResponse() {
         var response = context().getResponse().as(UserResponse.class);
         var isValidResponse = response.getId() != null
-                && StringUtils.isNoneBlank(response.getName(), response.getEmail());
+                        && StringUtils.isNoneBlank(response.getName(), response.getEmail());
         Assertions.assertTrue(isValidResponse, "User response not valid");
     }
 
@@ -43,7 +43,7 @@ public class UserAPIStepDefinitions {
     public void validateUserResponseWithName(String name) {
         var response = context().getResponse().as(UserResponse.class);
         var isValidResponse = response.getId() != null
-                && StringUtils.isNoneBlank(response.getName(), response.getEmail());
+                        && StringUtils.isNoneBlank(response.getName(), response.getEmail());
         Assertions.assertTrue(isValidResponse, "User response not valid");
         Assertions.assertEquals(name, response.getName(), "Names don't match");
     }

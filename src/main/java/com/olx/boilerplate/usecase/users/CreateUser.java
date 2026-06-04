@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class CreateUser {
+
     private final UserRepository userRepository;
     private final EventPublisher eventPublisher;
 

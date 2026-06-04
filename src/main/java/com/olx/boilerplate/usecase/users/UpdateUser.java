@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UpdateUser {
+
     private final UserRepository userRepository;
 
     public UpdateUser(UserRepository userRepository) {
@@ -18,7 +19,7 @@ public class UpdateUser {
     @CacheEvict(value = "users", allEntries = true)
     public User execute(UpdateUserCommand command) {
         User user = userRepository.findById(command.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + command.getId()));
+                        .orElseThrow(() -> new ResourceNotFoundException("User not found: " + command.getId()));
         user.update(command.getName(), command.getEmail());
         return userRepository.save(user);
     }

@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableRetry
 @EnableScheduling
 public class BoilerplateApplication {
+
     public static void main(String[] args) {
         var context = SpringApplication.run(BoilerplateApplication.class, args);
 

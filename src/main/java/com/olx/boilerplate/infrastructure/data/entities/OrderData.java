@@ -21,19 +21,19 @@ public class OrderData {
 
     public static OrderData from(Order order) {
         return OrderData.builder()
-                .id(order.getId())
-                .product(order.getProduct())
-                .quantity(order.getQuantity())
-                .price(order.getPrice())
-                .build();
+                        .id(order.getId())
+                        .product(order.getProduct())
+                        .quantity(order.getQuantity())
+                        .price(order.getPrice())
+                        .build();
     }
 
     public Order fromThis() {
         return Order.builder()
-                .id(id)
-                .product(product)
-                .quantity(quantity)
-                .price(price)
-                .build();
+                        .id(id)
+                        .product(product)
+                        .quantity(quantity)
+                        .price(price)
+                        .build();
     }
 }

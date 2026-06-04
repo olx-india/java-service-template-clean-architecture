@@ -32,16 +32,18 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-            HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+                                                                  HttpHeaders headers, HttpStatusCode status,
+                                                                  WebRequest request) {
         return this.buildResponseEntity(BAD_REQUEST, MALFORMED_JSON);
     }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-            HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+                                                                  HttpHeaders headers, HttpStatusCode status,
+                                                                  WebRequest request) {
         FieldError fieldError = ex.getBindingResult().getFieldError();
         String message = fieldError != null ? fieldError.getField() + ": " + fieldError.getDefaultMessage()
-                : "Validation failed";
+                        : "Validation failed";
         return this.buildResponseEntity(BAD_REQUEST, message);
     }
 
@@ -50,9 +52,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return this.buildResponseEntity(BAD_REQUEST, e.getMessage());
     }
 
-    @ExceptionHandler({ ResourceNotFoundException.class,
+    @ExceptionHandler({ResourceNotFoundException.class,
             com.olx.boilerplate.infrastructure.exceptions.EntityNotFoundException.class,
-            jakarta.persistence.EntityNotFoundException.class })
+            jakarta.persistence.EntityNotFoundException.class})
     protected ResponseEntity<Object> handleEntityNotFoundException(Exception e) {
         return this.buildResponseEntity(NOT_FOUND, e.getMessage());
     }

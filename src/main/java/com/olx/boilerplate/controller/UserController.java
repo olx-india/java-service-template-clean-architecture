@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 @Tag(name = "Users", description = "User management APIs")
 public class UserController {
+
     private final CreateUser createUser;
     private final GetUser getUser;
     private final UpdateUser updateUser;
@@ -32,7 +33,7 @@ public class UserController {
     private final ListUsers listUsers;
 
     public UserController(CreateUser createUser, GetUser getUser, UpdateUser updateUser, DeleteUser deleteUser,
-            ListUsers listUsers) {
+                          ListUsers listUsers) {
         this.createUser = createUser;
         this.getUser = getUser;
         this.updateUser = updateUser;
@@ -62,18 +63,18 @@ public class UserController {
     public ResponseEntity<PageResponse<UserResponse>> listUsers(Pageable pageable) {
         Page<User> users = listUsers.execute(pageable);
         return ResponseEntity.ok(new PageResponse<>(
-                users.getContent().stream().map(UserResponse::buildFromEntity).toList(),
-                users.getNumber(),
-                users.getSize(),
-                users.getTotalElements(),
-                users.getTotalPages()));
+                                                    users.getContent().stream().map(UserResponse::buildFromEntity).toList(),
+                                                    users.getNumber(),
+                                                    users.getSize(),
+                                                    users.getTotalElements(),
+                                                    users.getTotalPages()));
     }
 
     @ReadWriteTransaction
     @PutMapping("/{userId}")
     @Operation(summary = "Update a user")
     public ResponseEntity<UserResponse> updateUser(@PathVariable Long userId,
-            @Valid @RequestBody UpdateUserRequest updateUserRequest) {
+                                                   @Valid @RequestBody UpdateUserRequest updateUserRequest) {
         User user = updateUser.execute(updateUserRequest.toCommand(userId));
         return ResponseEntity.ok(UserResponse.buildFromEntity(user));
     }

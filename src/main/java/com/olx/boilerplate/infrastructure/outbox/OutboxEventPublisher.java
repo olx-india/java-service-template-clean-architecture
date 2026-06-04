@@ -26,10 +26,10 @@ public class OutboxEventPublisher implements EventPublisher {
     @Override
     public void publishUserCreated(UserCreatedEvent event) {
         OutboxEventData outboxEvent = OutboxEventData.builder()
-                .eventType(OutboxEventTypes.USER_CREATED)
-                .payload(gson.toJson(event))
-                .published(false)
-                .build();
+                        .eventType(OutboxEventTypes.USER_CREATED)
+                        .payload(gson.toJson(event))
+                        .published(false)
+                        .build();
 
         outboxEventJpaRepository.save(outboxEvent);
         LOGGER.debug("Enqueued UserCreatedEvent for userId={} in outbox", event.getUserId());

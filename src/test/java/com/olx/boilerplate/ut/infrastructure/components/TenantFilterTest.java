@@ -22,6 +22,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TenantFilterTest {
+
     @Autowired
     private ConfigurableApplicationContext context;
 

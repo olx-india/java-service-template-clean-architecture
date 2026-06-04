@@ -32,7 +32,7 @@ public class TenantFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-            throws IOException, ServletException {
+                    throws IOException, ServletException {
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
 
         final Optional<String> tenant = extractTenantFromRequest(request);
