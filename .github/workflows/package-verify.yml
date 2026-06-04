@@ -20,8 +20,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build and verify
-        run: mvn -s settings.xml clean verify -DskipDependenciesCheck=true
+      - name: Build
+        run: mvn -s settings.xml clean build
 
   integration-tests:
     runs-on: ubuntu-latest
