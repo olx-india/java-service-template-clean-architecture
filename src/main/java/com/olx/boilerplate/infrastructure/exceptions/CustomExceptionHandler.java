@@ -1,5 +1,6 @@
 package com.olx.boilerplate.infrastructure.exceptions;
 
+import com.olx.boilerplate.domain.exception.ResourceNotFoundException;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -9,7 +10,10 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -26,9 +30,19 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String MALFORMED_JSON = "Malformed JSON request.";
     private static final String GENERIC_ERROR_MESSAGE = "Something went wrong.";
 
-    protected @NotNull ResponseEntity<Object> handleHttpMessageNotReadable(@NotNull HttpMessageNotReadableException ex,
-            @NotNull HttpHeaders headers, @NotNull HttpStatus status, @NotNull WebRequest request) {
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+            HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return this.buildResponseEntity(BAD_REQUEST, MALFORMED_JSON);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+            HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        FieldError fieldError = ex.getBindingResult().getFieldError();
+        String message = fieldError != null ? fieldError.getField() + ": " + fieldError.getDefaultMessage()
+                : "Validation failed";
+        return this.buildResponseEntity(BAD_REQUEST, message);
     }
 
     @ExceptionHandler(RequiredParameterException.class)
@@ -36,7 +50,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return this.buildResponseEntity(BAD_REQUEST, e.getMessage());
     }
 
-    @ExceptionHandler({ EntityNotFoundException.class, javax.persistence.EntityNotFoundException.class })
+    @ExceptionHandler({ ResourceNotFoundException.class,
+            com.olx.boilerplate.infrastructure.exceptions.EntityNotFoundException.class,
+            jakarta.persistence.EntityNotFoundException.class })
     protected ResponseEntity<Object> handleEntityNotFoundException(Exception e) {
         return this.buildResponseEntity(NOT_FOUND, e.getMessage());
     }

@@ -11,15 +11,18 @@ A production-ready **Spring Boot** template for building Java microservices usin
 
 ## Features
 
-- **Clean Architecture** — Layered design with clear separation: controllers, use cases, domain, and infrastructure
-- **Multi-tenant MySQL** — Database-per-tenant support with configurable data sources
-- **Redis** — Caching and session storage
-- **Kafka** — Event producer integration
-- **Flyway** — Versioned database migrations
-- **OpenAPI / Swagger** — Auto-generated API docs (SpringDoc)
-- **Resilience** — Retry, circuit breaker, and rate limiting (Resilience4j)
-- **Observability** — OpenTelemetry tracing, structured logging (Logstash logback encoder)
-- **Quality gates** — SpotBugs, OWASP dependency check, JaCoCo coverage, code formatter
+- **Clean Architecture** — Layered design with ArchUnit boundary tests; see [docs/clean-architecture.md](docs/clean-architecture.md)
+- **Multi-tenant MySQL** — Database-per-tenant with read/write replica routing
+- **Redis** — Spring Cache on use cases with actuator cache eviction
+- **Kafka** — Domain events via `EventPublisher` port (`UserCreatedEvent`)
+- **Flyway** — Versioned migrations including transactional outbox table
+- **OpenAPI / Swagger** — SpringDoc with annotated controllers
+- **Resilience** — Circuit breaker, retry, and rate limiter (Resilience4j) on `ExternalHttpClient`
+- **Security** — Optional JWT auth (`spring.security.enabled=true`)
+- **Observability** — Prometheus metrics, MDC correlation IDs, OpenTelemetry agent in Docker
+- **Quality gates** — SpotBugs, OWASP dependency-check, JaCoCo, formatter (Maven verify)
+
+See [docs/features.md](docs/features.md) for a full breakdown.
 
 ---
 
@@ -29,72 +32,53 @@ A production-ready **Spring Boot** template for building Java microservices usin
 |----------------|-------------------------------|
 | Runtime        | Java 21                        |
 | Framework      | Spring Boot 3.1.4              |
-| Build          | Maven 3.6+                     |
+| Build          | Maven 3.6+ (wrapper included)  |
 | Database       | MySQL 8, Flyway                |
-| Cache          | Redis, Spring Data Redis       |
+| Cache          | Redis, Spring Cache            |
 | Messaging      | Apache Kafka                   |
 | API docs       | SpringDoc OpenAPI              |
-| Testing        | JUnit 5, Mockito, RestAssured, Cucumber, Testcontainers |
+| Testing        | JUnit 5, Mockito, Cucumber, Testcontainers, RestAssured |
 
 ---
 
 ## Prerequisites
 
-- **JDK 21** (required; other versions may cause Lombok/build issues)
-- **Maven 3.6+**
-- **Docker & Docker Compose** (for local MySQL, Redis, and integration tests)
+- **JDK 21** (required)
+- **Docker & Docker Compose** (local stack and integration tests)
 - **Git**
+- **Make** (optional but recommended)
 
 ---
 
 ## Quick Start
 
-### 1. Clone the repository
-
 ```bash
-git clone https://github.com/your-org/java-service-template-clean-architecture.git
+git clone https://github.com/olx-india/java-service-template-clean-architecture.git
 cd java-service-template-clean-architecture
-```
 
-### 2. Use JDK 21
-
-If you have multiple JDKs, set Java 21 before building or running:
-
-```bash
-# macOS / Linux (bash/zsh)
 export JAVA_HOME=$(/usr/libexec/java_home -v 21)   # macOS
-# or: export JAVA_HOME=/path/to/jdk21               # Linux
+cp .env.example .env                                # optional
 
-java -version   # Should show 21.x
+make dev
 ```
 
-### 3. Build
+`make dev` loads `.env`, starts Docker infrastructure (MySQL, Redis, Kafka), runs Flyway migrations, and starts the Spring Boot server.
+
+**Manual steps** (if you prefer):
 
 ```bash
-# Full build (unit + integration tests; requires Docker)
-mvn clean package
-
-# Unit tests only (no Docker required)
-mvn clean package -DskipIntegration=true
-```
-
-### 4. Run locally (with Docker)
-
-Start dependencies and run the app:
-
-```bash
-# Start MySQL, Redis, OpenTelemetry collector
-docker compose -f docker-compose-local.yml up -d
-
-# Run database migrations
-./migrate.sh
-
-# Run the application (local profile)
-mvn spring-boot:run -Dspring-boot.run.profiles=local
+make docker-up
+make migrate
+make run
 ```
 
 API: **http://localhost:8080**  
-Swagger UI: **http://localhost:8080/swagger-ui.html** (if enabled in profile)
+Swagger UI: **http://localhost:8080/swagger-ui/index.html**  
+Actuator (metrics): **http://localhost:8081/metrics**
+
+Use the `X-Default-Tenant: default` header on API requests.
+
+More detail: [docs/local-setup.md](docs/local-setup.md)
 
 ---
 
@@ -102,18 +86,17 @@ Swagger UI: **http://localhost:8080/swagger-ui.html** (if enabled in profile)
 
 ```
 ├── src/main/java/com/olx/boilerplate/
-│   ├── controller/       # REST API, DTOs, request/response mapping
-│   ├── usercase/         # Application use cases (business flows)
-│   ├── domain/           # Domain entities and interfaces
-│   ├── repository/       # Data access interfaces
-│   └── infrastructure/   # Config, DB, Redis, Kafka, HTTP clients, etc.
+│   ├── controller/           # REST API, DTOs
+│   ├── usecase/              # Application use cases and commands
+│   ├── domain/               # Entities, ports, domain exceptions
+│   │   └── repository/       # Repository port interfaces
+│   └── infrastructure/       # JPA, Redis, Kafka, config, security
 ├── src/test/
-│   ├── java/             # Unit tests (ut/), integration tests
-│   └── resources/        # Test config, Cucumber features, mocks
-├── docker-compose-local.yml
-├── Dockerfile
-├── migrate.sh            # Flyway migration runner
-├── formatter.xml         # Eclipse formatter (Maven formatter plugin)
+│   ├── java/.../ut/          # Unit tests + ArchUnit
+│   └── java/.../it/          # Cucumber + Testcontainers integration tests
+├── docs/                     # Architecture, features, setup, runbook
+├── docker-compose-local.yml  # MySQL, Redis, Kafka, OTel collector
+├── Makefile                  # build, test, dev, migrate
 └── pom.xml
 ```
 
@@ -121,143 +104,119 @@ Swagger UI: **http://localhost:8080/swagger-ui.html** (if enabled in profile)
 
 ## Architecture
 
-The project follows **Clean Architecture**: outer layers depend on inner layers; the domain has no framework or infrastructure dependencies.
-
-![Clean Architecture](CleanArchitecture.jpg)
+See **[docs/clean-architecture.md](docs/clean-architecture.md)** for layer responsibilities, multi-tenancy, caching, events, and security. Component-level detail is in **[docs/low-level-design.md](docs/low-level-design.md)**.
 
 | Layer            | Responsibility |
 |------------------|----------------|
-| **Controller**   | HTTP handling, validation, DTO mapping |
-| **Use case**     | Orchestrate business logic, call domain and repositories |
-| **Domain**       | Entities and business rules |
-| **Repository**   | Data access contracts (interfaces) |
-| **Infrastructure** | Implementations: DB, Redis, Kafka, HTTP, config |
-
-Dependency injection is used so that use cases and controllers depend on **abstractions** (interfaces), not concrete implementations.
+| **Controller**   | HTTP, validation, DTO ↔ command mapping |
+| **Use case**     | Application workflows |
+| **Domain**       | Entities, ports, business rules |
+| **Infrastructure** | Adapters and framework wiring |
 
 ---
 
 ## Configuration
 
-- **Profiles:** `local`, `integration-test`, etc. (see `src/main/resources/application*.yaml`).
-- **Local:** Use `application-local.yaml` and `docker-compose-local.yml` for DB, Redis, and Kafka URLs.
-- **Environment variables:** Override config via env (e.g. datasource, Redis host, Kafka bootstrap servers).
+- **Profiles:** `local`, `integration-test` — see `src/main/resources/application*.yaml`
+- **Environment variables:** Copy [`.env.example`](.env.example) — `DB_HOST`, `REDIS_HOST`, `KAFKA_HOST`, `SCHEMAS_TO_MIGRATE`, etc.
+- **JWT security (optional):** Set `spring.security.enabled=true` and `security.jwt.secret`
+
+---
+
+## Makefile commands
+
+```bash
+make dev          # Load .env, start infra, migrate, run server
+make build        # Package (skip integration tests)
+make test         # Unit tests
+make it           # Cucumber integration tests
+make verify       # Full verify including SpotBugs and formatter
+make docker-up    # Start infrastructure containers only
+make docker-down  # Stop containers
+make migrate      # Run Flyway migrations (loads .env)
+make format       # Apply Eclipse formatter
+```
 
 ---
 
 ## Testing
 
-### Unit tests
-
-- **Location:** `src/test/java/.../ut/`
-- **Run:** `mvn test`
-- **Stack:** JUnit 5, Mockito; dependencies mocked.
-
-### Integration tests
-
-- **Location:** Cucumber `.feature` files and Java step definitions; run with Failsafe.
-- **Run:** `mvn verify` or `mvn integration-test` (uses `integration-test` profile).
-- **Requirements:** Docker (MySQL, Redis, etc. via Testcontainers or `docker-compose-local.yml`).
-
-### Example Cucumber scenario
-
-```gherkin
-Scenario: Create a new user successfully
-  Given I have /user API
-  And I have following headers
-    | Content-Type     |
-    | application/json |
-  And I have a request body in {"name":"Test User", "email": "test@email.com"}
-  When Execute POST request using REST
-  Then Validate status code is: 201
-  And Validate user response
+```bash
+make test          # Unit tests only
+make it            # Cucumber integration tests (Testcontainers + Docker)
+make verify        # Full verify including SpotBugs and formatter
 ```
+
+Integration tests spin up **MySQL, Redis, and Kafka** via Testcontainers — no private dependencies required.
 
 ---
 
 ## Development
 
-### Code formatting
-
-Format code and validate style:
-
 ```bash
-mvn formatter:format
-# or use formatter:validate in CI
-```
-
-Formatter config: `formatter.xml` (Eclipse-style, used by Maven formatter plugin).
-
-### Quality and security
-
-- **SpotBugs:** `mvn spotbugs:check`
-- **OWASP dependency check:** `mvn dependency-check:check`
-- **JaCoCo:** Coverage reports in `target/coverage-reports/` and `target/site/jacoco/`
-
-### Run only unit tests
-
-```bash
-mvn clean test
-```
-
-### Build without integration tests
-
-```bash
-mvn clean package -DskipIntegration=true
+make format        # Apply Eclipse formatter
+mvn spotbugs:check
+mvn dependency-check:check   # OWASP (slow; skipped in CI by default)
 ```
 
 ---
 
 ## Docker
 
-- **Build image:** The root `Dockerfile` builds a Java 21 image and copies the packaged JAR (e.g. `target/boilerplate-0.1.0.jar`). Build with `mvn package` first.
-- **Local stack:** `docker compose -f docker-compose-local.yml up -d` runs MySQL, Redis, and an OpenTelemetry collector; the app can be run from the host with the `local` profile.
+```bash
+make build
+make docker-up     # MySQL, Redis, Kafka, OTel (infra only — use make run for the app)
+```
+
+To run the packaged app in Docker as well:
+
+```bash
+docker compose -f docker-compose-local.yml up -d
+```
+
+---
+
+## Documentation
+
+| Topic | Link |
+|-------|------|
+| Local setup | [docs/local-setup.md](docs/local-setup.md) |
+| Features | [docs/features.md](docs/features.md) |
+| Clean architecture | [docs/clean-architecture.md](docs/clean-architecture.md) |
+| Low-level design | [docs/low-level-design.md](docs/low-level-design.md) |
+| Runbook | [docs/runbook.md](docs/runbook.md) |
+| All docs | [docs/README.md](docs/README.md) |
 
 ---
 
 ## FAQ
 
-### Build fails with Lombok `TypeTag :: UNKNOWN` or “Unsupported class file major version”
+### Build fails with Lombok or “Unsupported class file major version”
 
-The project **must** be built with **JDK 21**. Using a different JDK (e.g. 22 or 24) can break Lombok and the compiler.
+Use **JDK 21**: `export JAVA_HOME=$(/usr/libexec/java_home -v 21)` and use `./mvnw -s settings.xml` if your global Maven settings point to a private repository.
 
-- Check: `java -version` and `mvn -version` (Maven uses `JAVA_HOME`).
-- Set JDK 21: `export JAVA_HOME=$(/usr/libexec/java_home -v 21)` (macOS) or point `JAVA_HOME` to your JDK 21 install.
-- List JDKs on macOS: `/usr/libexec/java_home -V`.
+### How do I add a new API?
 
-### How do I add a new API or use case?
+1. Add domain entity and repository port under `domain/`
+2. Add command + use case under `usecase/`
+3. Add request/response DTOs and controller
+4. Implement repository adapter in `infrastructure/data/repository/`
+5. Add unit tests and a Cucumber scenario
 
-1. Add or reuse a **domain** entity/interface under `domain/`.
-2. Define a **repository** interface under `repository/` if you need persistence.
-3. Implement the **use case** in `usercase/` (call domain + repository).
-4. Expose it via a **controller** in `controller/` and map DTOs.
-5. Add **infrastructure** (e.g. JPA, Redis) under `infrastructure/` if needed.
+### Rename the template for your service
 
-### Where is the OpenAPI / Swagger spec?
-
-SpringDoc is included; the UI and JSON are typically available at `/swagger-ui.html` and `/v3/api-docs` when the app runs, depending on profile and configuration.
+Replace `com.olx.boilerplate` package and `boilerplate` artifact in `pom.xml` with your namespace.
 
 ---
 
 ## Contributing
 
-Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) for:
+See [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [SECURITY.md](SECURITY.md).
 
-- How to report bugs and suggest features
-- Development setup and code style
-- Branch and pull request process
-- Commit message guidelines
+Template change history (upstream, by date): [REPO_CHANGELOG.md](REPO_CHANGELOG.md)
 
 ---
 
 ## License
 
-This project is licensed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for the full text, or [https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0).
-
----
-
-## Acknowledgments
-
-- [Spring Boot](https://spring.io/projects/spring-boot)
-- [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) (Robert C. Martin)
-- All [contributors](https://github.com/your-org/java-service-template-clean-architecture/graphs/contributors) and users of this template
+Apache License 2.0 — see [LICENSE](LICENSE).

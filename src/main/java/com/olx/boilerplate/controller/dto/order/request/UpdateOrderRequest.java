@@ -1,14 +1,23 @@
 package com.olx.boilerplate.controller.dto.order.request;
 
-import lombok.AllArgsConstructor;
+import com.olx.boilerplate.usecase.order.command.UpdateOrderCommand;
+import jakarta.validation.constraints.Min;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class UpdateOrderRequest extends CreateOrderRequest {
-    private Long id;
+public class UpdateOrderRequest {
+
+    private String product;
+
+    @Min(1)
+    private Integer quantity;
+
+    @Min(0)
+    private Double price;
+
+    public UpdateOrderCommand toCommand(Long id) {
+        return new UpdateOrderCommand(id, product, quantity, price);
+    }
 }

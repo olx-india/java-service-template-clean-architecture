@@ -11,7 +11,8 @@ public class Tenant {
 
     private final BrandCode brand;
     private final CountryCode country;
-    private boolean isDefault = false;
+    private final String siteCode;
+    private final boolean isDefault;
 
     public Tenant(String tenant) {
         if (tenant == null) {
@@ -24,17 +25,26 @@ public class Tenant {
         if (DEFAULT.equals(tenant)) {
             this.brand = null;
             this.country = null;
-            isDefault = true;
-
+            this.siteCode = null;
+            this.isDefault = true;
             return;
         }
 
+        BrandCode parsedBrand = null;
+        CountryCode parsedCountry = null;
+        String parsedSiteCode = null;
+
         try {
-            this.brand = BrandCode.valueOf(tenant.substring(0, tenant.length() - 2).toUpperCase());
-            this.country = CountryCode.valueOf(tenant.substring(tenant.length() - 2).toUpperCase());
+            parsedBrand = BrandCode.valueOf(tenant.substring(0, tenant.length() - 2).toUpperCase());
+            parsedCountry = CountryCode.valueOf(tenant.substring(tenant.length() - 2).toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid Tenant value");
+            parsedSiteCode = tenant.toLowerCase();
         }
+
+        this.brand = parsedBrand;
+        this.country = parsedCountry;
+        this.siteCode = parsedSiteCode;
+        this.isDefault = false;
     }
 
     public BrandCode getBrand() {
@@ -46,16 +56,28 @@ public class Tenant {
     }
 
     public String key() {
+        if (siteCode != null) {
+            return siteCode;
+        }
         return getBrand().name().toLowerCase() + getCountry().name().toLowerCase();
     }
 
     public String name() {
+        if (siteCode != null) {
+            return siteCode;
+        }
         return getBrand().name() + getCountry().name();
     }
 
     @Override
     public String toString() {
-        return (isDefault) ? DEFAULT : getBrand().name().toLowerCase() + getCountry().name().toLowerCase();
+        if (isDefault) {
+            return DEFAULT;
+        }
+        if (siteCode != null) {
+            return siteCode;
+        }
+        return getBrand().name().toLowerCase() + getCountry().name().toLowerCase();
     }
 
     @Override
@@ -70,7 +92,7 @@ public class Tenant {
 
         Tenant tenant = (Tenant) obj;
         if (this.brand == null && this.country == null && tenant.brand == null && tenant.country == null) {
-            return true;
+            return Objects.equals(this.siteCode, tenant.siteCode) && this.isDefault == tenant.isDefault;
         }
 
         return toString().equals(tenant.toString());
@@ -78,7 +100,7 @@ public class Tenant {
 
     @Override
     public int hashCode() {
-        return Objects.hash(brand, country);
+        return Objects.hash(brand, country, siteCode, isDefault);
     }
 
 }

@@ -8,85 +8,38 @@ on:
       - main
 
 jobs:
-  package:
+  verify:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Java for publishing to maven build
+
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
-      - name: Package
-        run: mvn clean package
-  unit-tests:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Java for publishing to maven build
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-      - name: Run Unit Tests
-        run: mvn clean test
+          cache: maven
+
+      - name: Build and verify
+        run: mvn -s settings.xml clean verify -DskipDependenciesCheck=true
 
   integration-tests:
     runs-on: ubuntu-latest
-    services:
-      docker:
-        image: docker:dind
-        options: --privileged # Ensure DinD works properly
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Java 21
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
+          cache: maven
 
-      - name: Install Required Packages
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            bash \
-            maven \
-            git \
-            docker-compose \
-            ca-certificates \
-            wget \
-            python3 \
-            python3-pip
-          
-          # Upgrade pip and install AWS CLI
-          pip3 install --upgrade --no-cache-dir pip
-          pip3 install --no-cache-dir awscli
-      - name: Verify Installations
-        run: |
-          bash --version
-          mvn -version
-          java -version
-          git --version
-          docker-compose version
-          python3 --version
-          pip3 --version
-          aws --version
+      - name: Run integration tests
+        run: mvn -s settings.xml clean integration-test -DskipUnitTests=true -DskipDependenciesCheck=true -DskipVerifications=true
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Verify Docker version
-        run: docker version
-
-      - name: Verify Buildx
-        run: docker buildx version
-      - name: Run Integration Tests
-        run: mvn clean integration-test -DskipUnitTests=true -Djarvis-profile=ci
+      - name: Upload JaCoCo reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-reports
+          path: target/site/jacoco*

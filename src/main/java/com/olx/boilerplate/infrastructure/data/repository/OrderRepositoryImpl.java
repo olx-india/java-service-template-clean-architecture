@@ -3,6 +3,8 @@ package com.olx.boilerplate.infrastructure.data.repository;
 import com.olx.boilerplate.domain.Order;
 import com.olx.boilerplate.domain.repository.OrderRepository;
 import com.olx.boilerplate.infrastructure.data.entities.OrderData;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -25,6 +27,11 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public Optional<Order> findById(Long id) {
         return jpaOrderRepository.findById(id).map(OrderData::fromThis);
+    }
+
+    @Override
+    public Page<Order> findAll(Pageable pageable) {
+        return jpaOrderRepository.findAll(pageable).map(OrderData::fromThis);
     }
 
     @Override

@@ -25,5 +25,6 @@ public class KafkaCommonConfig extends BaseClientConfig {
     private boolean enableAutoCommit;
     private String keyDeserializer;
     private String valueDeserializer;
+    private java.util.List<String> topics;
 
 }

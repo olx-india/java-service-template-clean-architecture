@@ -39,4 +39,20 @@ redis:
   host: "localhost"
   port: 6379
   mode: STANDALONE
-  timeToLive: 604800000 # one week in milliseconds
+  timeToLive: 604800000
+
+kafka:
+  bootstrapServers: "localhost:9092"
+  topics: ["testTopic"]
+  retries: 3
+  acks: all
+  batchSize: 16384
+  lingerMs: 1
+  bufferMemory: 33554432
+  keySerializer: org.apache.kafka.common.serialization.StringSerializer
+  valueSerializer: org.apache.kafka.common.serialization.StringSerializer
+
+outbox:
+  relay:
+    topics:
+      UserCreatedEvent: testTopic

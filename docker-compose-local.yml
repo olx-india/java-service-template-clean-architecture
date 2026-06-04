@@ -16,31 +16,56 @@ services:
     ports:
       - "6379:6379"
 
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
   otel-collector:
     image: otel/opentelemetry-collector:latest
     restart: always
     command: [ "--config=/etc/otel-collector-config.yml" ]
     volumes:
-      - otel-confg.yml:/etc/otel-collector-config.yml #TODO: Fix Path.
+      - ./otel-confg.yml:/etc/otel-collector-config.yml
     ports:
-      - "4317:4317"  # OTLP gRPC receiver
-      - "4318:4318"  # OTLP HTTP receiver
+      - "4317:4317"
+      - "4318:4318"
 
   myapp:
     build:
       context: .
       dockerfile: Dockerfile
     environment:
+      DB_HOST: jdbc:mysql://db:3306/olxin
+      DB_REPLICA_HOST: jdbc:mysql://db:3306/olxin
+      DB_USERNAME: root
+      DB_PASSWORD: testDBPassword
+      REDIS_HOST: redis
+      KAFKA_HOST: kafka:9092
       OTEL_SERVICE_NAME: "my-spring-app"
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
       OTEL_METRICS_EXPORTER: "none"
       OTEL_TRACES_EXPORTER: "otlp"
       OTEL_EXPORTER_OTLP_PROTOCOL: "http/protobuf"
-      OTEL_TRACES.SAMPLER: "parentbased_traceidratio"
-      OTEL_TRACES_SAMPLER_ARG: 0.1
     depends_on:
       - db
       - redis
+      - kafka
       - otel-collector
     ports:
       - "8080:8080"

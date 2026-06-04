@@ -57,6 +57,8 @@ Report unacceptable behavior to the maintainers (e.g. via GitHub issues or repos
 
 ## Development Setup
 
+See **[docs/local-setup.md](docs/local-setup.md)** for prerequisites, environment variables, and running the service locally.
+
 ### Requirements
 
 - **JDK 21** (required; the project does not support other versions for build)
@@ -139,7 +141,8 @@ Examples: `feature/add-health-metrics`, `fix/redis-connection-timeout`, `docs/co
    - Link to the issue (e.g. “Fixes #123”)
    - Any notes for reviewers (e.g. how to test)
 4. **Checks:** All CI jobs (build, unit tests, formatter, etc.) must pass.
-5. **Review:** Address review comments; maintainers will merge when approved and green.
+5. **Changelog:** For user-visible template changes, add entries under today's date in [REPO_CHANGELOG.md](REPO_CHANGELOG.md) (Added / Changed / Fixed / Removed). Leave [CHANGELOG.md](CHANGELOG.md) empty for template users.
+6. **Review:** Address review comments; maintainers will merge when approved and green.
 
 ### What we look for in reviews
 
@@ -174,10 +177,11 @@ Fixes #15
 
 ## Testing Requirements
 
-- **Unit tests:** New or changed behavior in use cases, services, or utilities should have unit tests (JUnit 5 + Mockito). Run with `mvn test`.
-- **Integration tests:** For new or changed REST APIs or critical flows, add or update Cucumber scenarios or integration tests where appropriate. Run with `mvn verify` (Docker required for full integration tests).
+- **Unit tests:** New or changed behavior in use cases, services, or utilities should have unit tests (JUnit 5 + Mockito). Run with `make test` or `mvn -s settings.xml test -DskipIntegration=true`.
+- **Integration tests:** Cucumber scenarios under `src/test/resources/features_and_scenarios/` run against a Spring Boot context with **Testcontainers** (MySQL, Redis, Kafka). No assertx or private artifacts required. Run with `make it` (Docker required).
+- **Architecture tests:** [ArchUnit](src/test/java/com/olx/boilerplate/ut/ArchitectureTest.java) enforces layer boundaries; do not introduce domain → infrastructure dependencies.
 - **No regressions:** Ensure existing tests pass. If you change behavior intentionally, update the tests accordingly and explain in the PR.
-- **Coverage:** The project uses JaCoCo; avoid dropping coverage for modified code when possible.
+- **Coverage:** JaCoCo reports are generated under `target/site/jacoco/`.
 
 ---
 

@@ -8,12 +8,13 @@ import com.olx.boilerplate.infrastructure.appConfig.http.HttpConfig;
 import com.olx.boilerplate.infrastructure.appConfig.redis.RedisConfig;
 import com.olx.boilerplate.infrastructure.appConfig.redis.RedisMode;
 import com.olx.boilerplate.infrastructure.data.config.CustomRoutingDataSource;
+import com.google.gson.Gson;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
-import io.github.resilience4j.retry.IntervalFunction;
+import io.github.resilience4j.core.IntervalFunction;
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.retry.RetryConfig;
 import okhttp3.ConnectionPool;
@@ -94,17 +95,13 @@ public class ServiceDependencyModule {
     }
 
     private RetryConfig buildRetryConfig(RetryConfiguration conf) {
-        IntervalFunction intervalFunction = null;
+        var retryStrategyBuilder = RetryConfig.custom().maxAttempts(conf.getMaxAttempts());
+
         if (ObjectUtils.allNotNull(conf.getWaitInterval(), conf.getWaitIntervalMultiplier())) {
-            intervalFunction = IntervalFunction.ofExponentialBackoff(conf.getWaitInterval(),
-                    conf.getWaitIntervalMultiplier());
-        }
-
-        var retryStrategyBuilder = RetryConfig.custom().maxAttempts(conf.getMaxAttempts())
-                .waitDuration(Duration.ofMillis(conf.getWaitDuration()));
-
-        if (intervalFunction != null) {
-            retryStrategyBuilder.intervalFunction(intervalFunction);
+            retryStrategyBuilder.intervalFunction(IntervalFunction.ofExponentialBackoff(conf.getWaitInterval(),
+                    conf.getWaitIntervalMultiplier()));
+        } else {
+            retryStrategyBuilder.waitDuration(Duration.ofMillis(conf.getWaitDuration()));
         }
 
         return retryStrategyBuilder.build();
@@ -178,6 +175,11 @@ public class ServiceDependencyModule {
     /* HTTP Config End */
 
     /* Redis Config Begin */
+
+    @Bean
+    public Gson gson() {
+        return new Gson();
+    }
 
     @Bean
     public StringRedisTemplate redisTemplate(RedisConnectionFactory connectionFactory) {

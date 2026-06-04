@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.example</groupId>
+    <groupId>com.olx.boilerplate</groupId>
     <artifactId>boilerplate</artifactId>
     <version>0.1.0</version>
 
@@ -39,7 +39,7 @@
         <owasp.maven.version>6.5.3</owasp.maven.version>
         <common-logger.version>1.1.3</common-logger.version>
         <jacoco.version>0.8.12</jacoco.version>
-        <springdoc-openapi.version>1.6.15</springdoc-openapi.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.2.0</springdoc-openapi-starter-webmvc-ui.version>
         <logstash-logback-encoder.version>7.3</logstash-logback-encoder.version>
         <lombok.version>1.18.36</lombok.version>
         <httpclient.version>4.5.14</httpclient.version>
@@ -78,11 +78,11 @@
         <springdoc-openapi-starter-webmvc-ui.version>2.2.0</springdoc-openapi-starter-webmvc-ui.version>
         <jackson-core.version>2.16.0</jackson-core.version>
         <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
-        <resilience4j-retry.version>1.1.0</resilience4j-retry.version>
         <jaxb-api.version>2.3.0</jaxb-api.version>
-        <org.testcontainers-junit-jupiter.version>1.19.3</org.testcontainers-junit-jupiter.version>
-        <assertx.version>0.0.3</assertx.version>
-        <dropwizard-testing.version>2.1.0</dropwizard-testing.version>
+        <org.testcontainers-junit-jupiter.version>1.21.4</org.testcontainers-junit-jupiter.version>
+        <archunit.version>1.2.1</archunit.version>
+        <wiremock.version>3.3.1</wiremock.version>
+        <spotbugs.version>4.8.3</spotbugs.version>
         <toxiproxy-java.version>2.1.3</toxiproxy-java.version>
         <cucumber-reporting.version>5.4.0</cucumber-reporting.version>
         <extentreports-cucumber4-adapter.version>1.0.6</extentreports-cucumber4-adapter.version>
@@ -93,9 +93,6 @@
         <spring-security-core.version>6.2.8</spring-security-core.version>
         <tika-core.version>2.9.0</tika-core.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
-        <spring-kafka.version>3.0.11</spring-kafka.version>
-        <javax.persistence-api.version>2.2</javax.persistence-api.version>
-        <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
         <spring-retry.version>2.0.4</spring-retry.version>
         <okhttp3.okhttp.version>4.9.2</okhttp3.okhttp.version>
         <spring-cloud-commons.version>4.0.4</spring-cloud-commons.version>
@@ -114,6 +111,35 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <version>${spring-boot-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+            <version>${spring-boot-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>${spring-boot-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+            <version>${spring-boot-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>${spring-boot-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
 
         <dependency>
@@ -178,9 +204,8 @@
             <version>${jackson-core.version}</version>
         </dependency>
 
-        <!-- Need this for assertx -->
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
         </dependency>
@@ -193,6 +218,12 @@
         </dependency>
 
         <!-- Circuit Breaker -->
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-spring-boot3</artifactId>
+            <version>${resilience4j.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-circuitbreaker</artifactId>
@@ -215,7 +246,7 @@
         <dependency>
             <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-retry</artifactId>
-            <version>${resilience4j-retry.version}</version>
+            <version>${resilience4j.version}</version>
         </dependency>
 
         <dependency>
@@ -240,6 +271,13 @@
 
         <dependency>
             <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>${org.testcontainers-junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${org.testcontainers-junit-jupiter.version}</version>
             <scope>test</scope>
@@ -247,9 +285,37 @@
 
 
         <dependency>
-            <groupId>in.olx</groupId>
-            <artifactId>assertx</artifactId>
-            <version>${assertx.version}</version>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mysql</artifactId>
+            <version>${org.testcontainers-junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>kafka</artifactId>
+            <version>${org.testcontainers-junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5</artifactId>
+            <version>${archunit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wiremock</groupId>
+            <artifactId>wiremock-standalone</artifactId>
+            <version>${wiremock.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -264,15 +330,17 @@
         </dependency>
 
         <dependency>
-            <groupId>io.dropwizard</groupId>
-            <artifactId>dropwizard-testing</artifactId>
-            <version>${dropwizard-testing.version}</version>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>eu.rekawek.toxiproxy</groupId>
             <artifactId>toxiproxy-java</artifactId>
             <version>${toxiproxy-java.version}</version>
+            <scope>test</scope>
         </dependency>
 
 
@@ -349,13 +417,6 @@
 
         <!-- Swagger UI -->
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${springdoc-openapi.version}</version>
-        </dependency>
-
-        <!-- Lombok -->
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
@@ -390,44 +451,13 @@
             <version>${retorfit.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>${spring-security-core.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
             <version>${tika-core.version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${javax.servlet-api.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <!-- kakfa -->
-        <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
-            <version>${spring-kafka.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>javax.persistence-api</artifactId>
-            <version>${javax.persistence-api.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>${javax.annotation-api.version}</version>
         </dependency>
 
         <dependency>
@@ -767,11 +797,62 @@
                 <artifactId>formatter-maven-plugin</artifactId>
                 <version>2.25.0</version>
                 <configuration>
+                    <configFile>${formatterConfigPath}</configFile>
                     <directories>
                         <directory>${project.build.sourceDirectory}</directory>
-                        <directory>${project.build.directory}/generated-sources</directory>
+                        <directory>${project.build.testSourceDirectory}</directory>
                     </directories>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>validate-format</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>${formatterGoal}</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${maven.spotbugs.plugin.version}</version>
+                <configuration>
+                    <excludeFilterFile>spotbugs-exclude-filter.xml</excludeFilterFile>
+                    <failOnError>true</failOnError>
+                    <skip>${skipVerifications}</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>spotbugs-check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>${owasp.maven.version}</version>
+                <configuration>
+                    <suppressionFiles>
+                        <suppressionFile>owasp-dependency-check-suppressions.xml</suppressionFile>
+                    </suppressionFiles>
+                    <outputDirectory>${dependency.check.report.dir}</outputDirectory>
+                    <skip>${skipDependenciesCheck}</skip>
+                    <failBuildOnCVSS>9</failBuildOnCVSS>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>dependency-check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

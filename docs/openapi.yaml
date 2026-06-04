@@ -1,0 +1,38 @@
+openapi: 3.0.3
+info:
+  title: Boilerplate Service API
+  description: |
+    Auto-generated spec is available at runtime: GET /v3/api-docs
+    This file is a reference stub. Regenerate after API changes:
+    curl http://localhost:8080/v3/api-docs -o docs/openapi.yaml
+  version: 0.1.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /user:
+    get:
+      summary: List users (paginated)
+      tags: [Users]
+    post:
+      summary: Create user
+      tags: [Users]
+  /user/{userId}:
+    get:
+      summary: Get user by ID
+      tags: [Users]
+    put:
+      summary: Update user
+      tags: [Users]
+    delete:
+      summary: Delete user
+      tags: [Users]
+  /orders:
+    get:
+      summary: List orders (paginated)
+      tags: [Orders]
+    post:
+      summary: Create order
+      tags: [Orders]
+  /health:
+    get:
+      summary: Health ping

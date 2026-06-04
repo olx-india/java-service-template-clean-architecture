@@ -1,9 +1,19 @@
+resilience4j:
+  ratelimiter:
+    instances:
+      default:
+        limitForPeriod: 10
+        limitRefreshPeriod: 1s
+        timeoutDuration: 500ms
+
 spring:
   jpa:
     hibernate.ddl-auto: none
     show-sql: true
   profiles:
     active: local
+  security:
+    enabled: false
 
 clients:
   defaultClientConfig:
@@ -83,7 +93,14 @@ management:
     health:
       enabled: true
       show-details: never
+      group:
+        liveness:
+          include: ping
+        readiness:
+          include: db,redis
     metrics:
+      enabled: true
+    prometheus:
       enabled: true
     info:
       enabled: true
@@ -97,11 +114,15 @@ management:
     enabled-by-default: false
     web:
       exposure:
-        include: health, metrics, info, httptrace, custom, cache-evict
+        include: health, metrics, prometheus, info, httptrace, custom, cache-evict
       base-path: /
   health:
     defaults:
       enabled: false
+  metrics:
+    export:
+      prometheus:
+        enabled: true
 
 redis:
   host: "${REDIS_HOST}"
@@ -112,7 +133,7 @@ redis:
 server:
   port: 8080
 
-KafkaClientConfig:
+kafka:
   bootstrapServers: "${KAFKA_HOST}"
   retries: 3
   acks: all
@@ -121,3 +142,11 @@ KafkaClientConfig:
   bufferMemory: 33554432
   keySerializer: org.apache.kafka.common.serialization.StringSerializer
   valueSerializer: org.apache.kafka.common.serialization.StringSerializer
+
+outbox:
+  relay:
+    enabled: true
+    fixed-delay-ms: 5000
+    batch-size: 50
+    topics:
+      UserCreatedEvent: user-created

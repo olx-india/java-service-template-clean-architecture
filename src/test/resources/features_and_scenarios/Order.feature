@@ -24,5 +24,5 @@ Feature: Order API Integration Tests
   Scenario: Delete an order successfully
     Given I have /orders/999 API
     When Execute DELETE request using REST
-    Then Validate status code is: 200
+    Then Validate status code is: 204
 

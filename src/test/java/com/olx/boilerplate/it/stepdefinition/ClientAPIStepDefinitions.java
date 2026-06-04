@@ -2,23 +2,30 @@ package com.olx.boilerplate.it.stepdefinition;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.olx.assertx.stepdefinitions.BaseRestStepDefinition;
+import com.olx.boilerplate.it.IntegrationTestContext;
+import com.olx.boilerplate.it.IntegrationTestContextHolder;
 import io.cucumber.java.en.And;
-import io.dropwizard.jackson.Jackson;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClientAPIStepDefinitions extends BaseRestStepDefinition {
+public class ClientAPIStepDefinitions {
 
-    ObjectMapper objectMapper = Jackson.newObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Autowired
+    private IntegrationTestContextHolder contextHolder;
 
     @And("I generate a KafkaRequestBody")
     public void setKafkaRequestBody() throws JsonProcessingException {
         Map<String, Object> payload = new HashMap<>();
         payload.put("message", "Test Kafka Message");
         payload.put("timestamp", System.currentTimeMillis());
-        String requestBody = objectMapper.writeValueAsString(payload);
-        testContext().set("KafkaRequestBody", requestBody);
+        context().setNamedBody("KafkaRequestBody", objectMapper.writeValueAsString(payload));
+    }
+
+    private IntegrationTestContext context() {
+        return contextHolder.getContext();
     }
 }

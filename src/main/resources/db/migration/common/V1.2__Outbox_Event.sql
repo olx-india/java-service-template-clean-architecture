@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS outbox_event
+(
+    id          BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    event_type  VARCHAR(128) NOT NULL,
+    payload     TEXT         NOT NULL,
+    created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    published   TINYINT(1)   NOT NULL DEFAULT 0
+);

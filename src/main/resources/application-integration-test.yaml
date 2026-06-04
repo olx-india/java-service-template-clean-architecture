@@ -1,11 +1,11 @@
 datasource:
   masterDataSource:
-    jdbcUrl: "jdbc:mysql://${docker-host}:3320/public"
+    jdbcUrl: "${DB_HOST}"
     username: "testDBUser"
     password: "testDBPassword"
-    minimumIdle: 1 #minimum number of idle connections maintained in a connection pool
-    maxPoolSize: 5 #maximum pool size
-    connectionTimeout: 30000 #maximum number of milliseconds that a client will wait for a connection
+    minimumIdle: 1
+    maxPoolSize: 5
+    connectionTimeout: 30000
     idleTimeout: 20000
     prepStmsCacheSqlLimit: 2048
     prepStmsCacheSqlCacheSize: 256
@@ -13,12 +13,12 @@ datasource:
     useServerPrepStmts: true
     poolNameSuffix: pool-master
   replicaDataSource:
-    jdbcUrl: "jdbc:mysql://${docker-host}:3320/public"
+    jdbcUrl: "${DB_REPLICA_HOST}"
     username: "testDBUser"
     password: "testDBPassword"
-    minimumIdle: 1 #minimum number of idle connections maintained in a connection pool
-    maxPoolSize: 5 #maximum pool size
-    connectionTimeout: 30000 #maximum number of milliseconds that a client will wait for a connection
+    minimumIdle: 1
+    maxPoolSize: 5
+    connectionTimeout: 30000
     idleTimeout: 20000
     prepStmsCacheSqlLimit: 2048
     prepStmsCacheSqlCacheSize: 256
@@ -36,18 +36,16 @@ datasource:
 app:
   tenants: default
   hostTenantMap: {}
-  runningITMode: ${IT_MODE:true}
-
+  runningITMode: false
 
 redis:
-  host: "${docker-host}"
-  port: 6379
+  host: "${REDIS_HOST}"
+  port: ${redis.port:6379}
   mode: STANDALONE
-  timeToLive: 604800000 # one week in milliseconds
+  timeToLive: 604800000
 
-
-KafkaClientConfig:
-  bootstrapServers: ${docker-host}:${kafka}
+kafka:
+  bootstrapServers: "${KAFKA_HOST}"
   topics: ["testTopic"]
   retries: 3
   acks: all
@@ -56,7 +54,22 @@ KafkaClientConfig:
   bufferMemory: 33554432
   keySerializer: org.apache.kafka.common.serialization.StringSerializer
   valueSerializer: org.apache.kafka.common.serialization.StringSerializer
-  environment:
-    KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
 
+spring:
+  security:
+    enabled: false
 
+outbox:
+  relay:
+    enabled: false
+
+management:
+  server:
+    port: 0
+  health:
+    ping:
+      enabled: true
+    db:
+      enabled: true
+    redis:
+      enabled: true

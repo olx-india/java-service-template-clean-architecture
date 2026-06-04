@@ -24,4 +24,4 @@ Feature: User API Integration Tests
   Scenario: Delete a user successfully
     Given I have /user/998 API
     When Execute DELETE request using REST
-    Then Validate status code is: 200
+    Then Validate status code is: 204

@@ -2,49 +2,53 @@ package com.olx.boilerplate.it.stepdefinition;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.olx.assertx.service.model.RequestType;
-import com.olx.assertx.stepdefinitions.BaseRestStepDefinition;
-import com.olx.boilerplate.infrastructure.data.entities.UserData;
-import com.olx.boilerplate.controller.dto.user.request.CreateUserRequest;
-import com.olx.boilerplate.controller.dto.user.request.UpdateUserRequest;
+import com.olx.boilerplate.controller.dto.user.response.UserResponse;
+import com.olx.boilerplate.it.IntegrationTestContext;
+import com.olx.boilerplate.it.IntegrationTestContextHolder;
+import com.olx.boilerplate.usecase.users.command.CreateUserCommand;
+import com.olx.boilerplate.usecase.users.command.UpdateUserCommand;
 import io.cucumber.java.en.And;
-import io.dropwizard.jackson.Jackson;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public class UserAPIStepDefinitions extends BaseRestStepDefinition {
+public class UserAPIStepDefinitions {
 
-  ObjectMapper objectMapper = Jackson.newObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-  @And("I generate a CreateUserRequest")
-  public void setCreateUserRequestBody() throws JsonProcessingException {
-    CreateUserRequest request = new CreateUserRequest("Test User", "testEmail");
+    @Autowired
+    private IntegrationTestContextHolder contextHolder;
 
-    String requestBody = objectMapper.writeValueAsString(request);
+    @And("I generate a CreateUserRequest")
+    public void setCreateUserRequestBody() throws JsonProcessingException {
+        CreateUserCommand request = new CreateUserCommand("Test User", "test@example.com");
+        context().setNamedBody("CreateUserRequest", objectMapper.writeValueAsString(request));
+    }
 
-    testContext().set("CreateUserRequest", requestBody);
-  }
+    @And("I generate an UpdateUserRequest with id {} and name {}")
+    public void setUpdateUserRequestBody(String id, String name) throws JsonProcessingException {
+        UpdateUserCommand request = new UpdateUserCommand(Long.parseLong(id), name, null);
+        context().setNamedBody("UpdateUserRequest", objectMapper.writeValueAsString(request));
+    }
 
+    @And("Validate user response")
+    public void validateUserResponse() {
+        var response = context().getResponse().as(UserResponse.class);
+        var isValidResponse = response.getId() != null
+                && StringUtils.isNoneBlank(response.getName(), response.getEmail());
+        Assertions.assertTrue(isValidResponse, "User response not valid");
+    }
 
-  @And("I generate an UpdateUserRequest with id {} and name {}")
-  public void setUpdateUserRequestBody(String id, String name) throws JsonProcessingException {
-    UpdateUserRequest request = new UpdateUserRequest(Long.parseLong(id));
-    request.setName(name);
-    testContext().set("UpdateUserRequest", objectMapper.writeValueAsString(request));
-  }
+    @And("Validate user response with name {}")
+    public void validateUserResponseWithName(String name) {
+        var response = context().getResponse().as(UserResponse.class);
+        var isValidResponse = response.getId() != null
+                && StringUtils.isNoneBlank(response.getName(), response.getEmail());
+        Assertions.assertTrue(isValidResponse, "User response not valid");
+        Assertions.assertEquals(name, response.getName(), "Names don't match");
+    }
 
-  @And("Validate user response")
-  public void validateUserResponse() {
-    var response = testContext().getResponse(RequestType.REST, UserData.class);
-    var isValidResponse = response.getId() != null && StringUtils.isNoneBlank(response.getName(), response.getEmail());
-    Assert.assertTrue("User response not valid", isValidResponse);
-  }
-
-  @And("Validate user response with name {}")
-  public void validateUserResponseWithName(String name) {
-    var response = testContext().getResponse(RequestType.REST, UserData.class);
-    var isValidResponse = response.getId() != null && StringUtils.isNoneBlank(response.getName(), response.getEmail());
-    Assert.assertTrue("User response not valid", isValidResponse);
-    Assert.assertEquals("Names don't match", name, response.getName());
-  }
+    private IntegrationTestContext context() {
+        return contextHolder.getContext();
+    }
 }

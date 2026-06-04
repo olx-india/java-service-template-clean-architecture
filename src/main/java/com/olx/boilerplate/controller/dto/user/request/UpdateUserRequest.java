@@ -1,15 +1,20 @@
 package com.olx.boilerplate.controller.dto.user.request;
 
-import lombok.AllArgsConstructor;
+import com.olx.boilerplate.usecase.users.command.UpdateUserCommand;
+import jakarta.validation.constraints.Email;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class UpdateUserRequest extends CreateUserRequest {
+public class UpdateUserRequest {
 
-    private Long id;
+    @Email
+    private String email;
+
+    private String name;
+
+    public UpdateUserCommand toCommand(Long id) {
+        return new UpdateUserCommand(id, name, email);
+    }
 }
