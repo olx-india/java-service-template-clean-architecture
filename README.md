@@ -130,7 +130,11 @@ make dev          # Load .env, start infra, migrate, run server
 make build        # Package (skip integration tests)
 make test         # Unit tests
 make it           # Cucumber integration tests
-make verify       # Full verify including SpotBugs and formatter
+make verify       # Verify with SpotBugs + formatter (skips OWASP; matches CI)
+make verify-all   # Full verify including OWASP dependency-check (slow)
+make spotbugs     # SpotBugs only (spotbugs-exclude-filter.xml)
+make dependency-check  # OWASP only (owasp-dependency-check-suppressions.xml)
+make security     # SpotBugs + OWASP
 make docker-up    # Start infrastructure containers only
 make docker-down  # Stop containers
 make migrate      # Run Flyway migrations (loads .env)
@@ -144,7 +148,9 @@ make format       # Apply Eclipse formatter
 ```bash
 make test          # Unit tests only
 make it            # Cucumber integration tests (Testcontainers + Docker)
-make verify        # Full verify including SpotBugs and formatter
+make verify        # SpotBugs + formatter (CI-like; skips OWASP)
+make verify-all    # Full verify including OWASP (slow)
+make security      # SpotBugs + OWASP dependency-check
 ```
 
 Integration tests spin up **MySQL, Redis, and Kafka** via Testcontainers — no private dependencies required.
@@ -154,9 +160,10 @@ Integration tests spin up **MySQL, Redis, and Kafka** via Testcontainers — no 
 ## Development
 
 ```bash
-make format        # Apply Eclipse formatter
-mvn spotbugs:check
-mvn dependency-check:check   # OWASP (slow; skipped in CI by default)
+make format           # Apply Eclipse formatter
+make spotbugs         # SpotBugs (uses spotbugs-exclude-filter.xml)
+make dependency-check # OWASP dependency-check (uses suppressions XML; slow)
+make security         # Both SpotBugs and OWASP
 ```
 
 ---

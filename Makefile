@@ -1,4 +1,4 @@
-.PHONY: build test it verify run dev docker-up docker-down migrate format
+.PHONY: build test it verify verify-all spotbugs dependency-check security run dev docker-up docker-down migrate format
 
 MVN = ./mvnw -s settings.xml
 JAVA21 = export JAVA_HOME=$$(/usr/libexec/java_home -v 21 2>/dev/null || echo "$$JAVA_HOME");
@@ -17,6 +17,18 @@ it:
 
 verify:
 	$(JAVA21) $(MVN) clean verify -DskipDependenciesCheck=true
+
+# Full verify including OWASP dependency-check (slow; uses owasp-dependency-check-suppressions.xml)
+verify-all:
+	$(JAVA21) $(MVN) clean verify -DskipIntegration=true
+
+spotbugs:
+	$(JAVA21) $(MVN) spotbugs:check
+
+dependency-check:
+	$(JAVA21) $(MVN) dependency-check:check
+
+security: spotbugs dependency-check
 
 run:
 	$(JAVA21) $(MVN) spring-boot:run -Dspring-boot.run.profiles=local

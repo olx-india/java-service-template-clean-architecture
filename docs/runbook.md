@@ -41,4 +41,4 @@ Run `make migrate` (loads `.env`) or `./migrate.sh` with `SCHEMAS_TO_MIGRATE` se
 ## Security
 
 - JWT disabled by default. Enable with `spring.security.enabled=true` and set `security.jwt.secret`.
-- Run OWASP check before release: `mvn dependency-check:check`
+- Run OWASP check before release: `make dependency-check` or `make security`

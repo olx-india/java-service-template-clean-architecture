@@ -56,7 +56,11 @@ See [docs/outbox-pattern.md](docs/outbox-pattern.md).
 cp .env.example .env && make dev   # local stack + server
 make test                          # unit tests
 make it                            # Cucumber + Testcontainers
-make verify                        # full Maven verify
+make verify                        # CI-like verify (SpotBugs; skips OWASP)
+make verify-all                    # full verify incl. OWASP (slow)
+make spotbugs                      # SpotBugs only
+make dependency-check              # OWASP only
+make security                      # SpotBugs + OWASP
 make format                        # Eclipse formatter
 ```
 
