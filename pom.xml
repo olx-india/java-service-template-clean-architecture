@@ -31,7 +31,7 @@
         <maven.compiler.release>21</maven.compiler.release>
         <spring-boot-version>3.1.4</spring-boot-version>
         <resilience4j.version>2.1.0</resilience4j.version>
-        <spring-data-redis-version>2.7.2</spring-data-redis-version>
+        <spring-data-redis-version>4.0.5</spring-data-redis-version>
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
         <newrelic.version>8.9.1</newrelic.version>
         <maven.surefire.plugin.version>2.22.1</maven.surefire.plugin.version>
