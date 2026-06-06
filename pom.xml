@@ -68,7 +68,7 @@
         <spring-cloud-commons.version>5.0.0</spring-cloud-commons.version>
 
         <!-- Database -->
-        <postgres.version>42.5.0</postgres.version>
+        <postgres.version>42.7.11</postgres.version>
         <beanutils.version>1.11.0</beanutils.version>
 
         <!-- HTTP / networking -->
