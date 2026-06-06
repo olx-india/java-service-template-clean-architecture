@@ -13,8 +13,11 @@ Tracks **upstream template** changes by date. This repo does not use versioned r
 ### Changed
 
 - **Spring Boot** — upgraded from 3.1.4 to **4.0.6** (Spring Framework 7, Jakarta EE 11)
+- **`pom.xml`** — reorganized properties, dependencies, and build plugins into logical sections; removed duplicate/unused properties; dropped redundant Boot starter versions (parent BOM); scoped IT-only deps (`rest-assured`, `docker-compose-rule-junit4`) to `test`
 - **`pom.xml`** — `spring-boot-starter-aspectj` (replaces `starter-aop`), `resilience4j-spring-boot4` 2.4.0, `springdoc-openapi` 3.0.3, `mysql-connector-j`, `spring-cloud-commons` 5.0.0; removed pinned `spring-data-redis` version
 - **`ClientControllerTest`** — `getStatusCode().value()` (replaces removed `getStatusCodeValue()`)
+- **Logging** — removed pinned `slf4j-api` / `logback-classic` overrides (aligned with Boot 4 BOM); `logstash-logback-encoder` 8.1
+- **Redis** — `spring-boot-starter-data-redis` (registers health contributor); Jedis **7.0.0** via BOM (was 3.9.0)
 
 ## 2026-06-05
 
