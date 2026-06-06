@@ -8,6 +8,14 @@ Tracks **upstream template** changes by date. This repo does not use versioned r
 
 ---
 
+## 2026-06-06
+
+### Changed
+
+- **Spring Boot** — upgraded from 3.1.4 to **4.0.6** (Spring Framework 7, Jakarta EE 11)
+- **`pom.xml`** — `spring-boot-starter-aspectj` (replaces `starter-aop`), `resilience4j-spring-boot4` 2.4.0, `springdoc-openapi` 3.0.3, `mysql-connector-j`, `spring-cloud-commons` 5.0.0; removed pinned `spring-data-redis` version
+- **`ClientControllerTest`** — `getStatusCode().value()` (replaces removed `getStatusCodeValue()`)
+
 ## 2026-06-05
 
 ### Added

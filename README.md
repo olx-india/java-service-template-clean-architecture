@@ -3,7 +3,7 @@
 A production-ready **Spring Boot** template for building Java microservices using **Clean Architecture**. Use it to bootstrap new services with multi-tenancy, Redis caching, Kafka, database migrations, and observability built in.
 
 [![Java 21](https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk)](https://docs.oracle.com/en/java/javase/21/)
-[![Spring Boot 3.1](https://img.shields.io/badge/Spring%20Boot-3.1-6DB33F?logo=spring)](https://spring.io/projects/spring-boot)
+[![Spring Boot 4.0](https://img.shields.io/badge/Spring%20Boot-4.0-6DB33F?logo=spring)](https://spring.io/projects/spring-boot)
 [![Maven](https://img.shields.io/badge/Maven-3.6+-C71A36?logo=apachemaven)](https://maven.apache.org/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -31,7 +31,7 @@ See [docs/features.md](docs/features.md) for a full breakdown.
 | Category        | Technology                    |
 |----------------|-------------------------------|
 | Runtime        | Java 21                        |
-| Framework      | Spring Boot 3.1.4              |
+| Framework      | Spring Boot 4.0.6              |
 | Build          | Maven 3.6+ (wrapper included)  |
 | Database       | MySQL 8, Flyway                |
 | Cache          | Redis, Spring Cache            |

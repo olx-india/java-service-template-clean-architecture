@@ -52,7 +52,7 @@ class ClientControllerTest {
 
         ResponseEntity<Object> response = clientController.test(topic, payload);
 
-        assertEquals(202, response.getStatusCodeValue()); // HTTP 202 Accepted
+        assertEquals(202, response.getStatusCode().value()); // HTTP 202 Accepted
         verify(kafkaProducerService).publish(topic, String.valueOf(payload));
     }
 }

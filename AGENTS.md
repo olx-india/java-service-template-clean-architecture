@@ -6,7 +6,7 @@ Instructions for **Cursor**, **Claude Code**, and other coding agents working on
 
 ## Project
 
-Spring Boot 3.1 **Clean Architecture** Java template (`com.olx.boilerplate`). JDK **21** only. Maven wrapper: `./mvnw -s settings.xml`.
+Spring Boot 4.0 **Clean Architecture** Java template (`com.olx.boilerplate`). JDK **21** only. Maven wrapper: `./mvnw -s settings.xml`.
 
 ## Before you change code
 

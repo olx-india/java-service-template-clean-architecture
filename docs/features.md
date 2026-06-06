@@ -66,7 +66,7 @@ Production-ready capabilities included in this Spring Boot template.
 | Category | Technology |
 |----------|------------|
 | Runtime | Java 21 |
-| Framework | Spring Boot 3.1 |
+| Framework | Spring Boot 4.0 |
 | Build | Maven 3.6+ |
 | Database | MySQL 8, Flyway |
 | Cache | Redis, Spring Cache |
