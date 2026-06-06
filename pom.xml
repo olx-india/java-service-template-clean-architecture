@@ -84,7 +84,7 @@
         <guava.version>32.0.0-jre</guava.version>
         <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
         <jaxb-api.version>2.3.0</jaxb-api.version>
-        <lombok.version>1.18.36</lombok.version>
+        <lombok.version>1.18.46</lombok.version>
         <tika-core.version>2.9.0</tika-core.version>
         <java-jwt.version>3.2.0</java-jwt.version>
         <annotations.version>23.0.0</annotations.version>
