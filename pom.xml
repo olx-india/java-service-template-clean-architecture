@@ -75,7 +75,7 @@
         <httpclient.version>4.5.14</httpclient.version>
         <httpclient5.version>5.2.1</httpclient5.version>
         <httpmime.version>4.5.13</httpmime.version>
-        <okhttp3.okhttp.version>4.9.2</okhttp3.okhttp.version>
+        <okhttp3.okhttp.version>5.3.2</okhttp3.okhttp.version>
         <retorfit.version>2.9.0</retorfit.version>
 
         <!-- Serialization / utilities -->
