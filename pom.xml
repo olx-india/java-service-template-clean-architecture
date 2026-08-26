@@ -97,7 +97,7 @@
         <logstash-logback-encoder.version>8.1</logstash-logback-encoder.version>
 
         <!-- Observability -->
-        <opentelemetry-exporter-otlp.version>1.31.0</opentelemetry-exporter-otlp.version>
+        <opentelemetry-exporter-otlp.version>1.63.0</opentelemetry-exporter-otlp.version>
 
         <!-- Testing -->
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
