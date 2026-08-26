@@ -104,7 +104,7 @@
         <org.testcontainers-junit-jupiter.version>1.21.4</org.testcontainers-junit-jupiter.version>
         <archunit.version>1.2.1</archunit.version>
         <wiremock.version>3.3.1</wiremock.version>
-        <cucumber.version>6.10.3</cucumber.version>
+        <cucumber.version>7.34.3</cucumber.version>
         <cucumber-reporting.version>5.4.0</cucumber-reporting.version>
         <extentreports-cucumber4-adapter.version>1.0.6</extentreports-cucumber4-adapter.version>
         <messages.version>15.0.0</messages.version>
