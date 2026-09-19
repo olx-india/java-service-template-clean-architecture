@@ -1,16 +1,16 @@
 package com.olx.boilerplate.infrastructure.outbox;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.olx.boilerplate.domain.event.OrderCreatedEvent;
 import com.olx.boilerplate.domain.event.OutboxEventTypes;
 import com.olx.boilerplate.domain.event.UserCreatedEvent;
-import com.olx.boilerplate.logging.AppLogger;
-import com.olx.boilerplate.logging.AppLoggers;
 import com.olx.boilerplate.domain.port.EventPublisher;
 import com.olx.boilerplate.infrastructure.data.entities.OutboxEventData;
 import com.olx.boilerplate.infrastructure.data.repository.OutboxEventJpaRepository;
+import com.olx.boilerplate.logging.AppLogger;
+import com.olx.boilerplate.logging.AppLoggers;
 import org.springframework.stereotype.Component;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @Component
 public class OutboxEventPublisher implements EventPublisher {
@@ -45,7 +45,7 @@ public class OutboxEventPublisher implements EventPublisher {
                             .published(false)
                             .build();
             outboxEventJpaRepository.save(outboxEvent);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new IllegalStateException("Failed to serialize outbox event: " + eventType, e);
         }
     }

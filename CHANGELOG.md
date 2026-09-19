@@ -24,7 +24,7 @@ Tracks **upstream template** changes by date. This repo does not use versioned r
 
 ### Changed
 
-- **Dockerfile** — Temurin 21 multi-stage JRE, pinned OTel agent, HEALTHCHECK
+- **Dockerfile** — Temurin 21 multi-stage JRE on Ubuntu Noble (fewer CRITICAL OS CVEs than Jammy), pinned OTel agent, HEALTHCHECK
 - **Dockerfile.Migrate** — public `flyway/flyway` default
 - **TenantFilter** — clears tenant context; JSON 400 without tenant; skips health/swagger
 - **ClientController** — `@Profile("local")` only
@@ -39,3 +39,4 @@ Tracks **upstream template** changes by date. This repo does not use versioned r
 - **`.env` gitignored** (was documented but missing)
 - **otel-config.yml** rename (was `otel-confg.yml`)
 - **CI** — formatter after main merge (`SecurityConfig`); Trivy action `@v0.36.0` (fixes broken `setup-trivy@v0.2.1` pin in `@v0.28.0`); Dockerfile copies explicit boot JAR
+- **Jackson 3** — inject `tools.jackson.databind.ObjectMapper` (Boot 4 auto-config); fixes IT `TenantFilter` / outbox wiring

@@ -3,7 +3,7 @@ ARG IMAGE_PREFIX=""
 ARG OTEL_JAVA_AGENT_VERSION=1.33.5
 ARG JAR_FILE=target/boilerplate-0.1.0.jar
 
-FROM ${IMAGE_PREFIX}eclipse-temurin:21-jdk-jammy AS builder
+FROM ${IMAGE_PREFIX}eclipse-temurin:21-jdk-noble AS builder
 ARG OTEL_JAVA_AGENT_VERSION
 RUN apt-get update && apt-get install -y --no-install-recommends curl \
   && mkdir -p /opt/otel \
@@ -11,11 +11,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl \
     "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v${OTEL_JAVA_AGENT_VERSION}/opentelemetry-javaagent.jar" \
   && rm -rf /var/lib/apt/lists/*
 
-FROM ${IMAGE_PREFIX}eclipse-temurin:21-jre-jammy
+FROM ${IMAGE_PREFIX}eclipse-temurin:21-jre-noble
 
+# Noble images already ship uid/gid 1000 (ubuntu); reuse when present.
 RUN apt-get update && apt-get install -y --no-install-recommends curl \
-  && groupadd --gid 1000 userEntity \
-  && useradd --uid 1000 --gid 1000 --shell /bin/bash userEntity \
+  && (getent group 1000 >/dev/null || groupadd --gid 1000 app) \
+  && (id -u 1000 >/dev/null 2>&1 || useradd --uid 1000 --gid 1000 --shell /bin/bash app) \
   && mkdir -p /app/scripts /opt/otel \
   && rm -rf /var/lib/apt/lists/*
 

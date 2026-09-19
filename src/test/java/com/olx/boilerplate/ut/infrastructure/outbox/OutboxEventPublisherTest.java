@@ -1,7 +1,8 @@
 package com.olx.boilerplate.ut.infrastructure.outbox;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import com.olx.boilerplate.domain.event.OutboxEventTypes;
 import com.olx.boilerplate.domain.event.UserCreatedEvent;
 import com.olx.boilerplate.infrastructure.data.entities.OutboxEventData;
@@ -24,7 +25,7 @@ class OutboxEventPublisherTest {
     @Mock
     private OutboxEventJpaRepository outboxEventJpaRepository;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new JsonMapper();
     private OutboxEventPublisher outboxEventPublisher;
 
     @BeforeEach

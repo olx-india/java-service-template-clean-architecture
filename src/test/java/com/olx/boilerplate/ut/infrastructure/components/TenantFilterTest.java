@@ -1,6 +1,6 @@
 package com.olx.boilerplate.ut.infrastructure.components;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import com.olx.boilerplate.infrastructure.appConfig.AppConfig;
 import com.olx.boilerplate.infrastructure.appConfig.tenant.TenantContextHolder;
 import com.olx.boilerplate.infrastructure.components.TenantFilter;
@@ -45,7 +45,7 @@ class TenantFilterTest {
 
     @BeforeEach
     void setUp() {
-        tenantFilter = new TenantFilter(appConfig, new ObjectMapper());
+        tenantFilter = new TenantFilter(appConfig, new JsonMapper());
         when(appConfig.getTenants()).thenReturn(validTenants);
     }
 

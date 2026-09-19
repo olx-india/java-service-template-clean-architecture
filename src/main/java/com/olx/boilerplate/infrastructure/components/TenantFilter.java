@@ -1,6 +1,6 @@
 package com.olx.boilerplate.infrastructure.components;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.olx.boilerplate.infrastructure.appConfig.AppConfig;
 import com.olx.boilerplate.infrastructure.appConfig.tenant.Tenant;
 import com.olx.boilerplate.infrastructure.appConfig.tenant.TenantContextHolder;
