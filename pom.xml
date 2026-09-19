@@ -64,28 +64,27 @@
         <!-- Spring ecosystem -->
         <resilience4j.version>2.4.0</resilience4j.version>
         <springdoc-openapi-starter-webmvc-ui.version>3.0.3</springdoc-openapi-starter-webmvc-ui.version>
-        <spring-retry.version>2.0.4</spring-retry.version>
+        <spring-retry.version>2.0.13</spring-retry.version>
         <spring-cloud-commons.version>5.0.0</spring-cloud-commons.version>
 
         <!-- Database -->
-        <postgres.version>42.5.0</postgres.version>
+        <postgres.version>42.7.13</postgres.version>
         <beanutils.version>1.11.0</beanutils.version>
 
         <!-- HTTP / networking -->
         <httpclient.version>4.5.14</httpclient.version>
-        <httpclient5.version>5.2.1</httpclient5.version>
+        <httpclient5.version>5.6.4</httpclient5.version>
         <httpmime.version>4.5.13</httpmime.version>
         <okhttp3.okhttp.version>4.9.2</okhttp3.okhttp.version>
         <retorfit.version>2.9.0</retorfit.version>
 
         <!-- Serialization / utilities -->
-        <jackson-core.version>2.16.0</jackson-core.version>
         <gson.version>2.10.1</gson.version>
         <guava.version>32.0.0-jre</guava.version>
         <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
         <jaxb-api.version>2.3.0</jaxb-api.version>
         <lombok.version>1.18.36</lombok.version>
-        <tika-core.version>2.9.0</tika-core.version>
+        <tika-core.version>3.2.3</tika-core.version>
         <java-jwt.version>3.2.0</java-jwt.version>
         <annotations.version>23.0.0</annotations.version>
         <android-json.version>0.0.20131108.vaadin1</android-json.version>
@@ -275,11 +274,6 @@
         </dependency>
 
         <!-- Serialization / utilities -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${jackson-core.version}</version>
-        </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>

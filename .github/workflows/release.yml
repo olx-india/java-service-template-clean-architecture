@@ -23,7 +23,7 @@ jobs:
         run: mvn -s settings.xml clean package -DskipIntegration=true -DskipDependenciesCheck=true -DskipVerifications=true
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: target/boilerplate-*.jar
           generate_release_notes: true
