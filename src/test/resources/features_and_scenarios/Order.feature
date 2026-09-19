@@ -2,7 +2,7 @@
 Feature: Order API Integration Tests
 
   Background:
-    Given I have http://0.0.0.0:8080/ host
+    Given I have the API host
 
   Scenario: Create a new order successfully
     Given I have /api/v1/orders API
