@@ -40,3 +40,4 @@ build/
 
 env.sh
 .env
+.render/
