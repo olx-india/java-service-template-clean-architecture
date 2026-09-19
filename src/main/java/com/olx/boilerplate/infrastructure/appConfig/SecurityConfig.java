@@ -57,8 +57,8 @@ public class SecurityConfig {
                         .ignoringRequestMatchers(request -> {
                             String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
                             return authorization != null && authorization.regionMatches(true, 0,
-                                                                                        JwtAuthenticationFilter.BEARER_PREFIX, 0,
-                                                                                        JwtAuthenticationFilter.BEARER_PREFIX_LENGTH);
+                                            JwtAuthenticationFilter.BEARER_PREFIX, 0,
+                                            JwtAuthenticationFilter.BEARER_PREFIX_LENGTH);
                         }))
                         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
