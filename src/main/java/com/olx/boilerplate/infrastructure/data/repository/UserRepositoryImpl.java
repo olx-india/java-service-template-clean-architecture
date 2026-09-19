@@ -1,10 +1,11 @@
 package com.olx.boilerplate.infrastructure.data.repository;
 
+import com.olx.boilerplate.domain.PageQuery;
+import com.olx.boilerplate.domain.PageResult;
 import com.olx.boilerplate.domain.User;
 import com.olx.boilerplate.domain.repository.UserRepository;
 import com.olx.boilerplate.infrastructure.data.entities.UserData;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -29,8 +30,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Page<User> findAll(Pageable pageable) {
-        return jpaUserRepository.findAll(pageable).map(UserData::fromThis);
+    public PageResult<User> findAll(PageQuery pageQuery) {
+        var page = jpaUserRepository.findAll(PageRequest.of(pageQuery.page(), pageQuery.size()));
+        return PageResult.of(page.getContent().stream().map(UserData::fromThis).toList(), page.getNumber(),
+                             page.getSize(), page.getTotalElements());
     }
 
     @Override

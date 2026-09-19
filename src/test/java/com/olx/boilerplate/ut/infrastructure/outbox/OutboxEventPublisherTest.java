@@ -1,6 +1,7 @@
 package com.olx.boilerplate.ut.infrastructure.outbox;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.olx.boilerplate.domain.event.OutboxEventTypes;
 import com.olx.boilerplate.domain.event.UserCreatedEvent;
 import com.olx.boilerplate.infrastructure.data.entities.OutboxEventData;
@@ -23,15 +24,16 @@ class OutboxEventPublisherTest {
     @Mock
     private OutboxEventJpaRepository outboxEventJpaRepository;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private OutboxEventPublisher outboxEventPublisher;
 
     @BeforeEach
     void setUp() {
-        outboxEventPublisher = new OutboxEventPublisher(outboxEventJpaRepository, new Gson());
+        outboxEventPublisher = new OutboxEventPublisher(outboxEventJpaRepository, objectMapper);
     }
 
     @Test
-    void publishUserCreated_shouldPersistUnpublishedOutboxEvent() {
+    void publishUserCreated_shouldPersistUnpublishedOutboxEvent() throws Exception {
         UserCreatedEvent event = new UserCreatedEvent(42L, "Jane", "jane@example.com");
 
         outboxEventPublisher.publishUserCreated(event);
@@ -42,6 +44,10 @@ class OutboxEventPublisherTest {
         OutboxEventData saved = captor.getValue();
         assertEquals(OutboxEventTypes.USER_CREATED, saved.getEventType());
         assertFalse(saved.isPublished());
-        assertEquals("{\"userId\":42,\"name\":\"Jane\",\"email\":\"jane@example.com\"}", saved.getPayload());
+
+        JsonNode payload = objectMapper.readTree(saved.getPayload());
+        assertEquals(42L, payload.get("userId").asLong());
+        assertEquals("Jane", payload.get("name").asText());
+        assertEquals("jane@example.com", payload.get("email").asText());
     }
 }

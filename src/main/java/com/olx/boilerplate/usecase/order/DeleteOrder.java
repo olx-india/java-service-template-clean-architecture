@@ -4,6 +4,7 @@ import com.olx.boilerplate.domain.repository.OrderRepository;
 import com.olx.boilerplate.domain.exception.ResourceNotFoundException;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class DeleteOrder {
@@ -14,6 +15,7 @@ public class DeleteOrder {
         this.orderRepository = orderRepository;
     }
 
+    @Transactional
     @CacheEvict(value = "orders", allEntries = true)
     public void execute(Long id) {
         if (orderRepository.findById(id).isEmpty()) {

@@ -6,6 +6,7 @@ import com.olx.boilerplate.domain.exception.ResourceNotFoundException;
 import com.olx.boilerplate.usecase.order.command.UpdateOrderCommand;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class UpdateOrder {
@@ -16,6 +17,7 @@ public class UpdateOrder {
         this.orderRepository = orderRepository;
     }
 
+    @Transactional
     @CacheEvict(value = "orders", allEntries = true)
     public Order execute(UpdateOrderCommand command) {
         Order order = orderRepository.findById(command.getId())

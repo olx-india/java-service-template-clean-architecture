@@ -37,11 +37,11 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   otel-collector:
-    image: otel/opentelemetry-collector:latest
+    image: otel/opentelemetry-collector:0.96.0
     restart: always
     command: [ "--config=/etc/otel-collector-config.yml" ]
     volumes:
-      - ./otel-confg.yml:/etc/otel-collector-config.yml
+      - ./otel-config.yml:/etc/otel-collector-config.yml
     ports:
       - "4317:4317"
       - "4318:4318"

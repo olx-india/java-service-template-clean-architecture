@@ -4,8 +4,8 @@ import lombok.Data;
 import lombok.Setter;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.olx.boilerplate.domain.port.AppLogger;
+import com.olx.boilerplate.domain.port.AppLoggers;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,7 +18,7 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "datasource")
 public class DataSourceConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceConfig.class);
+    private static final AppLogger LOGGER = AppLoggers.getLogger(DataSourceConfig.class);
 
     private static final String MASTER_DATA_SOURCE = "masterDataSource";
     private static final String REPLICA_DATA_SOURCE = "replicaDataSource";

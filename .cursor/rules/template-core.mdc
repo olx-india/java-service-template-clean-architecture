@@ -12,5 +12,5 @@ alwaysApply: true
 - Events: use `EventPublisher` port → `OutboxEventPublisher`; not direct Kafka from use cases
 - API tests/requests: header `X-Default-Tenant: default`
 - Local run: `make dev` (loads `.env`, infra, migrate, server)
-- Maintainer log: REPO_CHANGELOG.md by date; CHANGELOG.md stays empty for fork users
+- Maintainer log: CHANGELOG.md by date
 - Docs: docs/README.md; deep dives in docs/clean-architecture.md, docs/outbox-pattern.md

@@ -13,7 +13,7 @@ Spring Boot 4.0 **Clean Architecture** Java template (`com.olx.boilerplate`). JD
 1. Read [docs/clean-architecture.md](docs/clean-architecture.md) for layer rules.
 2. Prefer **minimal diffs** — match existing naming, packages, and patterns.
 3. Run **`make test`** after logic changes; **`make it`** if IT/Cucumber/Docker/Testcontainers touched (requires Docker).
-4. Template maintainer changes → update **[REPO_CHANGELOG.md](REPO_CHANGELOG.md)** by date. Do **not** fill **[CHANGELOG.md](CHANGELOG.md)** (empty for fork owners).
+4. Template maintainer changes → update **[CHANGELOG.md](CHANGELOG.md)** by date.
 
 ## Layer rules (enforced by ArchUnit)
 
@@ -38,7 +38,7 @@ Spring Boot 4.0 **Clean Architecture** Java template (`com.olx.boilerplate`). JD
 4. `infrastructure/data` — JPA entity + `*RepositoryImpl` + Spring Data interface
 5. `db/migration/common/` — Flyway SQL if schema changes
 6. Tests — unit under `ut/`; optional Cucumber under `features_and_scenarios/`
-7. API calls need header **`X-Default-Tenant: default`**
+7. API calls need header **`X-Default-Tenant: default`**; paths under **`/api/v1/...`**
 
 ### Add a domain event (outbox)
 
