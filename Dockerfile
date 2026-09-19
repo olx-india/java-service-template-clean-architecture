@@ -1,6 +1,6 @@
 # Multi-stage runtime image for the service
 ARG IMAGE_PREFIX=""
-ARG OTEL_JAVA_AGENT_VERSION=1.33.5
+ARG OTEL_JAVA_AGENT_VERSION=2.31.1
 ARG JAR_FILE=target/boilerplate-0.1.0.jar
 
 FROM ${IMAGE_PREFIX}eclipse-temurin:21-jdk-noble AS builder

@@ -40,3 +40,4 @@ Tracks **upstream template** changes by date. This repo does not use versioned r
 - **otel-config.yml** rename (was `otel-confg.yml`)
 - **CI** — formatter after main merge (`SecurityConfig`); Trivy action `@v0.36.0` (fixes broken `setup-trivy@v0.2.1` pin in `@v0.28.0`); Dockerfile copies explicit boot JAR
 - **Jackson 3** — inject `tools.jackson.databind.ObjectMapper` (Boot 4 auto-config); fixes IT `TenantFilter` / outbox wiring
+- **Container scan CVEs** — Boot `4.0.8` + Tomcat `11.0.26`; OTel Java agent `2.31.1` (fixes CRITICAL Trivy jar findings)
