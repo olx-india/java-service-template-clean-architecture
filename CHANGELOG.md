@@ -38,4 +38,4 @@ Tracks **upstream template** changes by date. This repo does not use versioned r
 
 - **`.env` gitignored** (was documented but missing)
 - **otel-config.yml** rename (was `otel-confg.yml`)
-- **CI** — formatter after main merge (`SecurityConfig`); Trivy action tag `v0.28.0`; Dockerfile copies explicit boot JAR
+- **CI** — formatter after main merge (`SecurityConfig`); Trivy action `@v0.36.0` (fixes broken `setup-trivy@v0.2.1` pin in `@v0.28.0`); Dockerfile copies explicit boot JAR
