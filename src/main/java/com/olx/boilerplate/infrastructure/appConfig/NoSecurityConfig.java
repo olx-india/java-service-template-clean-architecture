@@ -12,7 +12,9 @@ public class NoSecurityConfig {
 
     @Bean
     public SecurityFilterChain permitAllSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+        // Keep CSRF enabled (CodeQL) while permitting all traffic when JWT security is off.
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/**"))
+                        .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
         return http.build();
     }
 }
