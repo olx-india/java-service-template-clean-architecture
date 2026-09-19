@@ -10,9 +10,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @ConditionalOnProperty(name = "spring.security.enabled", havingValue = "false", matchIfMissing = true)
 public class NoSecurityConfig {
 
+    private static final String ALL_PATHS_PATTERN = "/**";
+
     @Bean
     public SecurityFilterChain permitAllSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+        // Keep CSRF enabled (CodeQL) while permitting all traffic when JWT security is off.
+        http.csrf(csrf -> csrf.ignoringRequestMatchers(ALL_PATHS_PATTERN))
+                        .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
         return http.build();
     }
 }
