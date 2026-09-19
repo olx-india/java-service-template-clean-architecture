@@ -17,6 +17,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.olx.boilerplate.infrastructure.components.JwtAuthenticationFilter;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -24,6 +25,22 @@ import java.util.List;
 @EnableMethodSecurity
 @ConditionalOnProperty(name = "spring.security.enabled", havingValue = "true", matchIfMissing = false)
 public class SecurityConfig {
+
+    private static final String[] PUBLIC_ENDPOINTS = {
+            "/health",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/actuator/**"
+    };
+    private static final String CORS_PATH_PATTERN = "/**";
+    private static final String CORS_ALLOW_ALL = "*";
+    private static final String[] CORS_ALLOWED_METHODS = {
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "OPTIONS"
+    };
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -38,12 +55,14 @@ public class SecurityConfig {
                         // JWT bearer APIs do not use cookie session auth; CSRF applies to browser/cookie flows.
                         .ignoringRequestMatchers(request -> {
                             String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-                            return authorization != null && authorization.regionMatches(true, 0, "Bearer ", 0, 7);
+                            return authorization != null && authorization.regionMatches(true, 0,
+                                            JwtAuthenticationFilter.BEARER_PREFIX, 0,
+                                            JwtAuthenticationFilter.BEARER_PREFIX_LENGTH);
                         }))
                         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                         .authorizeHttpRequests(auth -> auth
-                                        .requestMatchers("/health", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/**")
+                                        .requestMatchers(PUBLIC_ENDPOINTS)
                                         .permitAll()
                                         .anyRequest().authenticated())
                         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -53,11 +72,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedOrigins(List.of(CORS_ALLOW_ALL));
+        configuration.setAllowedMethods(Arrays.asList(CORS_ALLOWED_METHODS));
+        configuration.setAllowedHeaders(List.of(CORS_ALLOW_ALL));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration(CORS_PATH_PATTERN, configuration);
         return source;
     }
 }
