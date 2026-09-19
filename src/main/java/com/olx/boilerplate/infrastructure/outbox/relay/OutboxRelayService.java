@@ -1,7 +1,7 @@
 package com.olx.boilerplate.infrastructure.outbox.relay;
 
-import com.olx.boilerplate.domain.port.AppLogger;
-import com.olx.boilerplate.domain.port.AppLoggers;
+import com.olx.boilerplate.logging.AppLogger;
+import com.olx.boilerplate.logging.AppLoggers;
 import com.olx.boilerplate.infrastructure.components.KafkaProducerService;
 import com.olx.boilerplate.infrastructure.data.entities.OutboxEventData;
 import com.olx.boilerplate.infrastructure.data.repository.OutboxEventJpaRepository;

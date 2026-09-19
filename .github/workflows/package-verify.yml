@@ -24,7 +24,7 @@ jobs:
           cache: maven
 
       - name: Verify (unit + quality gates)
-        run: mvn -s settings.xml verify -DskipIntegration=true -DskipDependenciesCheck=true
+        run: ./mvnw -s settings.xml verify -DskipIntegration=true -DskipDependenciesCheck=true
 
   integration-tests:
     runs-on: ubuntu-latest
@@ -40,7 +40,7 @@ jobs:
           cache: maven
 
       - name: Run integration tests
-        run: mvn -s settings.xml clean integration-test -DskipUnitTests=true -DskipDependenciesCheck=true -DskipVerifications=true
+        run: ./mvnw -s settings.xml clean integration-test -DskipUnitTests=true -DskipDependenciesCheck=true -DskipVerifications=true
 
       - name: Upload JaCoCo reports
         uses: actions/upload-artifact@v7

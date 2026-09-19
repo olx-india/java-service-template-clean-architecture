@@ -1,7 +1,7 @@
 package com.olx.boilerplate.infrastructure.outbox.relay;
 
-import com.olx.boilerplate.domain.port.AppLogger;
-import com.olx.boilerplate.domain.port.AppLoggers;
+import com.olx.boilerplate.logging.AppLogger;
+import com.olx.boilerplate.logging.AppLoggers;
 import com.olx.boilerplate.infrastructure.appConfig.OutboxRelayProperties;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;

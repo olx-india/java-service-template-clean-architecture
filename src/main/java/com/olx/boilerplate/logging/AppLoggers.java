@@ -1,4 +1,4 @@
-package com.olx.boilerplate.domain.port;
+package com.olx.boilerplate.logging;
 
 import java.util.Objects;
 

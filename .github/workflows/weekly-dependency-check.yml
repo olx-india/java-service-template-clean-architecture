@@ -21,4 +21,4 @@ jobs:
           cache: maven
 
       - name: Full verify including OWASP
-        run: mvn -s settings.xml verify -DskipIntegration=true -DskipDependenciesCheck=false
+        run: ./mvnw -s settings.xml verify -DskipIntegration=true -DskipDependenciesCheck=false

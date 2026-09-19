@@ -1,6 +1,7 @@
 # Multi-stage runtime image for the service
 ARG IMAGE_PREFIX=""
 ARG OTEL_JAVA_AGENT_VERSION=1.33.5
+ARG JAR_FILE=target/boilerplate-0.1.0.jar
 
 FROM ${IMAGE_PREFIX}eclipse-temurin:21-jdk-jammy AS builder
 ARG OTEL_JAVA_AGENT_VERSION
@@ -20,7 +21,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl \
 
 COPY --from=builder --chown=1000:1000 /opt/otel/opentelemetry-javaagent.jar /opt/otel/opentelemetry-javaagent.jar
 
-COPY --chown=1000:1000 target/*.jar /app/app.jar
+ARG JAR_FILE
+COPY --chown=1000:1000 ${JAR_FILE} /app/app.jar
 COPY --chown=1000:1000 entrypoint.sh /app/scripts/
 RUN chmod +x /app/scripts/entrypoint.sh
 

@@ -1,7 +1,7 @@
 package com.olx.boilerplate.infrastructure.components;
 
-import com.olx.boilerplate.domain.port.AppLogger;
-import com.olx.boilerplate.domain.port.AppLoggers;
+import com.olx.boilerplate.logging.AppLogger;
+import com.olx.boilerplate.logging.AppLoggers;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.retry.Retry;
 import lombok.SneakyThrows;

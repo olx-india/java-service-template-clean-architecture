@@ -1,7 +1,7 @@
 package com.olx.boilerplate.infrastructure.logging;
 
-import com.olx.boilerplate.domain.port.AppLogger;
-import com.olx.boilerplate.domain.port.AppLoggerBackend;
+import com.olx.boilerplate.logging.AppLogger;
+import com.olx.boilerplate.logging.AppLoggerBackend;
 import org.slf4j.LoggerFactory;
 
 /**

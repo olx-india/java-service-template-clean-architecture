@@ -12,7 +12,7 @@ Tracks **upstream template** changes by date. This repo does not use versioned r
 
 ### Added
 
-- **AppLogger port** — `domain.port.AppLogger` / `AppLoggers` with SLF4J adapter under `infrastructure.logging`; ArchUnit forbids direct SLF4J outside that package
+- **AppLogger facade** — `com.olx.boilerplate.logging` (`AppLogger` / `AppLoggers`); SLF4J adapter under `infrastructure.logging`. Domain ports stay business-only (`EventPublisher`, repositories). ArchUnit forbids direct SLF4J outside the adapter package.
 - **OIDC security mode** — `security.mode=oidc` with Spring OAuth2 resource server; HMAC JWT remains `security.mode=hmac`
 - **API versioning** — sample APIs under `/api/v1/users` and `/api/v1/orders`
 - **Domain pagination** — `PageQuery` / `PageResult` on repository ports (no Spring Data in domain)
@@ -38,3 +38,4 @@ Tracks **upstream template** changes by date. This repo does not use versioned r
 
 - **`.env` gitignored** (was documented but missing)
 - **otel-config.yml** rename (was `otel-confg.yml`)
+- **CI** — formatter after main merge (`SecurityConfig`); Trivy action tag `v0.28.0`; Dockerfile copies explicit boot JAR

@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: read
-  security-events: write
 
 jobs:
   build-and-scan:
@@ -24,13 +23,19 @@ jobs:
           cache: maven
 
       - name: Package jar
-        run: mvn -s settings.xml -DskipTests -DskipIntegration=true package
+        run: ./mvnw -s settings.xml -DskipTests -DskipIntegration=true -DskipDependenciesCheck=true -DskipVerifications=true package
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Build image
-        run: docker build -t boilerplate:ci .
+        run: |
+          # Prefer the Spring Boot repackaged jar; exclude sources/original
+          JAR=$(ls target/boilerplate-*.jar | grep -v sources | grep -v original | head -1)
+          docker build --build-arg JAR_FILE="$JAR" -t boilerplate:ci .
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.28.0
         with:
           image-ref: boilerplate:ci
           format: table

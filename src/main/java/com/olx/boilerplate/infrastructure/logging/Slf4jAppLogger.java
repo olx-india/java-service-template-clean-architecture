@@ -1,6 +1,6 @@
 package com.olx.boilerplate.infrastructure.logging;
 
-import com.olx.boilerplate.domain.port.AppLogger;
+import com.olx.boilerplate.logging.AppLogger;
 import org.slf4j.Logger;
 
 final class Slf4jAppLogger implements AppLogger {

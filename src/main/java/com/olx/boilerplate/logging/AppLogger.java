@@ -1,7 +1,8 @@
-package com.olx.boilerplate.domain.port;
+package com.olx.boilerplate.logging;
 
 /**
- * Application logging port. Call sites must use {@link AppLoggers} — never SLF4J directly.
+ * Application logging facade. Prefer {@link AppLoggers} over SLF4J at call sites. Domain ports stay business-facing
+ * ({@code EventPublisher}, repositories); logging is not one of them.
  */
 public interface AppLogger {
 

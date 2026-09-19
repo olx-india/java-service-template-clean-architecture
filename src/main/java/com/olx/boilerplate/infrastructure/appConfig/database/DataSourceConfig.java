@@ -4,8 +4,8 @@ import lombok.Data;
 import lombok.Setter;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
-import com.olx.boilerplate.domain.port.AppLogger;
-import com.olx.boilerplate.domain.port.AppLoggers;
+import com.olx.boilerplate.logging.AppLogger;
+import com.olx.boilerplate.logging.AppLoggers;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 

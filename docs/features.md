@@ -48,7 +48,7 @@ Production-ready capabilities included in this Spring Boot Clean Architecture te
 - **Prometheus metrics** — Exposed on management port 8081 at `/metrics`
 - **Health probes** — Liveness and readiness endpoints for Kubernetes
 - **Correlation IDs** — `CorrelationIdFilter` adds `tid` / `cid` via `AppMdc`
-- **AppLogger** — application code uses `AppLoggers.getLogger`; SLF4J is an infrastructure adapter only
+- **AppLogger** — `com.olx.boilerplate.logging.AppLoggers` (not a domain port); SLF4J is an infrastructure adapter only
 - **OpenTelemetry** — Agent in Dockerfile; Micrometer Tracing bridge for local runs; OTel collector in Compose
 - **Custom actuator endpoints** — Cache eviction and custom health extensions
 

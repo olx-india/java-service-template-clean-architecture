@@ -1,8 +1,8 @@
 package com.olx.boilerplate.infrastructure.exceptions;
 
 import com.olx.boilerplate.domain.exception.ResourceNotFoundException;
-import com.olx.boilerplate.domain.port.AppLogger;
-import com.olx.boilerplate.domain.port.AppLoggers;
+import com.olx.boilerplate.logging.AppLogger;
+import com.olx.boilerplate.logging.AppLoggers;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
