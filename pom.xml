@@ -84,7 +84,7 @@
         <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
         <jaxb-api.version>2.3.0</jaxb-api.version>
         <lombok.version>1.18.36</lombok.version>
-        <tika-core.version>3.2.3</tika-core.version>
+        <tika-core.version>4.0.0</tika-core.version>
         <java-jwt.version>3.2.0</java-jwt.version>
         <annotations.version>23.0.0</annotations.version>
         <android-json.version>0.0.20131108.vaadin1</android-json.version>
