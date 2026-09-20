@@ -57,7 +57,7 @@
         <maven.surefire.plugin.version>2.22.1</maven.surefire.plugin.version>
         <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
         <maven.spotbugs.plugin.version>3.1.9</maven.spotbugs.plugin.version>
-        <owasp.maven.version>6.5.3</owasp.maven.version>
+        <owasp.maven.version>13.0.0</owasp.maven.version>
         <dependency.check.report.dir>${project.build.directory}/dependency-check</dependency.check.report.dir>
         <asm.version>6.1.1</asm.version>
 
