@@ -6,6 +6,7 @@ import com.olx.boilerplate.domain.exception.ResourceNotFoundException;
 import com.olx.boilerplate.usecase.users.command.UpdateUserCommand;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class UpdateUser {
@@ -16,6 +17,7 @@ public class UpdateUser {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     @CacheEvict(value = "users", allEntries = true)
     public User execute(UpdateUserCommand command) {
         User user = userRepository.findById(command.getId())

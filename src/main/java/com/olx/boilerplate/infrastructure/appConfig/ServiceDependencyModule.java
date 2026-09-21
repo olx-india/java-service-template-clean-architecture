@@ -20,8 +20,8 @@ import io.github.resilience4j.retry.RetryConfig;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import org.apache.commons.lang3.ObjectUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.olx.boilerplate.logging.AppLogger;
+import com.olx.boilerplate.logging.AppLoggers;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +48,7 @@ import static java.time.Duration.ofMillis;
 @Configuration
 public class ServiceDependencyModule {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceDependencyModule.class);
+    private static final AppLogger LOGGER = AppLoggers.getLogger(ServiceDependencyModule.class);
 
     /* Circuit Breakers Config */
     @Bean

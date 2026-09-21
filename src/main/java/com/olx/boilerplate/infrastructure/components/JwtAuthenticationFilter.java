@@ -21,6 +21,7 @@ import java.util.List;
 
 @Component
 @ConditionalOnProperty(name = "spring.security.enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = "security.mode", havingValue = "hmac", matchIfMissing = true)
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     public static final String BEARER_PREFIX = "Bearer ";

@@ -1,10 +1,10 @@
 package com.olx.boilerplate.infrastructure.components;
 
+import com.olx.boilerplate.infrastructure.logging.AppMdc;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.MDC;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,14 +27,14 @@ public class CorrelationIdFilter extends OncePerRequestFilter {
         String traceId = headerOrGenerate(request, TRACE_ID_HEADER);
         String correlationId = headerOrGenerate(request, CORRELATION_ID_HEADER);
         try {
-            MDC.put(MDC_TRACE_ID, traceId);
-            MDC.put(MDC_CORRELATION_ID, correlationId);
+            AppMdc.put(MDC_TRACE_ID, traceId);
+            AppMdc.put(MDC_CORRELATION_ID, correlationId);
             response.setHeader(TRACE_ID_HEADER, traceId);
             response.setHeader(CORRELATION_ID_HEADER, correlationId);
             filterChain.doFilter(request, response);
         } finally {
-            MDC.remove(MDC_TRACE_ID);
-            MDC.remove(MDC_CORRELATION_ID);
+            AppMdc.remove(MDC_TRACE_ID);
+            AppMdc.remove(MDC_CORRELATION_ID);
         }
     }
 

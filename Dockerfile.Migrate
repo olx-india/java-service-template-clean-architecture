@@ -1,7 +1,12 @@
-ARG INTERNAL_REGISTRY_PREFIX
+# Public Flyway image by default. For private registries:
+#   docker build --build-arg FLYWAY_IMAGE=registry.example/flyway:custom -f Dockerfile.Migrate .
+ARG FLYWAY_IMAGE=flyway/flyway:10-alpine
 
-FROM $INTERNAL_REGISTRY_PREFIX/docker-images/flyway:flyway_base
+FROM ${FLYWAY_IMAGE}
 
+USER root
 COPY . /root
-
 RUN chmod +x /root/migrate.sh
+
+WORKDIR /root
+ENTRYPOINT ["/root/migrate.sh"]

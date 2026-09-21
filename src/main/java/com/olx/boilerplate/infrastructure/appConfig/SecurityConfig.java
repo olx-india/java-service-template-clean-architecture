@@ -24,6 +24,7 @@ import java.util.List;
 @EnableWebSecurity
 @EnableMethodSecurity
 @ConditionalOnProperty(name = "spring.security.enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = "security.mode", havingValue = "hmac", matchIfMissing = true)
 public class SecurityConfig {
 
     private static final String[] PUBLIC_ENDPOINTS = {
@@ -56,8 +57,8 @@ public class SecurityConfig {
                         .ignoringRequestMatchers(request -> {
                             String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
                             return authorization != null && authorization.regionMatches(true, 0,
-                                            JwtAuthenticationFilter.BEARER_PREFIX, 0,
-                                            JwtAuthenticationFilter.BEARER_PREFIX_LENGTH);
+                                                                                        JwtAuthenticationFilter.BEARER_PREFIX, 0,
+                                                                                        JwtAuthenticationFilter.BEARER_PREFIX_LENGTH);
                         }))
                         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

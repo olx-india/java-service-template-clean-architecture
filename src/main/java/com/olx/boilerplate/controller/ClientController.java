@@ -2,10 +2,15 @@ package com.olx.boilerplate.controller;
 
 import com.olx.boilerplate.infrastructure.components.KafkaProducerService;
 import com.olx.boilerplate.infrastructure.components.RedisClient;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Demo endpoints for Redis/Kafka smoke tests. Active for local runs and integration tests only.
+ */
 @RestController
+@Profile({"local", "integration-test"})
 public class ClientController {
 
     private final RedisClient redisClient;

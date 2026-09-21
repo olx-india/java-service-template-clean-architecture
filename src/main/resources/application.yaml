@@ -14,6 +14,18 @@ spring:
     active: local
   security:
     enabled: false
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${OAUTH2_JWK_SET_URI:}
+  threads:
+    virtual:
+      enabled: true
+
+security:
+  mode: hmac # hmac | oidc (when spring.security.enabled=true)
+  jwt:
+    secret: ${JWT_SECRET:change-me-in-production}
 
 clients:
   defaultClientConfig:
@@ -89,6 +101,12 @@ app:
 
 management:
   server.port: 8081
+  tracing:
+    sampling:
+      probability: 1.0
+  observations:
+    key-values:
+      application: boilerplate
   endpoint:
     health:
       enabled: true
@@ -150,3 +168,4 @@ outbox:
     batch-size: 50
     topics:
       UserCreatedEvent: user-created
+      OrderCreatedEvent: order-created

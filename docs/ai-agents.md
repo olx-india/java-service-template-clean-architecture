@@ -41,8 +41,7 @@ src/test/
 
 docs/                    human + agent documentation
 AGENTS.md                agent quick reference (root)
-REPO_CHANGELOG.md        template changes by date (maintainers)
-CHANGELOG.md             empty — for fork owners only
+CHANGELOG.md             template changes by date (maintainers)
 ```
 
 ---
@@ -65,7 +64,7 @@ Copy the **User** or **Order** vertical slice.
 
 **Checklist prompt (paste to agent):**
 
-> Add a `<Resource>` API following the existing User/Order pattern. Respect Clean Architecture and ArchUnit. Include Flyway migration, unit tests, and update REPO_CHANGELOG.md if this is an upstream template change.
+> Add a `<Resource>` API following the existing User/Order pattern. Respect Clean Architecture and ArchUnit. Include Flyway migration, unit tests, and update CHANGELOG.md if this is an upstream template change.
 
 ### 2. Add a domain event
 
@@ -150,7 +149,7 @@ See [local-setup.md](local-setup.md).
 - Request **layer-by-layer** PRs for large features (domain first, then use case, etc.)
 - Ask Claude to **run Maven** and paste failures — common fixes are documented in AGENTS.md
 - Use **explore → plan → implement** for unfamiliar areas (`docs/low-level-design.md` before deep infra changes)
-- Maintainer template edits: remind Claude to update **REPO_CHANGELOG.md** with today's date
+- Maintainer template edits: remind Claude to update **CHANGELOG.md** with today's date
 
 ### Example Claude prompts
 
@@ -186,8 +185,7 @@ Agents should **not** skip hooks or use `-DskipTests` unless the user explicitly
 | File | Agent should |
 |------|----------------|
 | `docs/*.md` | Update when behavior or setup changes (user-visible) |
-| `REPO_CHANGELOG.md` | Append under current date for **template** changes |
-| `CHANGELOG.md` | Leave empty (fork owner's file) |
+| `CHANGELOG.md` | Append under current date for **template** changes |
 | `AGENTS.md` / `.cursor/rules/` | Update when agent conventions or commands change |
 
 ---
@@ -198,7 +196,7 @@ Agents should **not** skip hooks or use `-DskipTests` unless the user explicitly
 - `@Autowired` field injection in new code (use constructor injection like existing classes)
 - Direct `KafkaTemplate` in use cases
 - Cucumber glue on both `it` and `it.stepdefinition` packages
-- Putting maintainer history in `CHANGELOG.md`
+- Skipping `CHANGELOG.md` for maintainer-visible template changes
 - Editing only README when behavior changed — update relevant `docs/` page too
 
 ---
@@ -208,4 +206,4 @@ Agents should **not** skip hooks or use `-DskipTests` unless the user explicitly
 - [Features](features.md)
 - [Transactional outbox](outbox-pattern.md)
 - [Runbook](runbook.md)
-- [Template changelog](../REPO_CHANGELOG.md)
+- [Template changelog](../CHANGELOG.md)
