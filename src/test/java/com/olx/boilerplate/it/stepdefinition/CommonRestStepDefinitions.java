@@ -27,8 +27,8 @@ public class CommonRestStepDefinitions {
     @Autowired
     private IntegrationTestContextHolder contextHolder;
 
-    @Given("I have http://0.0.0.0:{int}/ host")
-    public void setHost(int ignoredPort) {
+    @Given("I have the API host")
+    public void setHost() {
         context().setBaseUrl("http://localhost:" + port);
     }
 

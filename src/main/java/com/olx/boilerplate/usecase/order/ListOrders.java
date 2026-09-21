@@ -1,9 +1,9 @@
 package com.olx.boilerplate.usecase.order;
 
 import com.olx.boilerplate.domain.Order;
+import com.olx.boilerplate.domain.PageQuery;
+import com.olx.boilerplate.domain.PageResult;
 import com.olx.boilerplate.domain.repository.OrderRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,7 +15,7 @@ public class ListOrders {
         this.orderRepository = orderRepository;
     }
 
-    public Page<Order> execute(Pageable pageable) {
-        return orderRepository.findAll(pageable);
+    public PageResult<Order> execute(PageQuery pageQuery) {
+        return orderRepository.findAll(pageQuery);
     }
 }

@@ -1,8 +1,8 @@
 package com.olx.boilerplate.domain.repository;
 
+import com.olx.boilerplate.domain.PageQuery;
+import com.olx.boilerplate.domain.PageResult;
 import com.olx.boilerplate.domain.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
@@ -12,7 +12,7 @@ public interface UserRepository {
 
     Optional<User> findById(Long userId);
 
-    Page<User> findAll(Pageable pageable);
+    PageResult<User> findAll(PageQuery pageQuery);
 
     void delete(Long userId);
 }

@@ -16,7 +16,7 @@ it:
 	$(JAVA21) $(MVN) integration-test -DskipUnitTests=true -DskipDependenciesCheck=true -DskipVerifications=true
 
 verify:
-	$(JAVA21) $(MVN) clean verify -DskipDependenciesCheck=true
+	$(JAVA21) $(MVN) clean verify -DskipIntegration=true -DskipDependenciesCheck=true
 
 # Full verify including OWASP dependency-check (slow; uses owasp-dependency-check-suppressions.xml)
 verify-all:

@@ -39,3 +39,5 @@ build/
 .swagger-codegen/
 
 env.sh
+.env
+.render/

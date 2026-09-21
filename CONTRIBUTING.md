@@ -141,7 +141,7 @@ Examples: `feature/add-health-metrics`, `fix/redis-connection-timeout`, `docs/co
    - Link to the issue (e.g. “Fixes #123”)
    - Any notes for reviewers (e.g. how to test)
 4. **Checks:** All CI jobs (build, unit tests, formatter, etc.) must pass.
-5. **Changelog:** For user-visible template changes, add entries under today's date in [REPO_CHANGELOG.md](REPO_CHANGELOG.md). Update [AGENTS.md](AGENTS.md) or [docs/ai-agents.md](docs/ai-agents.md) if agent conventions change.
+5. **Changelog:** For user-visible template changes, add entries under today's date in [CHANGELOG.md](CHANGELOG.md). Update [AGENTS.md](AGENTS.md) or [docs/ai-agents.md](docs/ai-agents.md) if agent conventions change.
 6. **Review:** Address review comments; maintainers will merge when approved and green.
 
 ### What we look for in reviews
@@ -189,5 +189,17 @@ Fixes #15
 
 - Open a **GitHub Discussion** (if enabled) or an **Issue** with the “Question” label.
 - For bugs and features, use issues as described in [How to Contribute](#how-to-contribute).
+
+---
+
+## Maintainer notes (GitHub repository settings)
+
+Suggested **About** description (short blurb for the GitHub sidebar):
+
+> Production-ready Spring Boot 4 / Java 21 Clean Architecture template — ArchUnit, multi-tenant MySQL, transactional outbox → Kafka, Testcontainers, AI-agent docs. Apache-2.0.
+
+Suggested **topics** (GitHub → About → Topics):
+
+`clean-architecture` · `spring-boot` · `java-21` · `archunit` · `outbox` · `multi-tenancy` · `kafka` · `testcontainers` · `cucumber` · `hexagonal-architecture`
 
 Thank you for contributing.

@@ -1,7 +1,6 @@
 package com.olx.boilerplate.it.stepdefinition;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import com.olx.boilerplate.controller.dto.order.response.OrderResponse;
 import com.olx.boilerplate.it.IntegrationTestContext;
 import com.olx.boilerplate.it.IntegrationTestContextHolder;
@@ -11,22 +10,23 @@ import io.cucumber.java.en.And;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
+import tools.jackson.databind.ObjectMapper;
 
 public class OrderAPIStepDefinitions {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new JsonMapper();
 
     @Autowired
     private IntegrationTestContextHolder contextHolder;
 
     @And("I generate a CreateOrderRequest")
-    public void setCreateOrderRequestBody() throws JsonProcessingException {
+    public void setCreateOrderRequestBody() {
         CreateOrderCommand request = new CreateOrderCommand("Test User", 1, 50.0);
         context().setNamedBody("CreateOrderRequest", objectMapper.writeValueAsString(request));
     }
 
     @And("I generate an UpdateOrderRequest with id {} and quantity {}")
-    public void setUpdateOrderRequestBody(String id, int quantity) throws JsonProcessingException {
+    public void setUpdateOrderRequestBody(String id, int quantity) {
         UpdateOrderCommand request = new UpdateOrderCommand(Long.parseLong(id), null, quantity, null);
         context().setNamedBody("UpdateOrderRequest", objectMapper.writeValueAsString(request));
     }

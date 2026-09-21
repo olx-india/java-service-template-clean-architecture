@@ -6,6 +6,8 @@ import com.olx.boilerplate.controller.dto.PageResponse;
 import com.olx.boilerplate.controller.dto.user.request.CreateUserRequest;
 import com.olx.boilerplate.controller.dto.user.request.UpdateUserRequest;
 import com.olx.boilerplate.controller.dto.user.response.UserResponse;
+import com.olx.boilerplate.domain.PageQuery;
+import com.olx.boilerplate.domain.PageResult;
 import com.olx.boilerplate.domain.User;
 import com.olx.boilerplate.usecase.users.CreateUser;
 import com.olx.boilerplate.usecase.users.DeleteUser;
@@ -13,16 +15,17 @@ import com.olx.boilerplate.usecase.users.GetUser;
 import com.olx.boilerplate.usecase.users.ListUsers;
 import com.olx.boilerplate.usecase.users.UpdateUser;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/v1/users")
 @Tag(name = "Users", description = "User management APIs")
 public class UserController {
 
@@ -44,6 +47,10 @@ public class UserController {
     @ReadWriteTransaction
     @PostMapping
     @Operation(summary = "Create a user")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "User created"),
+            @ApiResponse(responseCode = "400", description = "Validation error")
+    })
     public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
         User user = createUser.execute(createUserRequest.toCommand());
         return ResponseEntity.status(HttpStatus.CREATED).body(UserResponse.buildFromEntity(user));
@@ -52,6 +59,10 @@ public class UserController {
     @ReadOnlyTransaction
     @GetMapping("/{userId}")
     @Operation(summary = "Get a user by ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User found"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     public ResponseEntity<UserResponse> getUser(@PathVariable Long userId) {
         User user = getUser.execute(userId);
         return ResponseEntity.ok(UserResponse.buildFromEntity(user));
@@ -61,13 +72,13 @@ public class UserController {
     @GetMapping
     @Operation(summary = "List users with pagination")
     public ResponseEntity<PageResponse<UserResponse>> listUsers(Pageable pageable) {
-        Page<User> users = listUsers.execute(pageable);
+        PageResult<User> users = listUsers.execute(PageQuery.of(pageable.getPageNumber(), pageable.getPageSize()));
         return ResponseEntity.ok(new PageResponse<>(
-                                                    users.getContent().stream().map(UserResponse::buildFromEntity).toList(),
-                                                    users.getNumber(),
-                                                    users.getSize(),
-                                                    users.getTotalElements(),
-                                                    users.getTotalPages()));
+                                                    users.content().stream().map(UserResponse::buildFromEntity).toList(),
+                                                    users.page(),
+                                                    users.size(),
+                                                    users.totalElements(),
+                                                    users.totalPages()));
     }
 
     @ReadWriteTransaction

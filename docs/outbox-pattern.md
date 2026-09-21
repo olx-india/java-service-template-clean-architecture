@@ -34,7 +34,7 @@ sequenceDiagram
     participant Relay as OutboxRelayScheduler
     participant Kafka
 
-    Client->>CreateUser: POST /user
+    Client->>CreateUser: POST /api/v1/users
     Note over CreateUser,DB: Single @Transactional boundary
     CreateUser->>DB: INSERT tbl_user
     CreateUser->>Outbox: INSERT outbox_event (published=0)
@@ -74,11 +74,11 @@ The use case does **not** call Kafka directly.
 | Component | Role |
 |-----------|------|
 | `OutboxRelayScheduler` | Polls on a fixed delay (`@Scheduled`) — `infrastructure/outbox/relay/` |
-| `OutboxRelayService` | Publishes one event per transaction (`REQUIRES_NEW`) — `infrastructure/outbox/relay/` |
+| `OutboxRelayService` | Claims rows with `FOR UPDATE SKIP LOCKED` and publishes in one transaction — `infrastructure/outbox/relay/` |
 | `OutboxTopicResolver` | Maps `event_type` → Kafka topic — `infrastructure/outbox/relay/` |
 | `KafkaProducerService` | Sends to Kafka with retry + circuit breaker |
 
-Each event is relayed in its own transaction so one failure does not roll back others.
+Delivery is **at-least-once**; consumers must be **idempotent**. Multiple relay instances are safe via `SKIP LOCKED`.
 
 ## Database schema
 
@@ -106,8 +106,8 @@ outbox:
     batch-size: 50             # max events per cycle
     topics:
       UserCreatedEvent: user-created   # event_type → Kafka topic
+      OrderCreatedEvent: order-created
 ```
-
 If no mapping exists, the relay falls back to the first topic in `kafka.topics`.
 
 Integration tests disable the relay (`application-integration-test.yaml`) to keep Cucumber scenarios deterministic.

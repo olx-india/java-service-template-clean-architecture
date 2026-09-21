@@ -7,22 +7,25 @@ import com.olx.boilerplate.controller.dto.order.request.CreateOrderRequest;
 import com.olx.boilerplate.controller.dto.order.request.UpdateOrderRequest;
 import com.olx.boilerplate.controller.dto.order.response.OrderResponse;
 import com.olx.boilerplate.domain.Order;
+import com.olx.boilerplate.domain.PageQuery;
+import com.olx.boilerplate.domain.PageResult;
 import com.olx.boilerplate.usecase.order.CreateOrder;
 import com.olx.boilerplate.usecase.order.DeleteOrder;
 import com.olx.boilerplate.usecase.order.GetOrder;
 import com.olx.boilerplate.usecase.order.ListOrders;
 import com.olx.boilerplate.usecase.order.UpdateOrder;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/api/v1/orders")
 @Tag(name = "Orders", description = "Order management APIs")
 public class OrderController {
 
@@ -44,6 +47,10 @@ public class OrderController {
     @ReadWriteTransaction
     @PostMapping
     @Operation(summary = "Create an order")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Order created"),
+            @ApiResponse(responseCode = "400", description = "Validation error")
+    })
     public ResponseEntity<OrderResponse> createOrder(@Valid @RequestBody CreateOrderRequest createOrderRequest) {
         Order createdOrder = createOrder.execute(createOrderRequest.toCommand());
         return ResponseEntity.status(HttpStatus.CREATED).body(OrderResponse.fromEntity(createdOrder));
@@ -52,6 +59,10 @@ public class OrderController {
     @ReadOnlyTransaction
     @GetMapping("/{id}")
     @Operation(summary = "Get an order by ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Order found"),
+            @ApiResponse(responseCode = "404", description = "Order not found")
+    })
     public ResponseEntity<OrderResponse> getOrder(@PathVariable Long id) {
         Order order = getOrder.execute(id);
         return ResponseEntity.ok(OrderResponse.fromEntity(order));
@@ -61,13 +72,13 @@ public class OrderController {
     @GetMapping
     @Operation(summary = "List orders with pagination")
     public ResponseEntity<PageResponse<OrderResponse>> listOrders(Pageable pageable) {
-        Page<Order> orders = listOrders.execute(pageable);
+        PageResult<Order> orders = listOrders.execute(PageQuery.of(pageable.getPageNumber(), pageable.getPageSize()));
         return ResponseEntity.ok(new PageResponse<>(
-                                                    orders.getContent().stream().map(OrderResponse::fromEntity).toList(),
-                                                    orders.getNumber(),
-                                                    orders.getSize(),
-                                                    orders.getTotalElements(),
-                                                    orders.getTotalPages()));
+                                                    orders.content().stream().map(OrderResponse::fromEntity).toList(),
+                                                    orders.page(),
+                                                    orders.size(),
+                                                    orders.totalElements(),
+                                                    orders.totalPages()));
     }
 
     @ReadWriteTransaction

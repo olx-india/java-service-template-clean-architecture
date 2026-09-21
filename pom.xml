@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.6</version>
+        <version>4.0.8</version>
         <relativePath/>
     </parent>
 
@@ -45,7 +45,7 @@
         <jacoco.coverage.folder>${project.build.directory}/coverage-reports</jacoco.coverage.folder>
         <jacoco.unit-test.report>${jacoco.coverage.folder}/jacoco-ut.exec</jacoco.unit-test.report>
         <jacoco.integration-test.report>${jacoco.coverage.folder}/jacoco-it.exec</jacoco.integration-test.report>
-        <jacoco.ut.bundle.percentage.instruction>0.0</jacoco.ut.bundle.percentage.instruction>
+        <jacoco.ut.bundle.percentage.instruction>0.40</jacoco.ut.bundle.percentage.instruction>
         <jacoco.it.bundle.percentage.instruction>0.0</jacoco.it.bundle.percentage.instruction>
 
         <!-- Formatter -->
@@ -54,14 +54,15 @@
 
         <!-- Maven plugins -->
         <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
-        <maven.surefire.plugin.version>2.22.1</maven.surefire.plugin.version>
+        <maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
         <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
-        <maven.spotbugs.plugin.version>3.1.9</maven.spotbugs.plugin.version>
+        <maven.spotbugs.plugin.version>4.8.6.6</maven.spotbugs.plugin.version>
         <owasp.maven.version>6.5.3</owasp.maven.version>
         <dependency.check.report.dir>${project.build.directory}/dependency-check</dependency.check.report.dir>
         <asm.version>6.1.1</asm.version>
 
         <!-- Spring ecosystem -->
+        <tomcat.version>11.0.26</tomcat.version>
         <resilience4j.version>2.4.0</resilience4j.version>
         <springdoc-openapi-starter-webmvc-ui.version>3.0.3</springdoc-openapi-starter-webmvc-ui.version>
         <spring-retry.version>2.0.13</spring-retry.version>
@@ -103,14 +104,14 @@
         <org.testcontainers-junit-jupiter.version>1.21.4</org.testcontainers-junit-jupiter.version>
         <archunit.version>1.2.1</archunit.version>
         <wiremock.version>3.3.1</wiremock.version>
-        <cucumber.version>6.10.3</cucumber.version>
-        <cucumber-reporting.version>5.4.0</cucumber-reporting.version>
+        <cucumber.version>7.18.1</cucumber.version>
+        <cucumber-reporting.version>5.8.2</cucumber-reporting.version>
         <extentreports-cucumber4-adapter.version>1.0.6</extentreports-cucumber4-adapter.version>
-        <messages.version>15.0.0</messages.version>
-        <restAssured.version>4.2.0</restAssured.version>
-        <toxiproxy-java.version>2.1.3</toxiproxy-java.version>
+        <messages.version>24.1.0</messages.version>
+        <restAssured.version>5.5.0</restAssured.version>
         <docker.version>1.0.0</docker.version>
         <codehaus.groovy.version>3.0.20</codehaus.groovy.version>
+        <cyclonedx.version>2.8.1</cyclonedx.version>
     </properties>
 
     <dependencies>
@@ -134,6 +135,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -261,6 +266,10 @@
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-otel</artifactId>
         </dependency>
         <dependency>
             <groupId>io.opentelemetry</groupId>
@@ -451,12 +460,6 @@
             <groupId>io.rest-assured</groupId>
             <artifactId>xml-path</artifactId>
             <version>${restAssured.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>eu.rekawek.toxiproxy</groupId>
-            <artifactId>toxiproxy-java</artifactId>
-            <version>${toxiproxy-java.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -792,6 +795,29 @@
                         <phase>verify</phase>
                         <goals>
                             <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.cyclonedx</groupId>
+                <artifactId>cyclonedx-maven-plugin</artifactId>
+                <version>${cyclonedx.version}</version>
+                <configuration>
+                    <projectType>application</projectType>
+                    <schemaVersion>1.5</schemaVersion>
+                    <includeBomSerialNumber>true</includeBomSerialNumber>
+                    <includeCompileScope>true</includeCompileScope>
+                    <includeRuntimeScope>true</includeRuntimeScope>
+                    <outputFormat>json</outputFormat>
+                    <outputName>bom</outputName>
+                    <outputDirectory>${project.build.directory}</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>makeAggregateBom</goal>
                         </goals>
                     </execution>
                 </executions>

@@ -1,9 +1,9 @@
 package com.olx.boilerplate.usecase.users;
 
+import com.olx.boilerplate.domain.PageQuery;
+import com.olx.boilerplate.domain.PageResult;
 import com.olx.boilerplate.domain.User;
 import com.olx.boilerplate.domain.repository.UserRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,7 +15,7 @@ public class ListUsers {
         this.userRepository = userRepository;
     }
 
-    public Page<User> execute(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public PageResult<User> execute(PageQuery pageQuery) {
+        return userRepository.findAll(pageQuery);
     }
 }

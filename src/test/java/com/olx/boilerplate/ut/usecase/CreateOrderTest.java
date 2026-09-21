@@ -1,6 +1,7 @@
 package com.olx.boilerplate.ut.usecase;
 
 import com.olx.boilerplate.domain.Order;
+import com.olx.boilerplate.domain.port.EventPublisher;
 import com.olx.boilerplate.domain.repository.OrderRepository;
 import com.olx.boilerplate.usecase.order.CreateOrder;
 import com.olx.boilerplate.usecase.order.command.CreateOrderCommand;
@@ -22,12 +23,15 @@ class CreateOrderTest {
     @Mock
     private OrderRepository orderRepository;
 
+    @Mock
+    private EventPublisher eventPublisher;
+
     private CreateOrder createOrder;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        createOrder = new CreateOrder(orderRepository, new SimpleMeterRegistry());
+        createOrder = new CreateOrder(orderRepository, eventPublisher, new SimpleMeterRegistry());
     }
 
     @Test
@@ -41,5 +45,6 @@ class CreateOrderTest {
         assertNotNull(savedOrder);
         assertEquals("ProductA", savedOrder.getProduct());
         verify(orderRepository, times(1)).save(any(Order.class));
+        verify(eventPublisher, times(1)).publishOrderCreated(any());
     }
 }

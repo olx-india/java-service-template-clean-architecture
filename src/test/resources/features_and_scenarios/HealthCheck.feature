@@ -1,7 +1,7 @@
 @Test:Health
 Feature: Check health of application
   Background:
-    Given I have http://0.0.0.0:8080/ host
+    Given I have the API host
 
   Scenario: Validate Health API
     Given I have /health API

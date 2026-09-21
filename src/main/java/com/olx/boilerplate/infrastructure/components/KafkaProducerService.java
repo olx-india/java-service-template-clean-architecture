@@ -1,5 +1,7 @@
 package com.olx.boilerplate.infrastructure.components;
 
+import com.olx.boilerplate.logging.AppLogger;
+import com.olx.boilerplate.logging.AppLoggers;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.retry.Retry;
 import lombok.SneakyThrows;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class KafkaProducerService {
+
+    private static final AppLogger LOGGER = AppLoggers.getLogger(KafkaProducerService.class);
 
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final Retry retryStrategy;
@@ -31,6 +35,6 @@ public class KafkaProducerService {
     @SneakyThrows
     private void executePublish(String topic, String payload) {
         kafkaTemplate.send(topic, payload);
-        System.out.println("Event Published Succesfully");
+        LOGGER.info("Event published successfully to topic {}", topic);
     }
 }

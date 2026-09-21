@@ -2,7 +2,7 @@
 Feature: Client API Tests
 
   Background:
-    Given I have http://0.0.0.0:8080/ host
+    Given I have the API host
 
   Scenario: Store and retrieve a value from Redis
     Given I have /test/redis API

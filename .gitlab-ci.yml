@@ -1,0 +1,42 @@
+# Mirrors GitHub Actions: verify (unit + quality) then integration tests.
+stages:
+  - verify
+  - integration
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+
+cache:
+  paths:
+    - .m2/repository/
+
+verify:
+  stage: verify
+  image: eclipse-temurin:21-jdk
+  script:
+    - ./mvnw -s settings.xml verify -DskipIntegration=true
+  artifacts:
+    when: always
+    paths:
+      - target/site/jacoco/
+      - target/bom.json
+    expire_in: 1 week
+
+integration-tests:
+  stage: integration
+  image: eclipse-temurin:21-jdk
+  services:
+    - name: docker:24-dind
+      alias: docker
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - apt-get update && apt-get install -y docker.io || true
+  script:
+    - ./mvnw -s settings.xml clean integration-test -DskipUnitTests=true -DskipDependenciesCheck=true -DskipVerifications=true
+  artifacts:
+    when: always
+    paths:
+      - target/site/jacoco-it/
+    expire_in: 1 week
