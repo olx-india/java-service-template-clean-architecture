@@ -7,10 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Local-only demo endpoints for Redis/Kafka smoke tests. Not part of the production API surface.
+ * Demo endpoints for Redis/Kafka smoke tests. Active for local runs and integration tests only.
  */
 @RestController
-@Profile("local")
+@Profile({"local", "integration-test"})
 public class ClientController {
 
     private final RedisClient redisClient;

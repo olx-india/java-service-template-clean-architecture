@@ -42,3 +42,4 @@ Tracks **upstream template** changes by date. This repo does not use versioned r
 - **Jackson 3** — inject `tools.jackson.databind.ObjectMapper` (Boot 4 auto-config); fixes IT `TenantFilter` / outbox wiring
 - **Container scan CVEs** — Boot `4.0.8` + Tomcat `11.0.26`; OTel Java agent `2.31.1` (fixes CRITICAL Trivy jar findings)
 - **Cucumber** — host step no longer embeds `http://.../` (Cucumber 7 treats `/` as alternatives)
+- **ClientController** — also active on `integration-test` so Redis/Kafka scenarios are mapped
