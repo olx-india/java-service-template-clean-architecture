@@ -57,14 +57,14 @@
         <maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
         <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
         <maven.spotbugs.plugin.version>4.8.6.6</maven.spotbugs.plugin.version>
-        <owasp.maven.version>6.5.3</owasp.maven.version>
+        <owasp.maven.version>13.0.0</owasp.maven.version>
         <dependency.check.report.dir>${project.build.directory}/dependency-check</dependency.check.report.dir>
         <asm.version>6.1.1</asm.version>
 
         <!-- Spring ecosystem -->
         <tomcat.version>11.0.26</tomcat.version>
         <resilience4j.version>2.4.0</resilience4j.version>
-        <springdoc-openapi-starter-webmvc-ui.version>3.0.3</springdoc-openapi-starter-webmvc-ui.version>
+        <springdoc-openapi-starter-webmvc-ui.version>3.1.1</springdoc-openapi-starter-webmvc-ui.version>
         <spring-retry.version>2.0.13</spring-retry.version>
         <spring-cloud-commons.version>5.0.0</spring-cloud-commons.version>
 
@@ -76,16 +76,16 @@
         <httpclient.version>4.5.14</httpclient.version>
         <httpclient5.version>5.6.4</httpclient5.version>
         <httpmime.version>4.5.13</httpmime.version>
-        <okhttp3.okhttp.version>4.9.2</okhttp3.okhttp.version>
-        <retorfit.version>2.9.0</retorfit.version>
+        <okhttp3.okhttp.version>5.5.0</okhttp3.okhttp.version>
+        <retorfit.version>3.0.0</retorfit.version>
 
         <!-- Serialization / utilities -->
         <gson.version>2.10.1</gson.version>
         <guava.version>32.0.0-jre</guava.version>
         <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
         <jaxb-api.version>2.3.0</jaxb-api.version>
-        <lombok.version>1.18.36</lombok.version>
-        <tika-core.version>3.2.3</tika-core.version>
+        <lombok.version>1.18.48</lombok.version>
+        <tika-core.version>4.0.0</tika-core.version>
         <java-jwt.version>3.2.0</java-jwt.version>
         <annotations.version>23.0.0</annotations.version>
         <android-json.version>0.0.20131108.vaadin1</android-json.version>
@@ -103,12 +103,12 @@
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
         <org.testcontainers-junit-jupiter.version>1.21.4</org.testcontainers-junit-jupiter.version>
         <archunit.version>1.2.1</archunit.version>
-        <wiremock.version>3.3.1</wiremock.version>
+        <wiremock.version>3.13.2</wiremock.version>
         <cucumber.version>7.18.1</cucumber.version>
         <cucumber-reporting.version>5.8.2</cucumber-reporting.version>
-        <extentreports-cucumber4-adapter.version>1.0.6</extentreports-cucumber4-adapter.version>
-        <messages.version>24.1.0</messages.version>
-        <restAssured.version>5.5.0</restAssured.version>
+        <extentreports-cucumber4-adapter.version>1.2.1</extentreports-cucumber4-adapter.version>
+        <messages.version>34.2.1</messages.version>
+        <restAssured.version>6.0.1</restAssured.version>
         <docker.version>1.0.0</docker.version>
         <codehaus.groovy.version>3.0.20</codehaus.groovy.version>
         <cyclonedx.version>2.8.1</cyclonedx.version>
@@ -248,10 +248,16 @@
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>retrofit</artifactId>
             <version>${retorfit.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.squareup.okhttp3</groupId>
+                    <artifactId>okhttp</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
+            <artifactId>okhttp-jvm</artifactId>
             <version>${okhttp3.okhttp.version}</version>
         </dependency>
 
