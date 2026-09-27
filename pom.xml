@@ -41,7 +41,7 @@
         <skipDependenciesCheck>false</skipDependenciesCheck>
 
         <!-- JaCoCo -->
-        <jacoco.version>0.8.12</jacoco.version>
+        <jacoco.version>0.8.15</jacoco.version>
         <jacoco.coverage.folder>${project.build.directory}/coverage-reports</jacoco.coverage.folder>
         <jacoco.unit-test.report>${jacoco.coverage.folder}/jacoco-ut.exec</jacoco.unit-test.report>
         <jacoco.integration-test.report>${jacoco.coverage.folder}/jacoco-it.exec</jacoco.integration-test.report>
