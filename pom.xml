@@ -55,7 +55,7 @@
         <!-- Maven plugins -->
         <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
         <maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
-        <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
+        <maven.release.plugin.version>3.3.1</maven.release.plugin.version>
         <maven.spotbugs.plugin.version>4.8.6.6</maven.spotbugs.plugin.version>
         <owasp.maven.version>13.0.0</owasp.maven.version>
         <dependency.check.report.dir>${project.build.directory}/dependency-check</dependency.check.report.dir>
