@@ -59,7 +59,7 @@
         <maven.spotbugs.plugin.version>4.8.6.6</maven.spotbugs.plugin.version>
         <owasp.maven.version>13.0.0</owasp.maven.version>
         <dependency.check.report.dir>${project.build.directory}/dependency-check</dependency.check.report.dir>
-        <asm.version>6.1.1</asm.version>
+        <asm.version>9.10.1</asm.version>
 
         <!-- Spring ecosystem -->
         <tomcat.version>11.0.26</tomcat.version>
