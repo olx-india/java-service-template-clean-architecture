@@ -5,7 +5,7 @@ A production-grade **Spring Boot 4 / Java 21** Clean Architecture template with 
 Maintained by [OLX India](https://github.com/olx-india) · [Apache License 2.0](LICENSE)
 
 [![Java 21](https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk)](https://docs.oracle.com/en/java/javase/21/)
-[![Spring Boot 4.0](https://img.shields.io/badge/Spring%20Boot-4.0-6DB33F?logo=spring)](https://spring.io/projects/spring-boot)
+[![Spring Boot 4.1](https://img.shields.io/badge/Spring%20Boot-4.1-6DB33F?logo=spring)](https://spring.io/projects/spring-boot)
 [![Maven](https://img.shields.io/badge/Maven-3.6+-C71A36?logo=apachemaven)](https://maven.apache.org/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Verify Package](https://github.com/olx-india/java-service-template-clean-architecture/actions/workflows/package-verify.yml/badge.svg)](https://github.com/olx-india/java-service-template-clean-architecture/actions/workflows/package-verify.yml)
@@ -101,7 +101,7 @@ Full breakdown: [docs/features.md](docs/features.md)
 | Category | Technology |
 |----------|------------|
 | Runtime | Java 21 |
-| Framework | Spring Boot 4.0.8 |
+| Framework | Spring Boot 4.1.1 |
 | Build | Maven 3.6+ (wrapper included) |
 | Database | MySQL 8, Flyway |
 | Cache | Redis, Spring Cache |

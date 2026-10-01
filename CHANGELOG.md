@@ -8,6 +8,20 @@ Tracks **upstream template** changes by date. This repo does not use versioned r
 
 ---
 
+## 2026-10-01
+
+### Changed
+
+- **Spring Boot** `4.0.8` → `4.1.1`; **spring-cloud-commons** `5.0.0` → `5.0.3` (Boot 4.1 release-train compatibility)
+- **Dependabot batch** — hibernate-validator `9.1.4.Final`, opentelemetry-exporter-otlp `1.66.0` (+ OTel BOM import), asm `9.10.1`, jacoco `0.8.15`, maven-javadoc-plugin `3.12.0`, maven-release-plugin `3.3.1`, httpmime `4.5.14`, Maven wrapper `3.3.4` + Apache Maven `3.9.16`, `docker/setup-buildx-action` v4
+- Kept **Tomcat** pin `11.0.26` (Boot 4.1.1 BOM manages older `11.0.24`)
+
+### Fixed
+
+- **Container scan** — FreeMarker `2.3.35` (CVE-2026-84939 CRITICAL via extentreports)
+
+---
+
 ## 2026-09-19
 
 ### Added
