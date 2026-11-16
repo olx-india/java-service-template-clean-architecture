@@ -1,0 +1,80 @@
+site_name: Spring Boot Clean Architecture Template
+site_description: >-
+  Production-grade Spring Boot 4 / Java 21 Clean Architecture (hexagonal, ports and adapters)
+  microservice template with ArchUnit-enforced layers, multi-tenant MySQL, transactional
+  outbox to Kafka, Redis, Testcontainers and Cucumber BDD.
+site_url: https://olx-india.github.io/java-service-template-clean-architecture/
+repo_url: https://github.com/olx-india/java-service-template-clean-architecture
+repo_name: olx-india/java-service-template-clean-architecture
+edit_uri: edit/main/docs/
+copyright: Copyright &copy; OLX India · Apache License 2.0
+
+docs_dir: docs
+hooks:
+  - scripts/mkdocs_hooks.py
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - content.action.edit
+    - search.suggest
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: green
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: green
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/olx-india/java-service-template-clean-architecture
+
+nav:
+  - Home: README.md
+  - Getting started:
+      - Local setup: local-setup.md
+      - Start a new service from the template: template-setup.md
+      - Features: features.md
+  - Architecture:
+      - Clean Architecture in Spring Boot: clean-architecture.md
+      - Transactional outbox with Kafka: outbox-pattern.md
+      - Low-level design: low-level-design.md
+      - Architecture decision records:
+          - adr/README.md
+          - adr/0001-clean-architecture.md
+          - adr/0002-transactional-outbox.md
+          - adr/0003-multi-tenant-datasource.md
+  - Operations:
+      - Runbook: runbook.md
+  - AI agents (Cursor, Claude Code): ai-agents.md
+
+validation:
+  links:
+    not_found: warn
+    unrecognized_links: warn

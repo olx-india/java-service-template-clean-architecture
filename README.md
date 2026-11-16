@@ -1,14 +1,18 @@
-# Java Clean Architecture Template (Spring Boot 4)
+# Spring Boot 4 Clean Architecture Template (Java 21, Hexagonal Microservice)
 
-A production-grade **Spring Boot 4 / Java 21** Clean Architecture template with **enforced layer boundaries**, **multi-tenant data**, **transactional outbox → Kafka**, a full local stack, BDD + Testcontainers, security and quality gates, and first-class AI-agent docs—ready to fork, not a toy sample.
+A production-grade **Spring Boot 4 / Java 21 Clean Architecture** (hexagonal, ports and adapters) **microservice template** with **ArchUnit-enforced layer boundaries**, **multi-tenant MySQL**, **transactional outbox → Kafka**, Redis, a full local stack, BDD + Testcontainers, security and quality gates, and first-class AI-agent docs. It is ready to fork, not a toy sample.
 
-Maintained by [OLX India](https://github.com/olx-india) · [Apache License 2.0](LICENSE)
+**[Use this template](https://github.com/olx-india/java-service-template-clean-architecture/generate)** · **[Documentation site](https://olx-india.github.io/java-service-template-clean-architecture/)** · then run `make init PACKAGE=com.acme.orders ARTIFACT=orders-service APP=OrdersApplication` to get a clean, renamed service.
+
+Maintained by [OLX India](https://github.com/olx-india) · [Apache License 2.0](LICENSE) · If this template saves you time, please ⭐ star the repo so other teams can find it.
 
 [![Java 21](https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk)](https://docs.oracle.com/en/java/javase/21/)
 [![Spring Boot 4.0](https://img.shields.io/badge/Spring%20Boot-4.0-6DB33F?logo=spring)](https://spring.io/projects/spring-boot)
 [![Maven](https://img.shields.io/badge/Maven-3.6+-C71A36?logo=apachemaven)](https://maven.apache.org/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Verify Package](https://github.com/olx-india/java-service-template-clean-architecture/actions/workflows/package-verify.yml/badge.svg)](https://github.com/olx-india/java-service-template-clean-architecture/actions/workflows/package-verify.yml)
+[![Docs](https://github.com/olx-india/java-service-template-clean-architecture/actions/workflows/docs.yml/badge.svg)](https://olx-india.github.io/java-service-template-clean-architecture/)
+[![GitHub stars](https://img.shields.io/github/stars/olx-india/java-service-template-clean-architecture?style=social)](https://github.com/olx-india/java-service-template-clean-architecture/stargazers)
 
 ---
 
@@ -24,6 +28,19 @@ What sets it apart from typical starters:
 - **Production-shaped tests** — Cucumber BDD + Testcontainers (MySQL, Redis, Kafka); no private dependencies
 - **Ops-ready defaults** — Resilience4j, optional JWT, Prometheus, OpenTelemetry, SpotBugs, OWASP dependency-check
 - **AI-agent DX** — [AGENTS.md](AGENTS.md) and [docs/ai-agents.md](docs/ai-agents.md) for Cursor / Claude Code
+
+### How it compares
+
+| | Spring Initializr | Typical hexagonal sample | **This template** |
+|--|:--:|:--:|:--:|
+| Clean / hexagonal layer layout | – | ✅ | ✅ |
+| Layer rules enforced in the build (ArchUnit) | – | rarely | ✅ |
+| Multi-tenant datasource with read/write routing | – | – | ✅ |
+| Transactional outbox → Kafka | – | – | ✅ |
+| Testcontainers + Cucumber integration tests | – | sometimes | ✅ |
+| Observability, resilience, security defaults | – | – | ✅ |
+| One-command reset and rename (`make init`) | n/a | – | ✅ |
+| AI-agent instructions (AGENTS.md, Cursor rules) | – | – | ✅ |
 
 ```mermaid
 flowchart TB
@@ -208,7 +225,7 @@ API calls need the `X-Default-Tenant: default` header. Sample APIs (until you ru
 | AI agents (Cursor / Claude) | [AGENTS.md](AGENTS.md) · [docs/ai-agents.md](docs/ai-agents.md) |
 | Low-level design | [docs/low-level-design.md](docs/low-level-design.md) |
 | Runbook | [docs/runbook.md](docs/runbook.md) |
-| All docs | [docs/README.md](docs/README.md) |
+| All docs | [docs/README.md](docs/README.md) · [docs site](https://olx-india.github.io/java-service-template-clean-architecture/) |
 
 ---
 
