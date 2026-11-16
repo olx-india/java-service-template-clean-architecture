@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Remove the sample User and Order features from the template and keep the
-# clean-architecture package layout (empty layers get a package-info.java).
+# Remove the sample User and Order features, the Redis/Kafka demo controller
+# and the pagination helpers from the template, and keep the clean-architecture
+# package layout (emptied layer directories get a .gitkeep).
 #
 # Usually run through `make init`, before scripts/rename-template.sh.
 #
@@ -69,6 +70,34 @@ for path in \
   "${TRES}/features_and_scenarios/User.feature" \
   "${TRES}/features_and_scenarios/Order.feature" \
   "${RES}/db/migration/olxin/V1.1__Insert_Initial_Data.sql"; do
+  remove_path "$path"
+done
+
+echo "==> Removing Redis/Kafka demo ClientController"
+for path in \
+  "${MAIN}/controller/ClientController.java" \
+  "${TEST}/ut/controller/ClientControllerTest.java" \
+  "${TEST}/it/stepdefinition/ClientAPIStepDefinitions.java" \
+  "${TRES}/features_and_scenarios/Client.feature"; do
+  remove_path "$path"
+done
+
+ARCH_TEST="${TEST}/ut/ArchitectureTest.java"
+if [[ -f "$ARCH_TEST" ]]; then
+  echo "  ~ edit    $ARCH_TEST"
+  if ! is_dry_run; then
+    # Drop the ClientController exemption from the controller -> infrastructure rule.
+    sed_inplace "$ARCH_TEST" \
+      -e '/doNotHaveSimpleName("ClientController")/d' \
+      -e 's/controllersShouldNotDependOnInfrastructureExceptLocalDemo/controllersShouldNotDependOnInfrastructure/'
+  fi
+fi
+
+echo "==> Removing sample pagination types"
+for path in \
+  "${MAIN}/domain/PageQuery.java" \
+  "${MAIN}/domain/PageResult.java" \
+  "${MAIN}/controller/dto/PageResponse.java"; do
   remove_path "$path"
 done
 
@@ -283,30 +312,27 @@ for f in "${TRES}/db/init-it.sql" "${TRES}/mocks/mysql/warmup-scripts/warmup1.sq
   perl -0pi -e 's/CREATE TABLE (?:IF NOT EXISTS )?tbl_(?:user|order)\b.*?;\n+//gs; s/INSERT INTO tbl_(?:user|order)\b.*?;\n+//gs' "$f"
 done
 
-echo "==> Keeping empty layer packages (package-info.java)"
-keep_package() {
-  local dir="$1" pkg="$2" doc="$3"
-  [[ -d "$dir" ]] && [[ -n "$(find "$dir" -maxdepth 1 -name '*.java' -print -quit)" ]] && return 0
-  write_file "${dir}/package-info.java" <<EOF
-/**
- * ${doc}
- *
- * <p>
- * See docs/clean-architecture.md for layer rules.
- */
-package ${pkg};
-EOF
+echo "==> Keeping empty layer directories (.gitkeep)"
+keep_dir() {
+  local dir="$1"
+  if [[ -d "$dir" ]] && [[ -n "$(find "$dir" -type f ! -name .gitkeep -print -quit)" ]]; then
+    return 0
+  fi
+  echo "  ~ keep    ${dir}/.gitkeep"
+  is_dry_run && return 0
+  mkdir -p "$dir"
+  touch "${dir}/.gitkeep"
 }
-keep_package "${MAIN}/usecase" "${PKG}.usecase" \
-  "Use cases (application layer): one class per business operation, e.g. usecase/product/CreateProduct, with commands under usecase/product/command."
-keep_package "${MAIN}/domain/repository" "${PKG}.domain.repository" \
-  "Repository ports owned by the domain. Implementations live in infrastructure/data/repository."
-keep_package "${MAIN}/controller/dto" "${PKG}.controller.dto" \
-  "Request/response DTOs per resource, e.g. controller/dto/product/request and controller/dto/product/response."
-keep_package "${MAIN}/infrastructure/data/entities" "${PKG}.infrastructure.data.entities" \
-  "JPA entities (persistence models) with mapping to and from domain types."
-keep_package "${TEST}/ut/usecase" "${PKG}.ut.usecase" \
-  "Unit tests for use cases, with repository ports mocked."
+for dir in \
+  "${MAIN}/usecase" \
+  "${MAIN}/domain/repository" \
+  "${MAIN}/controller/dto" \
+  "${MAIN}/infrastructure/data/entities" \
+  "${MAIN}/infrastructure/data/repository" \
+  "${TEST}/ut/usecase" \
+  "${TEST}/ut/controller"; do
+  keep_dir "$dir"
+done
 
 echo
 if is_dry_run; then

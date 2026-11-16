@@ -12,7 +12,7 @@ Tracks **upstream template** changes by date. This repo does not use versioned r
 
 ### Added
 
-- **`make init`**: one command to start a new service from the template. It removes the sample User/Order features (domain, use cases, controllers, adapters, tests, features, seed SQL) and keeps the package layout (`package-info.java` in emptied layers) and platform pieces. `EventPublisher` becomes a generic `publish(eventType, event)`. It then renames package/artifact/main class, formats the code and runs unit tests. New `scripts/reset-template.sh` and `scripts/lib/common.sh`; see `docs/template-setup.md`.
+- **`make init`**: one command to start a new service from the template. It removes the sample User/Order features (domain, use cases, controllers, adapters, tests, features, seed SQL), the Redis/Kafka demo `ClientController` with its tests and Cucumber feature, and `PageQuery` / `PageResult` / `PageResponse`. It keeps the package layout (`.gitkeep` in emptied layer directories) and platform pieces. `EventPublisher` becomes a generic `publish(eventType, event)`. It then renames package/artifact/main class, sets `service.name` to the artifactId, formats the code and runs unit tests. New `scripts/reset-template.sh` and `scripts/lib/common.sh`; see `docs/template-setup.md`.
 - **`make rename`**: wraps `scripts/rename-template.sh`. Both targets take `PACKAGE`, `ARTIFACT`, `APP`, `DRY_RUN=1` (preview) and `FORCE=1` (allow a dirty git tree).
 
 ### Changed

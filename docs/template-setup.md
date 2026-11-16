@@ -15,8 +15,8 @@ git add -A && git commit -m "chore: initialise service from template"
 
 `make init` runs these steps in order:
 
-1. **Reset** (`scripts/reset-template.sh`): removes the sample User and Order features and keeps the platform pieces and package layout.
-2. **Rename** (`scripts/rename-template.sh`): renames the base package, Maven artifact and main application class.
+1. **Reset** (`scripts/reset-template.sh`): removes the sample User and Order features, the Redis/Kafka demo `ClientController` and the pagination helpers, and keeps the platform pieces and package layout.
+2. **Rename** (`scripts/rename-template.sh`): renames the base package, Maven artifact and main application class, and sets `service.name` in `application.yaml` to `ARTIFACT`.
 3. `make format`, then `make test`.
 
 To rename without removing the samples (for example, to keep them as a reference while you learn the layout), use `make rename` with the same variables.
@@ -44,11 +44,11 @@ When a required variable is missing, the target prints usage and exits. Without 
 
 | Area | Removed |
 |------|---------|
-| Domain | `User`, `Order`, their repository ports, `UserCreatedEvent`, `OrderCreatedEvent` |
+| Domain | `User`, `Order`, their repository ports, `UserCreatedEvent`, `OrderCreatedEvent`, `PageQuery`, `PageResult` |
 | Use cases | `usecase/users/`, `usecase/order/` |
-| Controllers | `UserController`, `OrderController`, `controller/dto/user/`, `controller/dto/order/` |
+| Controllers | `UserController`, `OrderController`, `controller/dto/user/`, `controller/dto/order/`, `controller/dto/PageResponse`, the Redis/Kafka demo `ClientController` (`/test/redis`, `/test/kafka`) |
 | Infrastructure | `UserData`, `OrderData`, JPA repositories and `*RepositoryImpl` adapters |
-| Tests | User/Order unit tests, controller tests, Cucumber features and step definitions |
+| Tests | User/Order/Client unit tests, controller tests, Cucumber features and step definitions |
 | Database | `tbl_user` / `tbl_order` DDL (`V1.0__Initial_Schema.sql` becomes a placeholder), seed data `olxin/V1.1__Insert_Initial_Data.sql`, sample rows in IT SQL |
 
 ## What the reset rewrites
@@ -61,13 +61,14 @@ When a required variable is missing, the target prints usage and exits. Without 
 | `infrastructure/outbox/relay/OutboxTopicResolver` | No sample-specific default topic |
 | `application.yaml`, `application-local.yaml` | `outbox.relay.topics: {}` |
 | Outbox unit tests | Use an inline example event instead of `UserCreatedEvent` |
+| `ArchitectureTest` | Controller → infrastructure rule no longer exempts `ClientController` |
 
 ## What the reset keeps
 
-- The package layout. Layers left empty get a `package-info.java` describing what belongs there: `usecase`, `domain/repository`, `ut/usecase`.
-- Health check and client demo controllers, tenancy, security, outbox relay, Kafka, Redis, logging, observability.
-- Shared types: `PageQuery`, `PageResult`, `PageResponse`, `ResourceNotFoundException`.
-- Outbox migrations (`V1.2`, `V1.3`), `ArchitectureTest`, and the Health/Client Cucumber features.
+- The package layout. Layer directories left empty get a `.gitkeep`: `usecase`, `domain/repository`, `controller/dto`, `ut/usecase`. Delete it once you add the first class.
+- Health check controller, tenancy, security, outbox relay, Kafka, Redis, logging, observability.
+- Shared types: `ResourceNotFoundException`.
+- Outbox migrations (`V1.2`, `V1.3`), `ArchitectureTest`, and the HealthCheck Cucumber feature.
 
 ## Next: add your first feature
 

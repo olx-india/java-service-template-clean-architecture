@@ -72,6 +72,15 @@ find . -type f \
   fi
 done
 
+# Use the artifactId as the logical service name (logback "service" field).
+for f in src/main/resources/application.yaml src/main/resources/application-*.yaml; do
+  [[ -f "$f" ]] || continue
+  grep -qE '^service:' "$f" || continue
+  echo "  ~ edit    ${f} (service.name -> ${ARTIFACT_ID})"
+  is_dry_run && continue
+  perl -0pi -e 's/^(service:\n  name: )"?[^"\n]*"?$/$1"'"${ARTIFACT_ID}"'"/m' "$f"
+done
+
 # Move Java sources
 echo "==> Moving sources"
 for SRC in src/main/java src/test/java; do
