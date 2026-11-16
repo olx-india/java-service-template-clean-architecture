@@ -101,7 +101,7 @@ Full breakdown: [docs/features.md](docs/features.md)
 | Category | Technology |
 |----------|------------|
 | Runtime | Java 21 |
-| Framework | Spring Boot 4.1.1 |
+| Framework | Spring Boot 4.0.9 |
 | Build | Maven 3.6+ (wrapper included) |
 | Database | MySQL 8, Flyway |
 | Cache | Redis, Spring Cache |
