@@ -14,6 +14,10 @@ Tracks **upstream template** changes by date. This repo does not use versioned r
 
 - **Dependency bumps (Dependabot #49–#62)** — Spring Boot `4.1.1`; Guava `33.7.1-jre`; Hibernate Validator `9.1.4.Final`; OTel OTLP exporter `1.66.0`; httpmime `4.5.14`; ASM `9.10.1`; JaCoCo `0.8.15`; maven-javadoc-plugin `3.12.0`; maven-release-plugin `3.3.1`; Maven `3.9.16` / wrapper `3.3.4`; `actions/setup-java@v6.2.0`; `docker/setup-buildx-action@v4`
 
+### Fixed
+
+- **Spring Boot back to `4.0.9`** (from `4.1.1`): Spring Cloud has no GA release for Boot 4.1 yet, so the app failed to start (`Spring Boot [4.1.1] is not compatible with this Spring Cloud release train`). `spring-cloud-commons` `5.0.0` → `5.0.4`. Boot 4.0.9 manages FreeMarker `2.3.35`, which fixes the CRITICAL Trivy finding CVE-2026-84939 in `app.jar`, and Tomcat `11.0.27`, so the old `tomcat.version` pin (`11.0.26`) is removed.
+
 ## 2026-09-19
 
 ### Added
