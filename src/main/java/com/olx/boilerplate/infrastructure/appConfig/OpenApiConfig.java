@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 public class OpenApiConfig {
 
     @Bean
-    public OpenAPI boilerplateOpenApi() {
+    public OpenAPI serviceOpenApi() {
         final String bearerScheme = "bearerAuth";
         OpenAPI openAPI = new OpenAPI()
                         .info(new Info()

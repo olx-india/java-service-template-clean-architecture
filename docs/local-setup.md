@@ -18,6 +18,16 @@ export JAVA_HOME=$(/usr/libexec/java_home -v 21)   # macOS
 java -version   # must show 21.x
 ```
 
+## Starting a new service from the template
+
+Before the first run, turn the template into your service (removes the User/Order samples and renames the package, artifact and main class):
+
+```bash
+make init PACKAGE=com.acme.myservice ARTIFACT=myservice APP=MyServiceApplication
+```
+
+See [template-setup.md](template-setup.md) for variables (`DRY_RUN`, `FORCE`) and what changes.
+
 ## One-command start
 
 ```bash

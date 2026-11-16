@@ -50,7 +50,7 @@ CHANGELOG.md             template changes by date (maintainers)
 
 ### 1. Add a new REST resource
 
-Copy the **User** or **Order** vertical slice.
+Copy the **User** or **Order** vertical slice. After `make init` removes the samples, follow the same layer order (see [template-setup.md](template-setup.md)); the samples remain in git history.
 
 | Step | Action |
 |------|--------|
@@ -175,6 +175,8 @@ Integration tests fail with Testcontainers Docker error. Diagnose using AGENTS.m
 | Cucumber IT | `make it` |
 | Formatter + SpotBugs (CI-like) | `make verify` |
 | Format only | `make format` |
+| New service from template (drop samples + rename) | `make init PACKAGE=… ARTIFACT=… APP=…` (`DRY_RUN=1` to preview) |
+| Rename only | `make rename PACKAGE=… ARTIFACT=… APP=…` |
 
 Agents should **not** skip hooks or use `-DskipTests` unless the user explicitly asks.
 

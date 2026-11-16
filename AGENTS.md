@@ -43,8 +43,8 @@ Spring Boot 4.0 **Clean Architecture** Java template (`com.olx.boilerplate`). JD
 ### Add a domain event (outbox)
 
 1. Event class + constant in `domain/event/`
-2. Method on `EventPublisher` port
-3. Implement in `infrastructure/outbox/OutboxEventPublisher`
+2. Method on `EventPublisher` port (after `make init` the port is generic: call `publish(OutboxEventTypes.X, event)` and skip this step)
+3. Implement in `infrastructure/outbox/OutboxEventPublisher` (not needed with the generic port)
 4. Map topic in `outbox.relay.topics` (`application.yaml`)
 5. Call from use case inside **`@Transactional`** write method
 
@@ -54,6 +54,8 @@ See [docs/outbox-pattern.md](docs/outbox-pattern.md).
 
 ```bash
 cp .env.example .env && make dev   # local stack + server
+make init PACKAGE=com.acme.x ARTIFACT=x APP=XApplication   # new service: drop samples + rename (DRY_RUN=1 / FORCE=1)
+make rename PACKAGE=com.acme.x ARTIFACT=x APP=XApplication # rename only
 make test                          # unit tests
 make it                            # Cucumber + Testcontainers
 make verify                        # CI-like verify (SpotBugs; skips OWASP)

@@ -157,6 +157,11 @@ make docker-down       # Stop containers
 make migrate           # Run Flyway migrations (loads .env)
 make run               # Start Spring Boot (infra must already be up)
 make format            # Apply Eclipse formatter
+make init PACKAGE=com.acme.orders ARTIFACT=orders-service APP=OrdersApplication
+                       # New service: remove User/Order samples, rename, format, test
+make rename PACKAGE=... ARTIFACT=... APP=...
+                       # Rename package/artifact/main class only (keeps samples)
+                       # Both accept DRY_RUN=1 (preview) and FORCE=1 (dirty git tree)
 ```
 
 **Local Docker:** `make docker-up` starts MySQL, Redis, Kafka, and the OTel collector only. Run the app with `make run` or `make dev`. Do not start a packaged `myapp` container for day-to-day local development.
@@ -169,14 +174,25 @@ make format            # Apply Eclipse formatter
 
 ## Customize for your service
 
-1. Run `./scripts/rename-template.sh com.acme.myservice myservice MyServiceApplication` (or rename package/artifact manually in `pom.xml`).
-2. Add a domain entity and repository port under `domain/`
-3. Add a command + use case under `usecase/`
-4. Add request/response DTOs and a controller under `/api/v1/...`
-5. Implement the repository adapter in `infrastructure/data/repository/`
+One command resets the template and renames it:
+
+```bash
+make init PACKAGE=com.acme.myservice ARTIFACT=myservice APP=MyServiceApplication DRY_RUN=1   # preview
+make init PACKAGE=com.acme.myservice ARTIFACT=myservice APP=MyServiceApplication             # apply
+```
+
+`make init` removes the sample User/Order features and keeps the package layout and platform pieces (tenancy, outbox, Kafka, Redis, health). It then renames the package, artifact and main class, formats the code and runs unit tests. Use `make rename` instead to keep the samples. Variables and the full list of changed files: [docs/template-setup.md](docs/template-setup.md).
+
+Then add your first feature:
+
+1. Add a domain entity and repository port under `domain/`
+2. Add a command + use case under `usecase/`
+3. Add request/response DTOs and a controller under `/api/v1/...`
+4. Implement the repository adapter in `infrastructure/data/repository/`
+5. Add a Flyway migration under `db/migration/common/`
 6. Add unit tests and a Cucumber scenario
 
-API calls need the `X-Default-Tenant: default` header. Sample APIs: `/api/v1/users`, `/api/v1/orders`.
+API calls need the `X-Default-Tenant: default` header. Sample APIs (until you run `make init`): `/api/v1/users`, `/api/v1/orders`.
 
 ---
 
