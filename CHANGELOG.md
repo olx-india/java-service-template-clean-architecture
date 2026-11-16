@@ -12,6 +12,8 @@ Tracks **upstream template** changes by date. Maintainers also cut versioned Git
 
 ### Added
 
+- **Google Search Console verification**: `overrides/main.html` (set as the MkDocs theme `custom_dir`) adds the `google-site-verification` meta tag to every docs page. Keep it, because Google re-checks it. `docs.yml` now also runs when `overrides/**` changes.
+
 - **Documentation site**: `mkdocs.yml` (MkDocs Material) builds `docs/` into a site on GitHub Pages, deployed by the new `.github/workflows/docs.yml`, which also checks the build with `--strict` on pull requests. `scripts/mkdocs_hooks.py` rewrites links that leave `docs/` (e.g. `../AGENTS.md`) to GitHub URLs on the site. Pinned tooling lives in `requirements-docs.txt`.
 - **Social preview image**: `docs/assets/social-preview.png` (1280×640) for the repository's social card.
 - **`CITATION.cff`** so the template can be cited and indexed.

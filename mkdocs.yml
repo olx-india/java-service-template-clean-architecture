@@ -15,6 +15,7 @@ hooks:
 
 theme:
   name: material
+  custom_dir: overrides
   features:
     - navigation.sections
     - navigation.top
