@@ -94,8 +94,6 @@ CREATE TABLE outbox_event (
 );
 ```
 
-Index for relay polling: `V1.3__Outbox_Event_Index.sql`
-
 ## Configuration
 
 ```yaml
@@ -122,6 +120,8 @@ Follow this checklist when introducing another domain event:
 4. **Use case** — Call the port inside an existing `@Transactional` write method
 5. **Config** — Map event type to Kafka topic under `outbox.relay.topics`
 6. **Tests** — Unit test the publisher + relay; add integration coverage if needed
+
+> **After `make init`:** the sample events are removed and `EventPublisher` becomes a single generic method, `publish(String eventType, Object event)`. Skip steps 2–3 and call `eventPublisher.publish(OutboxEventTypes.MY_EVENT, new MyEvent(...))` from the use case. See [template-setup.md](template-setup.md).
 
 Example constant:
 

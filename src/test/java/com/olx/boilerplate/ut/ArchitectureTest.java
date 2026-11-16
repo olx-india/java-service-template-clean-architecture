@@ -25,18 +25,21 @@ class ArchitectureTest {
     }
 
     @Test
-    void usecaseShouldNotDependOnInfrastructure() {
+    void becauseShouldNotDependOnInfrastructure() {
         ArchRule rule = noClasses()
                         .that().resideInAPackage("..usecase..")
-                        .should().dependOnClassesThat().resideInAnyPackage("..infrastructure..");
+                        .should().dependOnClassesThat().resideInAnyPackage("..infrastructure..")
+                        // usecase/ is empty right after `make init`
+                        .allowEmptyShould(true);
         rule.check(CLASSES);
     }
 
     @Test
-    void usecaseShouldNotDependOnController() {
+    void becauseShouldNotDependOnController() {
         ArchRule rule = noClasses()
                         .that().resideInAPackage("..usecase..")
-                        .should().dependOnClassesThat().resideInAPackage("..controller..");
+                        .should().dependOnClassesThat().resideInAPackage("..controller..")
+                        .allowEmptyShould(true);
         rule.check(CLASSES);
     }
 

@@ -1,6 +1,6 @@
 datasource:
   masterDataSource:
-    jdbcUrl: "jdbc:mysql://localhost:3306/olxin"
+    jdbcUrl: "jdbc:mysql://localhost:3306/tenant"
     username: "root"
     password: "testDBPassword"
     minimumIdle: 1 #minimum number of idle connections maintained in a connection pool

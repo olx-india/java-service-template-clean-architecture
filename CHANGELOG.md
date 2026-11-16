@@ -10,7 +10,14 @@ Tracks **upstream template** changes by date. This repo does not use versioned r
 
 ## 2026-11-16
 
+### Added
+
+- **`make init`**: one command to start a new service from the template. It removes the sample User/Order features (domain, use cases, controllers, adapters, tests, features, seed SQL), the Redis/Kafka demo `ClientController` with its tests and Cucumber feature, and `PageQuery` / `PageResult` / `PageResponse`. It keeps the package layout (`.gitkeep` in emptied layer directories) and platform pieces. `EventPublisher` becomes a generic `publish(eventType, event)`. It then renames package/artifact/main class, sets `service.name` to the artifactId, formats the code and runs unit tests. New `scripts/reset-template.sh` and `scripts/lib/common.sh`; see `docs/template-setup.md`.
+- **`make rename`**: wraps `scripts/rename-template.sh`. Both targets take `PACKAGE`, `ARTIFACT`, `APP`, `DRY_RUN=1` (preview) and `FORCE=1` (allow a dirty git tree).
+
 ### Changed
+
+- **`scripts/rename-template.sh`**: validates inputs, supports `DRY_RUN`/`FORCE`, also renames `BoilerplateApplicationTests`, updates `Dockerfile` and `.mdc` files, and no longer corrupts Java identifiers that contain the artifact name. `OpenApiConfig` bean method renamed to `serviceOpenApi`.
 
 - **Dependency bumps (Dependabot #49–#62)** — Spring Boot `4.1.1`; Guava `33.7.1-jre`; Hibernate Validator `9.1.4.Final`; OTel OTLP exporter `1.66.0`; httpmime `4.5.14`; ASM `9.10.1`; JaCoCo `0.8.15`; maven-javadoc-plugin `3.12.0`; maven-release-plugin `3.3.1`; Maven `3.9.16` / wrapper `3.3.4`; `actions/setup-java@v6.2.0`; `docker/setup-buildx-action@v4`
 

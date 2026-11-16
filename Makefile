@@ -1,4 +1,4 @@
-.PHONY: build test it verify verify-all spotbugs dependency-check security run dev docker-up docker-down migrate format
+.PHONY: build test it verify verify-all spotbugs dependency-check security run dev docker-up docker-down migrate format init rename
 
 MVN = ./mvnw -s settings.xml
 JAVA21 = export JAVA_HOME=$$(/usr/libexec/java_home -v 21 2>/dev/null || echo "$$JAVA_HOME");
@@ -46,7 +46,7 @@ dev:
 		sleep 2; \
 	done && \
 	echo "==> Running database migrations..." && \
-	SCHEMAS_TO_MIGRATE=$${SCHEMAS_TO_MIGRATE:-olxin} ./migrate.sh && \
+	SCHEMAS_TO_MIGRATE=$${SCHEMAS_TO_MIGRATE:-tenant} ./migrate.sh && \
 	echo "==> Starting server (profile: $${SPRING_PROFILE:-local})..." && \
 	$(MVN) spring-boot:run -Dspring-boot.run.profiles=$${SPRING_PROFILE:-local}
 
@@ -58,7 +58,41 @@ docker-down:
 
 migrate:
 	@test -f .env && set -a && . ./.env && set +a; \
-	SCHEMAS_TO_MIGRATE=$${SCHEMAS_TO_MIGRATE:-olxin} ./migrate.sh
+	SCHEMAS_TO_MIGRATE=$${SCHEMAS_TO_MIGRATE:-tenant} ./migrate.sh
 
 format:
 	$(JAVA21) $(MVN) formatter:format
+
+# ---------------------------------------------------------------------------
+# Template setup
+#   make init   PACKAGE=com.acme.orders ARTIFACT=orders-service APP=OrdersApplication
+#   make rename PACKAGE=com.acme.orders ARTIFACT=orders-service APP=OrdersApplication
+# Optional: DRY_RUN=1 (print changes only), FORCE=1 (allow a dirty git tree)
+# ---------------------------------------------------------------------------
+DRY_RUN ?= 0
+FORCE ?= 0
+TEMPLATE_USAGE = Usage: make $@ PACKAGE=com.acme.orders ARTIFACT=orders-service APP=OrdersApplication [DRY_RUN=1] [FORCE=1]
+
+define require_template_vars
+	@if [ -z "$(PACKAGE)" ] || [ -z "$(ARTIFACT)" ] || [ -z "$(APP)" ]; then \
+		echo "$(TEMPLATE_USAGE)"; exit 1; \
+	fi
+endef
+
+# Remove the sample User/Order features, rename package/artifact/app class, format and test
+init:
+	$(require_template_vars)
+	@if [ "$(DRY_RUN)" != "1" ] && [ "$(FORCE)" != "1" ] && [ -n "$$(git status --porcelain 2>/dev/null)" ]; then \
+		echo "ERROR: Git working tree has uncommitted changes. Commit/stash them first, or re-run with FORCE=1."; exit 1; \
+	fi
+	@DRY_RUN=$(DRY_RUN) FORCE=1 ./scripts/reset-template.sh
+	@DRY_RUN=$(DRY_RUN) FORCE=1 ./scripts/rename-template.sh "$(PACKAGE)" "$(ARTIFACT)" "$(APP)"
+	@if [ "$(DRY_RUN)" != "1" ]; then \
+		$(MAKE) --no-print-directory format && $(MAKE) --no-print-directory test && \
+		echo "==> Template initialised as $(PACKAGE) ($(ARTIFACT)). Review 'git status' and commit."; \
+	fi
+
+# Rename package/artifact/app class only (keeps the sample features)
+rename:
+	$(require_template_vars)
+	@DRY_RUN=$(DRY_RUN) FORCE=$(FORCE) ./scripts/rename-template.sh "$(PACKAGE)" "$(ARTIFACT)" "$(APP)"

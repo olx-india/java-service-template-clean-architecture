@@ -18,6 +18,16 @@ export JAVA_HOME=$(/usr/libexec/java_home -v 21)   # macOS
 java -version   # must show 21.x
 ```
 
+## Starting a new service from the template
+
+Before the first run, turn the template into your service (removes the User/Order samples and renames the package, artifact and main class):
+
+```bash
+make init PACKAGE=com.acme.myservice ARTIFACT=myservice APP=MyServiceApplication
+```
+
+See [template-setup.md](template-setup.md) for variables (`DRY_RUN`, `FORCE`) and what changes.
+
 ## One-command start
 
 ```bash
@@ -41,14 +51,14 @@ Copy [`.env.example`](../.env.example) to `.env`:
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `DB_HOST` | Master JDBC URL | `jdbc:mysql://localhost:3306/olxin` |
+| `DB_HOST` | Master JDBC URL | `jdbc:mysql://localhost:3306/tenant` |
 | `DB_REPLICA_HOST` | Replica JDBC URL | same as master locally |
 | `DB_USERNAME` | Database user | `root` |
 | `DB_PASSWORD` | Database password | `testDBPassword` |
 | `REDIS_HOST` | Redis hostname | `localhost` |
 | `KAFKA_HOST` | Kafka bootstrap servers | `localhost:9092` |
 | `DEFAULT_SCHEMA` | Schema name for tenant `default` | `public` |
-| `SCHEMAS_TO_MIGRATE` | Comma-separated Flyway schemas | `olxin` |
+| `SCHEMAS_TO_MIGRATE` | Comma-separated Flyway schemas | `tenant` |
 | `IT_MODE` | Integration-test delay flag | `false` |
 | `SPRING_PROFILE` | Active Spring profile | `local` |
 
