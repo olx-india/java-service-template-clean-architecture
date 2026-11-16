@@ -8,6 +8,12 @@ Tracks **upstream template** changes by date. This repo does not use versioned r
 
 ---
 
+## 2026-11-16
+
+### Changed
+
+- **Dependency bumps (Dependabot #49–#62)** — Spring Boot `4.1.1`; Guava `33.7.1-jre`; Hibernate Validator `9.1.4.Final`; OTel OTLP exporter `1.66.0`; httpmime `4.5.14`; ASM `9.10.1`; JaCoCo `0.8.15`; maven-javadoc-plugin `3.12.0`; maven-release-plugin `3.3.1`; Maven `3.9.16` / wrapper `3.3.4`; `actions/setup-java@v6.2.0`; `docker/setup-buildx-action@v4`
+
 ## 2026-09-19
 
 ### Added
