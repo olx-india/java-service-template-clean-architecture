@@ -49,7 +49,7 @@ When a required variable is missing, the target prints usage and exits. Without 
 | Controllers | `UserController`, `OrderController`, `controller/dto/user/`, `controller/dto/order/`, `controller/dto/PageResponse`, the Redis/Kafka demo `ClientController` (`/test/redis`, `/test/kafka`) |
 | Infrastructure | `UserData`, `OrderData`, JPA repositories and `*RepositoryImpl` adapters |
 | Tests | User/Order/Client unit tests, controller tests, Cucumber features and step definitions |
-| Database | `tbl_user` / `tbl_order` DDL (`V1.0__Initial_Schema.sql` becomes a placeholder), seed data `olxin/V1.1__Insert_Initial_Data.sql`, sample rows in IT SQL |
+| Database | `tbl_user` / `tbl_order` DDL (`V1.0__Initial_Schema.sql` becomes a placeholder), seed data `tenant/V1.1__Insert_Initial_Data.sql`, sample rows in IT SQL |
 
 ## What the reset rewrites
 

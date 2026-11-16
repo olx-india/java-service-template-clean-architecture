@@ -6,3 +6,5 @@ CREATE TABLE IF NOT EXISTS outbox_event
     created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     published   TINYINT(1)   NOT NULL DEFAULT 0
 );
+
+CREATE INDEX idx_outbox_event_published_created_at ON outbox_event (published, created_at);

@@ -69,7 +69,7 @@ for path in \
   "${TEST}/it/stepdefinition/OrderAPIStepDefinitions.java" \
   "${TRES}/features_and_scenarios/User.feature" \
   "${TRES}/features_and_scenarios/Order.feature" \
-  "${RES}/db/migration/olxin/V1.1__Insert_Initial_Data.sql"; do
+  "${RES}/db/migration/tenant/V1.1__Insert_Initial_Data.sql"; do
   remove_path "$path"
 done
 
@@ -299,10 +299,10 @@ write_file "${RES}/db/migration/common/V1.0__Initial_Schema.sql" <<'EOF'
 SELECT 1;
 EOF
 if ! is_dry_run; then
-  mkdir -p "${RES}/db/migration/olxin"
-  touch "${RES}/db/migration/olxin/.gitkeep"
+  mkdir -p "${RES}/db/migration/tenant"
+  touch "${RES}/db/migration/tenant/.gitkeep"
 fi
-echo "  ~ keep    ${RES}/db/migration/olxin/.gitkeep"
+echo "  ~ keep    ${RES}/db/migration/tenant/.gitkeep"
 
 for f in "${TRES}/db/init-it.sql" "${TRES}/mocks/mysql/warmup-scripts/warmup1.sql"; do
   [[ -f "$f" ]] || continue

@@ -46,7 +46,7 @@ dev:
 		sleep 2; \
 	done && \
 	echo "==> Running database migrations..." && \
-	SCHEMAS_TO_MIGRATE=$${SCHEMAS_TO_MIGRATE:-olxin} ./migrate.sh && \
+	SCHEMAS_TO_MIGRATE=$${SCHEMAS_TO_MIGRATE:-tenant} ./migrate.sh && \
 	echo "==> Starting server (profile: $${SPRING_PROFILE:-local})..." && \
 	$(MVN) spring-boot:run -Dspring-boot.run.profiles=$${SPRING_PROFILE:-local}
 
@@ -58,7 +58,7 @@ docker-down:
 
 migrate:
 	@test -f .env && set -a && . ./.env && set +a; \
-	SCHEMAS_TO_MIGRATE=$${SCHEMAS_TO_MIGRATE:-olxin} ./migrate.sh
+	SCHEMAS_TO_MIGRATE=$${SCHEMAS_TO_MIGRATE:-tenant} ./migrate.sh
 
 format:
 	$(JAVA21) $(MVN) formatter:format

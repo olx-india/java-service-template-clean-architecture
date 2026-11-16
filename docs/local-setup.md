@@ -51,14 +51,14 @@ Copy [`.env.example`](../.env.example) to `.env`:
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `DB_HOST` | Master JDBC URL | `jdbc:mysql://localhost:3306/olxin` |
+| `DB_HOST` | Master JDBC URL | `jdbc:mysql://localhost:3306/tenant` |
 | `DB_REPLICA_HOST` | Replica JDBC URL | same as master locally |
 | `DB_USERNAME` | Database user | `root` |
 | `DB_PASSWORD` | Database password | `testDBPassword` |
 | `REDIS_HOST` | Redis hostname | `localhost` |
 | `KAFKA_HOST` | Kafka bootstrap servers | `localhost:9092` |
 | `DEFAULT_SCHEMA` | Schema name for tenant `default` | `public` |
-| `SCHEMAS_TO_MIGRATE` | Comma-separated Flyway schemas | `olxin` |
+| `SCHEMAS_TO_MIGRATE` | Comma-separated Flyway schemas | `tenant` |
 | `IT_MODE` | Integration-test delay flag | `false` |
 | `SPRING_PROFILE` | Active Spring profile | `local` |
 

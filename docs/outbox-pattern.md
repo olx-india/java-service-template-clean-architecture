@@ -94,8 +94,6 @@ CREATE TABLE outbox_event (
 );
 ```
 
-Index for relay polling: `V1.3__Outbox_Event_Index.sql`
-
 ## Configuration
 
 ```yaml
