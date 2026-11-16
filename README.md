@@ -2,7 +2,13 @@
 
 A production-grade **Spring Boot 4 / Java 21 Clean Architecture** (hexagonal, ports and adapters) **microservice template** with **ArchUnit-enforced layer boundaries**, **multi-tenant MySQL**, **transactional outbox → Kafka**, Redis, a full local stack, BDD + Testcontainers, security and quality gates, and first-class AI-agent docs. It is ready to fork, not a toy sample.
 
-**[Use this template](https://github.com/olx-india/java-service-template-clean-architecture/generate)** · **[Documentation site](https://olx-india.github.io/java-service-template-clean-architecture/)** · then run `make init PACKAGE=com.acme.orders ARTIFACT=orders-service APP=OrdersApplication` to get a clean, renamed service.
+> [!TIP]
+> **📖 Read the full documentation at [olx-india.github.io/java-service-template-clean-architecture](https://olx-india.github.io/java-service-template-clean-architecture/)**: architecture guide, transactional outbox, local setup, ADRs, runbook and AI-agent workflows, all searchable in one place.
+
+[![Read the docs](https://img.shields.io/badge/📖_Read_the_docs-olx--india.github.io-2EA44F?style=for-the-badge)](https://olx-india.github.io/java-service-template-clean-architecture/)
+[![Use this template](https://img.shields.io/badge/Use_this_template-238636?style=for-the-badge&logo=github)](https://github.com/olx-india/java-service-template-clean-architecture/generate)
+
+Then run `make init PACKAGE=com.acme.orders ARTIFACT=orders-service APP=OrdersApplication` to get a clean, renamed service.
 
 Maintained by [OLX India](https://github.com/olx-india) · [Apache License 2.0](LICENSE) · If this template saves you time, please ⭐ star the repo so other teams can find it.
 
@@ -214,6 +220,8 @@ API calls need the `X-Default-Tenant: default` header. Sample APIs (until you ru
 ---
 
 ## Documentation
+
+**🌐 Documentation site: <https://olx-india.github.io/java-service-template-clean-architecture/>**. All guides below are published there with search, navigation and dark mode.
 
 | Topic | Link |
 |-------|------|

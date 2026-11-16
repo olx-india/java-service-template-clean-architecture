@@ -21,6 +21,7 @@ Tracks **upstream template** changes by date. Maintainers also cut versioned Git
 
 ### Changed
 
+- **README**: prominent docs-site callout and "Read the docs" / "Use this template" buttons at the top, and a docs-site link heading the Documentation section.
 - **README**: keyword-first title and intro (Spring Boot 4, Clean Architecture, hexagonal, microservice template), "Use this template" and docs-site links, Docs and stars badges, and a comparison table against Spring Initializr and typical hexagonal samples.
 
 - **`scripts/rename-template.sh`**: validates inputs, supports `DRY_RUN`/`FORCE`, also renames `BoilerplateApplicationTests`, updates `Dockerfile` and `.mdc` files, and no longer corrupts Java identifiers that contain the artifact name. `OpenApiConfig` bean method renamed to `serviceOpenApi`.
