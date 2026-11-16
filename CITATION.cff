@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this template, please cite it as below."
+type: software
+title: "Spring Boot 4 Clean Architecture Template (Java 21, Hexagonal Microservice)"
+abstract: >-
+  Production-grade Spring Boot 4 / Java 21 Clean Architecture (hexagonal, ports and adapters)
+  microservice template with ArchUnit-enforced layer boundaries, multi-tenant MySQL,
+  transactional outbox to Kafka, Redis, Testcontainers and Cucumber BDD.
+authors:
+  - name: "OLX India"
+repository-code: "https://github.com/olx-india/java-service-template-clean-architecture"
+url: "https://olx-india.github.io/java-service-template-clean-architecture/"
+license: Apache-2.0
+keywords:
+  - spring-boot
+  - clean-architecture
+  - hexagonal-architecture
+  - ports-and-adapters
+  - java
+  - microservice
+  - template
+  - transactional-outbox
+  - kafka
+  - multi-tenancy

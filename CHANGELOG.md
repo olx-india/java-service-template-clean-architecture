@@ -1,6 +1,6 @@
 # Changelog
 
-Tracks **upstream template** changes by date. This repo does not use versioned releases — maintainers append entries when the template changes.
+Tracks **upstream template** changes by date. Maintainers also cut versioned GitHub releases (`vX.Y.Z` tags, built by `.github/workflows/release.yml`) for meaningful template changes; release notes summarise the dated entries below.
 
 **Contributors:** add bullets under today's date (create a new `## YYYY-MM-DD` section if needed). Group by Added / Changed / Fixed / Removed.
 
@@ -12,10 +12,16 @@ Tracks **upstream template** changes by date. This repo does not use versioned r
 
 ### Added
 
+- **Documentation site**: `mkdocs.yml` (MkDocs Material) builds `docs/` into a site on GitHub Pages, deployed by the new `.github/workflows/docs.yml`, which also checks the build with `--strict` on pull requests. `scripts/mkdocs_hooks.py` rewrites links that leave `docs/` (e.g. `../AGENTS.md`) to GitHub URLs on the site. Pinned tooling lives in `requirements-docs.txt`.
+- **Social preview image**: `docs/assets/social-preview.png` (1280×640) for the repository's social card.
+- **`CITATION.cff`** so the template can be cited and indexed.
+
 - **`make init`**: one command to start a new service from the template. It removes the sample User/Order features (domain, use cases, controllers, adapters, tests, features, seed SQL), the Redis/Kafka demo `ClientController` with its tests and Cucumber feature, and `PageQuery` / `PageResult` / `PageResponse`. It keeps the package layout (`.gitkeep` in emptied layer directories) and platform pieces. `EventPublisher` becomes a generic `publish(eventType, event)`. It then renames package/artifact/main class, sets `service.name` to the artifactId, formats the code and runs unit tests. New `scripts/reset-template.sh` and `scripts/lib/common.sh`; see `docs/template-setup.md`.
 - **`make rename`**: wraps `scripts/rename-template.sh`. Both targets take `PACKAGE`, `ARTIFACT`, `APP`, `DRY_RUN=1` (preview) and `FORCE=1` (allow a dirty git tree).
 
 ### Changed
+
+- **README**: keyword-first title and intro (Spring Boot 4, Clean Architecture, hexagonal, microservice template), "Use this template" and docs-site links, Docs and stars badges, and a comparison table against Spring Initializr and typical hexagonal samples.
 
 - **`scripts/rename-template.sh`**: validates inputs, supports `DRY_RUN`/`FORCE`, also renames `BoilerplateApplicationTests`, updates `Dockerfile` and `.mdc` files, and no longer corrupts Java identifiers that contain the artifact name. `OpenApiConfig` bean method renamed to `serviceOpenApi`.
 

@@ -41,3 +41,7 @@ build/
 env.sh
 .env
 .render/
+
+# MkDocs build output
+site/
+__pycache__/
