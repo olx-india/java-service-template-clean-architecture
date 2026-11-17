@@ -79,7 +79,7 @@ define require_template_vars
 	fi
 endef
 
-# Remove the sample User/Order features, rename package/artifact/app class, format and test
+# Remove the sample User/Order features and template-only citation/SEO/docs-site files, rename package/artifact/app class, format and test
 init:
 	$(require_template_vars)
 	@if [ "$(DRY_RUN)" != "1" ] && [ "$(FORCE)" != "1" ] && [ -n "$$(git status --porcelain 2>/dev/null)" ]; then \

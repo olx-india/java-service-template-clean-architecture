@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Remove the sample User and Order features, the Redis/Kafka demo controller
 # and the pagination helpers from the template, and keep the clean-architecture
-# package layout (emptied layer directories get a .gitkeep).
+# package layout (emptied layer directories get a .gitkeep). Also removes
+# template-only citation, SEO and docs-site files (CITATION.cff, mkdocs.yml,
+# overrides/, the docs workflow and the social preview image).
 #
 # Usually run through `make init`, before scripts/rename-template.sh.
 #
@@ -27,15 +29,38 @@ TEST="src/test/java/${PKG_PATH}"
 RES="src/main/resources"
 TRES="src/test/resources"
 
-if [[ ! -f "${MAIN}/domain/User.java" && ! -f "${MAIN}/domain/Order.java" ]]; then
-  echo "Sample User/Order code not found under ${MAIN} — nothing to reset."
-  exit 0
-fi
-
 require_clean_git_tree
 
-echo "==> Resetting template samples (base package: ${PKG})"
+echo "==> Resetting template (base package: ${PKG})"
 is_dry_run && echo "    DRY_RUN=1 — no files will be changed"
+
+# Files that only serve the public template repo: citation metadata, SEO
+# (social card, Google Search Console tag) and the MkDocs site published to
+# the template's GitHub Pages URL. A service built from the template drops them.
+echo "==> Removing template-only citation, SEO and docs-site files"
+for path in \
+  "CITATION.cff" \
+  "docs/assets/social-preview.png" \
+  "overrides" \
+  "mkdocs.yml" \
+  "requirements-docs.txt" \
+  "scripts/mkdocs_hooks.py" \
+  "scripts/__pycache__" \
+  ".github/workflows/docs.yml"; do
+  remove_path "$path"
+done
+if ! is_dry_run; then
+  rmdir docs/assets 2>/dev/null || true
+fi
+if [[ -f .gitignore ]] && grep -q '^# MkDocs build output$' .gitignore; then
+  echo "  ~ edit    .gitignore"
+  is_dry_run || sed_inplace .gitignore -e '/^# MkDocs build output$/,/^__pycache__\/$/d'
+fi
+
+if [[ ! -f "${MAIN}/domain/User.java" && ! -f "${MAIN}/domain/Order.java" ]]; then
+  echo "Sample User/Order code not found under ${MAIN} — nothing more to reset."
+  exit 0
+fi
 
 echo "==> Removing sample User and Order features"
 for path in \

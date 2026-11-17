@@ -15,7 +15,7 @@ git add -A && git commit -m "chore: initialise service from template"
 
 `make init` runs these steps in order:
 
-1. **Reset** (`scripts/reset-template.sh`): removes the sample User and Order features, the Redis/Kafka demo `ClientController` and the pagination helpers, and keeps the platform pieces and package layout.
+1. **Reset** (`scripts/reset-template.sh`): removes the sample User and Order features, the Redis/Kafka demo `ClientController` and the pagination helpers, and the template-only citation, SEO and docs-site files (`CITATION.cff`, `mkdocs.yml`, `requirements-docs.txt`, `overrides/`, `scripts/mkdocs_hooks.py`, `.github/workflows/docs.yml`, `docs/assets/social-preview.png`), and keeps the platform pieces and package layout.
 2. **Rename** (`scripts/rename-template.sh`): renames the base package, Maven artifact and main application class, and sets `service.name` in `application.yaml` to `ARTIFACT`.
 3. `make format`, then `make test`.
 

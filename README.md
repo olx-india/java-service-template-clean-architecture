@@ -2,13 +2,20 @@
 
 A production-grade **Spring Boot 4 / Java 21 Clean Architecture** (hexagonal, ports and adapters) **microservice template** with **ArchUnit-enforced layer boundaries**, **multi-tenant MySQL**, **transactional outbox → Kafka**, Redis, a full local stack, BDD + Testcontainers, security and quality gates, and first-class AI-agent docs. It is ready to fork, not a toy sample.
 
-> [!TIP]
+>
 > **📖 Read the full documentation at [olx-india.github.io/java-service-template-clean-architecture](https://olx-india.github.io/java-service-template-clean-architecture/)**: architecture guide, transactional outbox, local setup, ADRs, runbook and AI-agent workflows, all searchable in one place.
 
 [![Read the docs](https://img.shields.io/badge/📖_Read_the_docs-olx--india.github.io-2EA44F?style=for-the-badge)](https://olx-india.github.io/java-service-template-clean-architecture/)
 [![Use this template](https://img.shields.io/badge/Use_this_template-238636?style=for-the-badge&logo=github)](https://github.com/olx-india/java-service-template-clean-architecture/generate)
 
-Then run `make init PACKAGE=com.acme.orders ARTIFACT=orders-service APP=OrdersApplication` to get a clean, renamed service.
+>
+> **⚡ One command from template to your own service.** After creating your repo, run:
+>
+> ```bash
+> make init PACKAGE=com.acme.orders ARTIFACT=orders-service APP=OrdersApplication
+> ```
+>
+> It removes the sample features and template-only files, renames the package, Maven artifact and main class, then formats and runs the tests. You get a clean, renamed service that builds. Add `DRY_RUN=1` to preview the changes. Details: [docs/template-setup.md](docs/template-setup.md).
 
 Maintained by [OLX India](https://github.com/olx-india) · [Apache License 2.0](LICENSE) · If this template saves you time, please ⭐ star the repo so other teams can find it.
 
@@ -28,6 +35,7 @@ Maintained by [OLX India](https://github.com/olx-india) · [Apache License 2.0](
 
 What sets it apart from typical starters:
 
+- **One-command bootstrap (`make init`)**: strips the samples and template-only files, renames package/artifact/app class, formats and tests, so you start from a clean service that builds
 - **ArchUnit-enforced Clean Architecture** — domain and use cases cannot depend on infrastructure; violations fail the build
 - **Database-per-tenant MySQL** — with read/write replica routing
 - **Transactional outbox → Kafka** — events written atomically with business data, then relayed; see [docs/outbox-pattern.md](docs/outbox-pattern.md)
