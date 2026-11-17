@@ -13,7 +13,7 @@ Tracks **upstream template** changes by date. Maintainers also cut versioned Git
 ### Changed
 
 - **README highlights `make init`**: the one-command bootstrap is now a callout near the top and the first item under "Why this template".
-- **`make init` drops template-only files**: `scripts/reset-template.sh` now also removes `CITATION.cff`, the social preview image, the Google Search Console override (`overrides/`) and the MkDocs docs site (`mkdocs.yml`, `requirements-docs.txt`, `scripts/mkdocs_hooks.py`, `.github/workflows/docs.yml`, and the MkDocs `.gitignore` entries). This step runs even when the samples were already removed.
+- **`make init` drops template-only files**: `scripts/reset-template.sh` now also removes `CITATION.cff`, the social preview image, the Google Search Console override (`overrides/`) and the MkDocs docs site (`mkdocs.yml`, `requirements-docs.txt`, `scripts/mkdocs_hooks.py`, `.github/workflows/docs.yml`, and the MkDocs `.gitignore` entries), plus the open-source project files `LICENSE`, `SECURITY.md`, `MAINTAINERS.md`, `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md`. This step runs even when the samples were already removed.
 
 ## 2026-11-16
 

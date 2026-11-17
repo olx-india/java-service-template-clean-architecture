@@ -3,7 +3,9 @@
 # and the pagination helpers from the template, and keep the clean-architecture
 # package layout (emptied layer directories get a .gitkeep). Also removes
 # template-only citation, SEO and docs-site files (CITATION.cff, mkdocs.yml,
-# overrides/, the docs workflow and the social preview image).
+# overrides/, the docs workflow and the social preview image) and the
+# open-source project files (LICENSE, SECURITY.md, MAINTAINERS.md,
+# CONTRIBUTING.md, CODE_OF_CONDUCT.md).
 #
 # Usually run through `make init`, before scripts/rename-template.sh.
 #
@@ -52,6 +54,18 @@ done
 if ! is_dry_run; then
   rmdir docs/assets 2>/dev/null || true
 fi
+
+# Open-source community and licensing files for the template repo itself.
+# A service adds its own if it needs them.
+echo "==> Removing template open-source project files"
+for path in \
+  "LICENSE" \
+  "SECURITY.md" \
+  "MAINTAINERS.md" \
+  "CONTRIBUTING.md" \
+  "CODE_OF_CONDUCT.md"; do
+  remove_path "$path"
+done
 if [[ -f .gitignore ]] && grep -q '^# MkDocs build output$' .gitignore; then
   echo "  ~ edit    .gitignore"
   is_dry_run || sed_inplace .gitignore -e '/^# MkDocs build output$/,/^__pycache__\/$/d'
