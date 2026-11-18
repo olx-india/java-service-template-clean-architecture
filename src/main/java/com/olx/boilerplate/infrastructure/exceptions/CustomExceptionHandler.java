@@ -21,6 +21,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.net.URI;
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -50,7 +51,16 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         FieldError fieldError = ex.getBindingResult().getFieldError();
         String message = fieldError != null ? fieldError.getField() + ": " + fieldError.getDefaultMessage()
                         : "Validation failed";
-        return this.buildProblemDetail(BAD_REQUEST, message, "validation-failed");
+        List<ValidationError> errors = ex.getBindingResult().getAllErrors().stream()
+                        .map(error -> new ValidationError(error instanceof FieldError field ? field.getField() : null,
+                                        error.getDefaultMessage()))
+                        .toList();
+        ProblemDetail problem = createProblemDetail(BAD_REQUEST, message, "validation-failed");
+        problem.setProperty("errors", errors);
+        return ResponseEntity.badRequest().body(problem);
+    }
+
+    private record ValidationError(String field, String message) {
     }
 
     @ExceptionHandler({ResourceNotFoundException.class, jakarta.persistence.EntityNotFoundException.class})
@@ -79,13 +89,16 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity<Object> buildProblemDetail(HttpStatus status, String message, String typeSuffix) {
+        return ResponseEntity.status(status).body(createProblemDetail(status, message, typeSuffix));
+    }
+
+    private ProblemDetail createProblemDetail(HttpStatus status, String message, String typeSuffix) {
         LOGGER.warn("Error Response - Status: {}, Message: {}", status, message);
 
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(status, message);
         problem.setTitle(status.getReasonPhrase());
         problem.setType(URI.create("https://api.example.com/problems/" + typeSuffix));
         problem.setProperty("code", status.getReasonPhrase());
-
-        return ResponseEntity.status(status).body(problem);
+        return problem;
     }
 }
