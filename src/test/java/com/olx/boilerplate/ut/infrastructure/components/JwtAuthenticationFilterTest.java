@@ -55,7 +55,8 @@ class JwtAuthenticationFilterTest {
 
     private String signed(String subject, long expiresInMs, String secret) throws Exception {
         var builder = JWT.create().withSubject(subject);
-        if (expiresInMs != 0) builder.withExpiresAt(new Date(System.currentTimeMillis() + expiresInMs));
+        if (expiresInMs != 0)
+            builder.withExpiresAt(new Date(System.currentTimeMillis() + expiresInMs));
         return builder.sign(Algorithm.HMAC256(secret));
     }
 
@@ -89,7 +90,7 @@ class JwtAuthenticationFilterTest {
     void rejectsExpiredTokenAndClearsContext() throws Exception {
         bearer(signed("alice", -60_000, SECRET));
         SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken("stale", null));
+                                                             new UsernamePasswordAuthenticationToken("stale", null));
         filter.doFilter(request, response, chain);
         assertRejected();
         assertNull(SecurityContextHolder.getContext().getAuthentication());
