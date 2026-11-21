@@ -8,6 +8,12 @@ Tracks **upstream template** changes by date. Maintainers also cut versioned Git
 
 ---
 
+## 2026-11-18
+
+### Fixed
+
+- Request validation responses include all field and object errors in an `errors` array. Object errors have no field name.
+
 ## 2026-11-17
 
 ### Changed
