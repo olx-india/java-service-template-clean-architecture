@@ -8,6 +8,12 @@ Tracks **upstream template** changes by date. Maintainers also cut versioned Git
 
 ---
 
+## 2026-11-18
+
+### Fixed
+
+- **`JwtAuthenticationFilter`**: malformed, expired or bad-signature bearer tokens in `security.mode=hmac` now return `401` with an RFC 7807 `ProblemDetail` body instead of letting `JWTVerificationException` escape the servlet filter (a container-level 500/bare error). It clears the `SecurityContext` and uses the injected Jackson 3 `ObjectMapper`, like the other error responses.
+
 ## 2026-11-17
 
 ### Changed
