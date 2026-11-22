@@ -106,7 +106,7 @@
         <cucumber.version>7.18.1</cucumber.version>
         <cucumber-reporting.version>5.8.2</cucumber-reporting.version>
         <extentreports-cucumber4-adapter.version>1.2.1</extentreports-cucumber4-adapter.version>
-        <messages.version>34.2.1</messages.version>
+        <messages.version>35.0.0</messages.version>
         <restAssured.version>6.0.1</restAssured.version>
         <docker.version>1.0.0</docker.version>
         <codehaus.groovy.version>3.0.20</codehaus.groovy.version>
